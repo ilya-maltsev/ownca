@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Maintenance — OwnCA (demo)</title>
+    <link rel="icon" type="image/svg+xml" href="../assets/favicon.svg">
+    <link rel="stylesheet" href="../assets/vendor/fonts/fonts.css">
+    <link rel="stylesheet" href="../assets/vendor/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="../assets/style.css">
+</head>
+<body data-page="maintenance">
+    <nav class="sidebar">
+        <a class="sidebar-brand" href="dashboard.html"><span class="brand-text">Own</span><span class="seal">CA</span></a>
+        <button class="sidebar-toggle" id="sidebar-toggle"><span class="toggle-collapse">⇐</span><span class="toggle-expand">⇒</span></button>
+        <div class="sidebar-section">Monitor</div>
+        <a href="dashboard.html" data-tooltip="Dashboard"><span class="icon"><i class="fa fa-tachometer"></i></span> <span class="sidebar-text">Dashboard</span></a>
+        <div class="sidebar-section">Certificate Operations</div>
+        <a href="certificates.html" data-tooltip="Certificates"><span class="icon"><i class="fa fa-id-card"></i></span> <span class="sidebar-text">Certificates</span></a>
+        <a href="cert-issue.html" data-tooltip="Cert Issue"><span class="icon"><i class="fa fa-magic"></i></span> <span class="sidebar-text">Cert Issue</span></a>
+        <div class="sidebar-section">Certification Authority</div>
+        <a href="cas.html" data-tooltip="Authorities"><span class="icon"><i class="fa fa-university"></i></span> <span class="sidebar-text">Authorities</span></a>
+        <a href="cert-profiles.html" data-tooltip="Cert Profiles"><span class="icon"><i class="fa fa-id-card-o"></i></span> <span class="sidebar-text">Cert Profiles</span></a>
+        <div class="sidebar-section">System</div>
+        <a href="configuration.html" data-tooltip="Configuration"><span class="icon">⚙</span> <span class="sidebar-text">Configuration</span></a>
+        <a href="maintenance.html" class="active" data-tooltip="Maintenance"><span class="icon">⚒</span> <span class="sidebar-text">Maintenance</span></a>
+        <div class="sidebar-section">Language</div>
+        <div class="lang-switch"><div class="lang-row"><a href="maintenance.html" class="lang-btn lang-active">EN</a><a href="../ru/maintenance.html" class="lang-btn">RU</a></div></div>
+        <div class="sidebar-section">Help</div>
+        <a href="#" data-mock-action data-mock-msg="In the real app this opens contextual webhelp." data-tooltip="Help"><span class="icon"><i class="fa fa-question-circle"></i></span> <span class="sidebar-text">Help</span></a>
+        <div style="flex:1"></div>
+        <div style="border-top:1px solid var(--fi-border);padding:8px 16px" class="sidebar-logout"><a href="login.html" style="color:var(--fi-error);font-size:12px;text-decoration:none;display:flex;align-items:center;gap:6px"><span>➜</span> <span class="sidebar-text">Logout (admin)</span></a></div>
+    </nav>
+
+    <div class="main">
+        <div class="topbar">
+            <h1>Maintenance</h1>
+            <div class="meta">OpenSSL · gost-engine · metadata<span class="pill">demo</span></div>
+        </div>
+        <div class="demo-banner"><i class="fa fa-info-circle"></i> "Refresh metadata" walks the storage dir and reconciles Postgres in the real app. <a href="index.html">Back to landing</a></div>
+        <div class="content">
+
+            <div class="cards">
+                <div class="card"><div class="card-label">Storage</div><div class="card-value" style="font-size:14px;font-family:'Space Mono',monospace">/var/lib/ownca</div><div class="card-sub">186 cert files · 14 keys · 5 CAs · 4 CRLs</div></div>
+                <div class="card"><div class="card-label">Postgres index</div><div class="card-value"><span class="badge badge-on">in sync</span></div><div class="card-sub">last reconciled 2 min ago</div></div>
+                <div class="card"><div class="card-label">CRL refresh job</div><div class="card-value" style="font-size:16px">cron · 04:00 UTC</div><div class="card-sub">next run in 9 h 12 m</div></div>
+                <div class="card"><div class="card-label">Disk usage</div><div class="card-value">42 MB</div><div class="card-sub">of 10 GB volume</div></div>
+            </div>
+
+            <div class="panel">
+                <div class="panel-header">OpenSSL</div>
+                <div class="panel-body">
+                    <div class="detail-row"><div class="detail-label">Version</div><div class="detail-value mono">OpenSSL 3.0.13 30 Jan 2024</div></div>
+                    <div class="detail-row"><div class="detail-label">Built with</div><div class="detail-value mono">--with-engine, --with-providers</div></div>
+                    <div class="detail-row"><div class="detail-label">Loaded providers</div><div class="detail-value mono">default, legacy</div></div>
+                </div>
+            </div>
+
+            <div class="panel">
+                <div class="panel-header">gost-engine <span class="badge badge-on" style="margin-left:auto">loaded</span></div>
+                <div class="panel-body">
+                    <div class="detail-row"><div class="detail-label">Engine ID</div><div class="detail-value mono">gost</div></div>
+                    <div class="detail-row"><div class="detail-label">Source</div><div class="detail-value mono"><a href="https://github.com/gost-engine/engine" style="color:var(--fi-link)">github.com/gost-engine/engine</a></div></div>
+                    <div class="detail-row"><div class="detail-label">Ciphers available</div><div class="detail-value mono">kuznyechik-ctr-acpkm, magma-ctr-acpkm, gost89, gost89-cnt, gost89-cnt-12, gost89-cbc</div></div>
+                    <div class="detail-row"><div class="detail-label">Digests available</div><div class="detail-value mono">streebog256, streebog512, gost-mac, gost-mac-12</div></div>
+                    <div class="detail-row"><div class="detail-label">PFX wire format</div><div class="detail-value">RFC 9337 + RFC 9548 — emitted by stock <code>openssl pkcs12 -export</code></div></div>
+                </div>
+            </div>
+
+            <div class="panel">
+                <div class="panel-header">Operations</div>
+                <div class="panel-body">
+                    <div style="display:flex;gap:10px;flex-wrap:wrap">
+                        <button class="btn btn-primary" data-mock-action data-mock-msg="Metadata refresh started — walking /var/lib/ownca…">Refresh metadata</button>
+                        <button class="btn btn-default" data-mock-action data-mock-msg="CRL regeneration queued for all enabled CAs.">Rebuild all CRLs</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="../assets/demo.js"></script>
+</body>
+</html>

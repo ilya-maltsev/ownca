@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Центры сертификации — OwnCA (демо)</title>
+    <link rel="icon" type="image/svg+xml" href="../assets/favicon.svg">
+    <link rel="stylesheet" href="../assets/vendor/fonts/fonts.css">
+    <link rel="stylesheet" href="../assets/vendor/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="../assets/style.css">
+</head>
+<body data-page="cas">
+    <nav class="sidebar">
+        <a class="sidebar-brand" href="dashboard.html"><span class="brand-text">Свой</span><span class="seal">УЦ</span></a>
+        <button class="sidebar-toggle" id="sidebar-toggle"><span class="toggle-collapse">⇐</span><span class="toggle-expand">⇒</span></button>
+        <div class="sidebar-section">Мониторинг</div>
+        <a href="dashboard.html" data-tooltip="Сводка"><span class="icon"><i class="fa fa-tachometer"></i></span> <span class="sidebar-text">Сводка</span></a>
+        <div class="sidebar-section">Операции с сертификатами</div>
+        <a href="certificates.html" data-tooltip="Сертификаты"><span class="icon"><i class="fa fa-id-card"></i></span> <span class="sidebar-text">Сертификаты</span></a>
+        <a href="cert-issue.html" data-tooltip="Выпуск сертификата"><span class="icon"><i class="fa fa-magic"></i></span> <span class="sidebar-text">Выпуск сертификата</span></a>
+        <div class="sidebar-section">Удостоверяющий центр</div>
+        <a href="cas.html" class="active" data-tooltip="Центры сертификации"><span class="icon"><i class="fa fa-university"></i></span> <span class="sidebar-text">Центры сертификации</span></a>
+        <a href="cert-profiles.html" data-tooltip="Профили сертификатов"><span class="icon"><i class="fa fa-id-card-o"></i></span> <span class="sidebar-text">Профили сертификатов</span></a>
+        <div class="sidebar-section">Система</div>
+        <a href="configuration.html" data-tooltip="Конфигурация"><span class="icon">⚙</span> <span class="sidebar-text">Конфигурация</span></a>
+        <a href="maintenance.html" data-tooltip="Обслуживание"><span class="icon">⚒</span> <span class="sidebar-text">Обслуживание</span></a>
+        <div class="sidebar-section">Язык</div>
+        <div class="lang-switch"><div class="lang-row"><a href="../en/cas.html" class="lang-btn">EN</a><a href="cas.html" class="lang-btn lang-active">RU</a></div></div>
+        <div class="sidebar-section">Справка</div>
+        <a href="#" data-mock-action data-mock-msg="В реальной панели здесь открывается контекстная справка." data-tooltip="Справка"><span class="icon"><i class="fa fa-question-circle"></i></span> <span class="sidebar-text">Справка</span></a>
+        <div style="flex:1"></div>
+        <div style="border-top:1px solid var(--fi-border);padding:8px 16px" class="sidebar-logout"><a href="login.html" style="color:var(--fi-error);font-size:12px;text-decoration:none;display:flex;align-items:center;gap:6px"><span>➜</span> <span class="sidebar-text">Выйти (admin)</span></a></div>
+    </nav>
+
+    <div class="main">
+        <div class="topbar">
+            <h1>Удостоверяющие центры</h1>
+            <div class="meta">Корневые и промежуточные<span class="pill">демо</span></div>
+        </div>
+        <div class="demo-banner"><i class="fa fa-info-circle"></i> Статичная демонстрация — форма создания УЦ показывает уведомление, а не запускает генерацию ключа. <a href="../">На главную</a></div>
+        <div class="content">
+
+            <form class="import-form mock-form" data-toast="В реальной панели создание УЦ сгенерировало бы новую пару ключей на диске.">
+                <h3>Создать новый УЦ</h3>
+                <div class="form-grid">
+                    <div><label class="form-label">Название *</label><input class="form-input" name="name" required placeholder="OwnCA Issuing G2"></div>
+                    <div><label class="form-label">Общее имя (CN) *</label><input class="form-input" name="common_name" required placeholder="OwnCA Issuing G2"></div>
+                    <div>
+                        <label class="form-label">Тип</label>
+                        <select class="form-input" name="ca_type" id="ca-type">
+                            <option value="root">корневой</option>
+                            <option value="intermediate" selected>промежуточный</option>
+                        </select>
+                    </div>
+                    <div id="parent-row">
+                        <label class="form-label">Родительский УЦ</label>
+                        <select class="form-input" name="parent">
+                            <option>—</option>
+                            <option>OwnCA Root GOST</option>
+                            <option>OwnCA Root RSA</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="form-label">Алгоритм</label>
+                        <select class="form-input" name="key_alg">
+                            <option>GOST R 34.10-2012 (256)</option>
+                            <option>GOST R 34.10-2012 (512)</option>
+                            <option>RSA 2048</option>
+                            <option>RSA 4096</option>
+                            <option>ECDSA P-256</option>
+                            <option>ECDSA P-384</option>
+                            <option>Ed25519</option>
+                        </select>
+                    </div>
+                    <div><label class="form-label">Срок действия (дни)</label><input class="form-input" type="number" name="days" value="3650" min="1"></div>
+                    <div><label class="form-label">Длина пути (pathlen)</label><input class="form-input" type="number" name="pathlen" placeholder="(нет)" min="0"></div>
+                </div>
+                <h4>Точки распространения (встраиваются в выпускаемые сертификаты)</h4>
+                <div class="form-grid-2">
+                    <div><label class="form-label">URL точки распространения CRL</label><input class="form-input" type="url" placeholder="http://ca.example.org/crl.pem"></div>
+                    <div><label class="form-label">URL AIA caIssuers</label><input class="form-input" type="url" placeholder="http://ca.example.org/ca.crt"></div>
+                    <div><label class="form-label">URL OCSP-ответчика</label><input class="form-input" type="url" placeholder="http://ocsp.example.org/"></div>
+                    <div><label class="form-label">URL SIA caRepository</label><input class="form-input" type="url" placeholder="http://ca.example.org/repo/"></div>
+                    <div><label class="form-label">URL дельта-CRL (freshestCRL)</label><input class="form-input" type="url" placeholder="http://ca.example.org/delta.crl"></div>
+                    <div style="grid-column:1/-1"><label class="form-label">Записи issuerAltName (по одной в строке)</label><textarea class="form-input" rows="2" placeholder="email:ca@example.org&#10;URI:http://ca.example.org/"></textarea></div>
+                </div>
+                <h4>Субъектное имя — DN (необязательно)</h4>
+                <div class="form-grid">
+                    <div><label class="form-label">Страна (C)</label><input class="form-input" maxlength="2" placeholder="RU"></div>
+                    <div><label class="form-label">Регион (ST)</label><input class="form-input" placeholder="Moscow"></div>
+                    <div><label class="form-label">Город (L)</label><input class="form-input" placeholder="Moscow"></div>
+                    <div><label class="form-label">Организация (O)</label><input class="form-input" placeholder="OwnCA Lab"></div>
+                    <div><label class="form-label">Подразделение (OU)</label><input class="form-input" placeholder="PKI"></div>
+                </div>
+                <div style="margin-top:16px"><button type="submit" class="btn btn-primary">Создать УЦ</button></div>
+            </form>
+
+            <div class="table-wrap">
+                <table class="datatable">
+                    <thead><tr><th>Название</th><th>Тип</th><th>Родитель</th><th>Алгоритм</th><th>Выпущено</th><th>Действителен до</th><th>Статус</th></tr></thead>
+                    <tbody>
+                        <tr><td><a href="ca-detail.html"><strong>OwnCA Root GOST</strong></a></td><td><span class="badge badge-info">корневой</span></td><td>-</td><td>GOST R 34.10-2012 (256)</td><td>124</td><td>2034-08-12</td><td><span class="badge badge-on">Действует</span></td></tr>
+                        <tr><td><a href="ca-detail.html"><strong>OwnCA Issuing G1</strong></a></td><td><span class="badge badge-warn">промежуточный</span></td><td>OwnCA Root GOST</td><td>GOST R 34.10-2012 (256)</td><td>118</td><td>2029-08-12</td><td><span class="badge badge-on">Действует</span></td></tr>
+                        <tr><td><a href="ca-detail.html"><strong>OwnCA Root RSA</strong></a></td><td><span class="badge badge-info">корневой</span></td><td>-</td><td>RSA-4096</td><td>62</td><td>2034-08-12</td><td><span class="badge badge-on">Действует</span></td></tr>
+                        <tr><td><a href="ca-detail.html"><strong>OwnCA Issuing R1</strong></a></td><td><span class="badge badge-warn">промежуточный</span></td><td>OwnCA Root RSA</td><td>RSA-4096</td><td>60</td><td>2029-08-12</td><td><span class="badge badge-on">Действует</span></td></tr>
+                        <tr><td><a href="ca-detail.html"><strong>OwnCA Lab GOST</strong></a></td><td><span class="badge badge-info">корневой</span></td><td>-</td><td>GOST R 34.10-2012 (512)</td><td>4</td><td>2031-02-04</td><td><span class="badge badge-off">Отключён</span></td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <script src="../assets/demo.js"></script>
+</body>
+</html>

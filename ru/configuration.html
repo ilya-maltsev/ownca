@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Конфигурация — OwnCA (демо)</title>
+    <link rel="icon" type="image/svg+xml" href="../assets/favicon.svg">
+    <link rel="stylesheet" href="../assets/vendor/fonts/fonts.css">
+    <link rel="stylesheet" href="../assets/vendor/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="../assets/style.css">
+    <style>
+        .toggle { position: relative; display: inline-block; width: 36px; height: 20px; }
+        .toggle input { opacity: 0; width: 0; height: 0; }
+        .toggle .slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background: var(--fi-border); border-radius: 20px; transition: background .15s; }
+        .toggle .slider::before { position: absolute; content: ""; height: 14px; width: 14px; left: 3px; top: 3px; background: #fff; border-radius: 50%; transition: transform .15s; }
+        .toggle input:checked + .slider { background: var(--fi-primary); }
+        .toggle input:checked + .slider::before { transform: translateX(16px); }
+    </style>
+</head>
+<body data-page="configuration">
+    <nav class="sidebar">
+        <a class="sidebar-brand" href="dashboard.html"><span class="brand-text">Свой</span><span class="seal">УЦ</span></a>
+        <button class="sidebar-toggle" id="sidebar-toggle"><span class="toggle-collapse">⇐</span><span class="toggle-expand">⇒</span></button>
+        <div class="sidebar-section">Мониторинг</div>
+        <a href="dashboard.html" data-tooltip="Сводка"><span class="icon"><i class="fa fa-tachometer"></i></span> <span class="sidebar-text">Сводка</span></a>
+        <div class="sidebar-section">Операции с сертификатами</div>
+        <a href="certificates.html" data-tooltip="Сертификаты"><span class="icon"><i class="fa fa-id-card"></i></span> <span class="sidebar-text">Сертификаты</span></a>
+        <a href="cert-issue.html" data-tooltip="Выпуск сертификата"><span class="icon"><i class="fa fa-magic"></i></span> <span class="sidebar-text">Выпуск сертификата</span></a>
+        <div class="sidebar-section">Удостоверяющий центр</div>
+        <a href="cas.html" data-tooltip="Центры сертификации"><span class="icon"><i class="fa fa-university"></i></span> <span class="sidebar-text">Центры сертификации</span></a>
+        <a href="cert-profiles.html" data-tooltip="Профили сертификатов"><span class="icon"><i class="fa fa-id-card-o"></i></span> <span class="sidebar-text">Профили сертификатов</span></a>
+        <div class="sidebar-section">Система</div>
+        <a href="configuration.html" class="active" data-tooltip="Конфигурация"><span class="icon">⚙</span> <span class="sidebar-text">Конфигурация</span></a>
+        <a href="maintenance.html" data-tooltip="Обслуживание"><span class="icon">⚒</span> <span class="sidebar-text">Обслуживание</span></a>
+        <div class="sidebar-section">Язык</div>
+        <div class="lang-switch"><div class="lang-row"><a href="../en/configuration.html" class="lang-btn">EN</a><a href="configuration.html" class="lang-btn lang-active">RU</a></div></div>
+        <div class="sidebar-section">Справка</div>
+        <a href="#" data-mock-action data-mock-msg="В реальной панели здесь открывается контекстная справка." data-tooltip="Справка"><span class="icon"><i class="fa fa-question-circle"></i></span> <span class="sidebar-text">Справка</span></a>
+        <div style="flex:1"></div>
+        <div style="border-top:1px solid var(--fi-border);padding:8px 16px" class="sidebar-logout"><a href="login.html" style="color:var(--fi-error);font-size:12px;text-decoration:none;display:flex;align-items:center;gap:6px"><span>➜</span> <span class="sidebar-text">Выйти (admin)</span></a></div>
+    </nav>
+
+    <div class="main">
+        <div class="topbar">
+            <h1>Конфигурация</h1>
+            <div class="meta">Переключатели выпуска и переменные окружения<span class="pill">демо</span></div>
+        </div>
+        <div class="demo-banner"><i class="fa fa-info-circle"></i> В реальной панели переключатели сохраняются в <code>dashboard_setting</code>; здесь — только оформление. <a href="../">На главную</a></div>
+        <div class="content">
+
+            <div class="panel">
+                <div class="panel-header">Режимы выпуска</div>
+                <div class="panel-body">
+                    <form class="mock-form" data-toast="Настройки выпуска сохранены.">
+                        <div class="detail-row" style="align-items:center">
+                            <div class="detail-label">Разрешить генерацию ключей на сервере<div class="oid-hint">Если выключено, принимаются только загружаемые CSR.</div></div>
+                            <div class="detail-value"><label class="toggle"><input type="checkbox" checked><span class="slider"></span></label></div>
+                        </div>
+                        <div class="detail-row" style="align-items:center">
+                            <div class="detail-label">Разрешить ГОСТ-ключи<div class="oid-hint">Требует <code>OWNCA_GOST_ENGINE=on</code>.</div></div>
+                            <div class="detail-value"><label class="toggle"><input type="checkbox" checked><span class="slider"></span></label></div>
+                        </div>
+                        <div class="detail-row" style="align-items:center">
+                            <div class="detail-label">Разрешить RSA-ключи</div>
+                            <div class="detail-value"><label class="toggle"><input type="checkbox" checked><span class="slider"></span></label></div>
+                        </div>
+                        <div class="detail-row" style="align-items:center">
+                            <div class="detail-label">Разрешить ECDSA / Ed25519</div>
+                            <div class="detail-value"><label class="toggle"><input type="checkbox"><span class="slider"></span></label></div>
+                        </div>
+                        <div class="detail-row" style="align-items:center">
+                            <div class="detail-label">Предлагать экспорт <code>.gost.p12</code> <span class="oid-hint">(TK-26 / RFC 9337+9548)</span></div>
+                            <div class="detail-value"><label class="toggle"><input type="checkbox" checked><span class="slider"></span></label></div>
+                        </div>
+                        <div class="detail-row" style="align-items:center">
+                            <div class="detail-label">Разрешить редактирование профилей</div>
+                            <div class="detail-value"><label class="toggle"><input type="checkbox" checked><span class="slider"></span></label></div>
+                        </div>
+                        <div style="margin-top:12px"><button class="btn btn-primary" type="submit">Сохранить настройки</button></div>
+                    </form>
+                </div>
+            </div>
+
+            <div class="panel">
+                <div class="panel-header">Переменные окружения (читаются при запуске)</div>
+                <div class="table-wrap">
+                    <table>
+                        <thead><tr><th>Имя</th><th>Действующее значение</th><th>Источник</th></tr></thead>
+                        <tbody>
+                            <tr><td class="mono">OWNCA_STORAGE_DIR</td><td class="mono">/var/lib/ownca</td><td><span class="badge badge-info">compose</span></td></tr>
+                            <tr><td class="mono">OWNCA_GOST_ENGINE</td><td class="mono">on</td><td><span class="badge badge-info">compose</span></td></tr>
+                            <tr><td class="mono">OWNCA_GOST_PFX_DEFAULT</td><td class="mono">kuznyechik-ctr-acpkm</td><td><span class="badge badge-info">compose</span></td></tr>
+                            <tr><td class="mono">OWNCA_DB_HOST</td><td class="mono">postgresql</td><td><span class="badge badge-info">compose</span></td></tr>
+                            <tr><td class="mono">OWNCA_DB_NAME</td><td class="mono">ownca</td><td><span class="badge badge-info">compose</span></td></tr>
+                            <tr><td class="mono">OWNCA_DB_USER</td><td class="mono">ownca</td><td><span class="badge badge-info">compose</span></td></tr>
+                            <tr><td class="mono">OWNCA_DB_PASSWORD</td><td class="mono">●●●●●●●●●●</td><td><span class="badge badge-warn">секрет</span></td></tr>
+                            <tr><td class="mono">OWNCA_DEFAULT_LANG</td><td class="mono">ru</td><td><span class="badge badge-info">compose</span></td></tr>
+                            <tr><td class="mono">OWNCA_TRUST_X_REAL_IP</td><td class="mono">1</td><td><span class="badge badge-info">compose</span></td></tr>
+                            <tr><td class="mono">DJANGO_DEBUG</td><td class="mono">0</td><td><span class="badge badge-info">compose</span></td></tr>
+                            <tr><td class="mono">DJANGO_ALLOWED_HOSTS</td><td class="mono">ca.ownca.example, localhost</td><td><span class="badge badge-info">compose</span></td></tr>
+                            <tr><td class="mono">DJANGO_SECRET_KEY</td><td class="mono">●●●●●●●●●●</td><td><span class="badge badge-warn">секрет</span></td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="../assets/demo.js"></script>
+</body>
+</html>

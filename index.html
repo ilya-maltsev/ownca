@@ -1,0 +1,559 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>OwnCA — удостоверяющий центр с ГОСТ Р 34.10-2012 и RSA</title>
+    <meta name="description" content="OwnCA — удостоверяющий центр в виде веб-панели, который вы разворачиваете у себя. Выпуск и отзыв сертификатов X.509 на ГОСТ Р 34.10-2012, RSA, ECDSA и Ed25519; экспорт PFX в формате TK-26 (RFC 9337+9548).">
+    <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+    <link rel="stylesheet" href="assets/vendor/fonts/fonts.css">
+    <link rel="stylesheet" href="assets/vendor/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="assets/style.css">
+    <link rel="stylesheet" href="assets/landing.css">
+</head>
+<body class="landing">
+    <div class="landing-shell">
+        <nav class="landing-nav">
+            <a class="brand-mark" href="./">
+                <span class="brand-text">Свой</span><span class="seal">УЦ</span>
+            </a>
+            <div class="nav-links">
+                <a href="#features">Возможности</a>
+                <a href="#algorithms">Алгоритмы</a>
+                <a href="#tour">Обзор</a>
+                <a href="#quickstart">Быстрый старт</a>
+            </div>
+            <div class="nav-cta">
+                <span class="lang-pills">
+                    <a href="en/">EN</a>
+                    <a href="./" class="active">RU</a>
+                </span>
+                <a class="cta-ghost" href="https://github.com/ilya-maltsev/ownca" target="_blank" rel="noopener"><i class="fa fa-github"></i> GitHub</a>
+            </div>
+        </nav>
+
+        <section class="hero">
+            <div class="hero-copy">
+                <span class="hero-eyebrow"><span class="dot-live"></span> Разворачивается у вас · Docker · RFC 9337 + 9548</span>
+                <h1>
+                    Удостоверяющий центр,
+                    <span class="accent">который понимает ГОСТ</span>
+                    <span class="strike-oid">// GOST R 34.10‑2012 · GOST R 34.11‑2012 · GOST R 34.12‑2015</span>
+                </h1>
+                <p class="lead">
+                    OwnCA — это веб-панель удостоверяющего центра, которую вы
+                    разворачиваете у себя. Все как в EasyRSA, но в виде
+                    веб-приложения. Она выпускает и отзывает сертификаты
+                    X.509, подписывает их на ГОСТ Р 34.10-2012, RSA, ECDSA и
+                    Ed25519, формирует списки отзыва (CRL) и выгружает PFX в
+                    обычной схеме PBES2/AES/SHA, в формате, разработанном
+                    ТК-26 (RFC 9337/9548) — том самом, который реально понимают
+                    КриптоПро и другие российские криптопровайдеры.
+                </p>
+                <div class="hero-cta">
+                    <a class="cta-primary" href="ru/dashboard.html">
+                        Открыть демонстрацию <i class="fa fa-arrow-right"></i>
+                    </a>
+                    <a class="cta-ghost" href="#quickstart"><i class="fa fa-terminal"></i> Запустить у себя</a>
+                </div>
+                <div class="hero-meta">
+                    <div><b>10</b>встроенных профилей</div>
+                    <div><b>4</b>семейства ключей</div>
+                    <div><b>2</b>формата PFX</div>
+                    <div><b>RU&nbsp;/&nbsp;EN</b>интерфейс и справка</div>
+                </div>
+            </div>
+
+            <div class="hero-preview">
+                <div class="hero-art-orbit"></div>
+                <div class="hp-bar">
+                    <span class="dot r"></span><span class="dot y"></span><span class="dot g"></span>
+                    <span class="url"><span class="lock"><i class="fa fa-lock"></i></span>https://ca.ownca.example/dashboard</span>
+                </div>
+                <div class="hp-body">
+                    <div class="hp-side">
+                        <div class="ico active"><i class="fa fa-tachometer"></i></div>
+                        <div class="ico"><i class="fa fa-id-card"></i></div>
+                        <div class="ico"><i class="fa fa-magic"></i></div>
+                        <div class="ico"><i class="fa fa-university"></i></div>
+                        <div class="ico"><i class="fa fa-id-card-o"></i></div>
+                        <div class="ico"><i class="fa fa-cog"></i></div>
+                    </div>
+                    <div class="hp-main">
+                        <div class="hp-topline">
+                            <strong>Сводка</strong>
+                            <span>OwnCA · демо-среда <span style="color:var(--fi-success)">●</span></span>
+                        </div>
+                        <div class="hp-grid">
+                            <div class="hp-kpi accent"><div class="lbl">УЦ</div><div class="val">5</div></div>
+                            <div class="hp-kpi"><div class="lbl">Активны</div><div class="val">186</div></div>
+                            <div class="hp-kpi warn"><div class="lbl">Отозваны</div><div class="val">11</div></div>
+                            <div class="hp-kpi"><div class="lbl">Истекли</div><div class="val">3</div></div>
+                        </div>
+                        <div class="hp-tbl">
+                            <div class="row">
+                                <span class="nm">OwnCA Root GOST</span>
+                                <span class="bdg b">корень</span>
+                                <span class="alg">gost-256</span>
+                                <span>2034-08-12</span>
+                            </div>
+                            <div class="row">
+                                <span class="nm">OwnCA Issuing G1</span>
+                                <span class="bdg w">пром.</span>
+                                <span class="alg">gost-256</span>
+                                <span>2029-08-12</span>
+                            </div>
+                            <div class="row">
+                                <span class="nm">OwnCA Root RSA</span>
+                                <span class="bdg b">корень</span>
+                                <span class="alg">rsa-4096</span>
+                                <span>2034-08-12</span>
+                            </div>
+                            <div class="row">
+                                <span class="nm">OwnCA Issuing R1</span>
+                                <span class="bdg w">пром.</span>
+                                <span class="alg">rsa-4096</span>
+                                <span>2029-08-12</span>
+                            </div>
+                            <div class="row">
+                                <span class="nm">OwnCA Lab GOST</span>
+                                <span class="bdg g">корень</span>
+                                <span class="alg">gost-512</span>
+                                <span>2031-02-04</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <div class="serial-ribbon">
+            <span class="scroll-track">
+                <span style="margin-right:48px">SERIAL · 4C:E8:13:7A:6F:09:21:88</span>
+                <span style="margin-right:48px">OID 1.2.643.7.1.1.1.1 · id-tc26-gost3410-12-256</span>
+                <span style="margin-right:48px">OID 1.2.643.7.1.1.5.2 · id-tc26-hmac-gost3411-12-512</span>
+                <span style="margin-right:48px">RFC 9337 · PBES2 поверх Kuznyechik-CTR-ACPKM</span>
+                <span style="margin-right:48px">RFC 9548 · MAC на HMAC-Streebog-512</span>
+                <span style="margin-right:48px">CRL · последний выпуск 2026-05-26 04:00:00 UTC</span>
+                <span style="margin-right:48px">cipher · GOST2012-KUZNYECHIK-KUZNYECHIKOMAC</span>
+                <span style="margin-right:48px">SERIAL · 4C:E8:13:7A:6F:09:21:88</span>
+                <span style="margin-right:48px">OID 1.2.643.7.1.1.1.1 · id-tc26-gost3410-12-256</span>
+            </span>
+        </div>
+
+        <section class="section" id="features">
+            <div class="section-title">// что внутри</div>
+            <h2 style="max-width:28ch">Небольшое приложение, которое позволяет создать УЦ для собственных нужд. </h2>
+            <div class="feat-grid">
+                <div class="feat">
+                    <div class="feat-num">ВЫПУСК</div>
+                    <div class="feat-icon"><i class="fa fa-magic"></i></div>
+                    <h3>Единая форма выпуска</h3>
+                    <p>Выберите УЦ, при желании — профиль, заполните субъектное имя (DN) и SAN. Загрузите свой CSR или позвольте панели сгенерировать ключ. Для ГОСТ-ключей выбор набора параметров доступен прямо в форме.</p>
+                </div>
+                <div class="feat">
+                    <div class="feat-num">ЭКСПОРТ</div>
+                    <div class="feat-icon"><i class="fa fa-download"></i></div>
+                    <h3>Два формата PFX</h3>
+                    <p>Обычный <code>.p12</code> (PBES2 / AES / SHA-256) — для всего остального, и <code>.gost.p12</code>, собранный штатным <code>openssl pkcs12 -export</code> на доработанном gost-engine — это схема RFC 9337 + 9548, которую читает КриптоПро.</p>
+                </div>
+                <div class="feat">
+                    <div class="feat-num">ПРОФИЛИ</div>
+                    <div class="feat-icon"><i class="fa fa-id-card-o"></i></div>
+                    <h3>10 готовых профилей</h3>
+                    <p>server, client, server_client, vpn, user, user_login, smartcard_logon, smime_sign, code_signing, timestamping — у каждого свои наборы KU/EKU и привязки OID-полей, которые можно отредактировать или скопировать.</p>
+                </div>
+                <div class="feat">
+                    <div class="feat-num">УЦ</div>
+                    <div class="feat-icon"><i class="fa fa-university"></i></div>
+                    <h3>Корневые и промежуточные</h3>
+                    <p>Создавайте корневые и промежуточные УЦ на любом из поддерживаемых семейств ключей. У каждого УЦ свои точки распространения — CRL, AIA, OCSP, SIA, freshestCRL, issuerAltName — они встраиваются в каждый подписанный им сертификат.</p>
+                </div>
+                <div class="feat">
+                    <div class="feat-num">NGINX TLS</div>
+                    <div class="feat-icon"><i class="fa fa-shield"></i></div>
+                    <h3>ГОСТ и RSA на одном порту</h3>
+                    <p>Входящий в комплект nginx обслуживает и <code>GOST2012-KUZNYECHIK-KUZNYECHIKOMAC</code>, и обычные наборы RSA/ECDHE на одном сокете — поэтому работают и браузеры с поддержкой ГОСТ, и без неё.</p>
+                </div>
+                <div class="feat">
+                    <div class="feat-num">ЭКСПЛУАТАЦИЯ</div>
+                    <div class="feat-icon"><i class="fa fa-database"></i></div>
+                    <h3>Состояние хранится в файлах</h3>
+                    <p>Материалы УЦ, выпущенные сертификаты и CRL — это обычные файлы в каталоге <code>OWNCA_STORAGE_DIR/</code>. Postgres хранит лишь индекс метаданных. Каталог хранения можно упаковать в tar и перенести УЦ на другой сервер.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="section" id="algorithms">
+            <div class="section-title">// поддерживаемые алгоритмы</div>
+            <h2>Российская криптография и RSA на базе OpenSSL</h2>
+            <div class="algo-strip">
+                <div class="algo-cell">
+                    <div class="algo-name">ГОСТ Р 34.10-2012 / 256</div>
+                    <div class="algo-rfc">RFC 7836 · наборы параметров ТК-26 A / B / C / D</div>
+                    <span class="algo-tag gost">ГОСТ</span>
+                </div>
+                <div class="algo-cell">
+                    <div class="algo-name">ГОСТ Р 34.10-2012 / 512</div>
+                    <div class="algo-rfc">RFC 7836 · наборы параметров ТК-26 A / B / C</div>
+                    <span class="algo-tag gost">ГОСТ</span>
+                </div>
+                <div class="algo-cell">
+                    <div class="algo-name">RSA 2048 / 4096</div>
+                    <div class="algo-rfc">PKCS #1 v2.2 · PSS и PKCS1-v1_5</div>
+                    <span class="algo-tag std">RSA</span>
+                </div>
+                <div class="algo-cell">
+                    <div class="algo-name">ECDSA P-256 / P-384</div>
+                    <div class="algo-rfc">FIPS 186-4 · X9.62</div>
+                    <span class="algo-tag std">ECDSA</span>
+                </div>
+                <div class="algo-cell">
+                    <div class="algo-name">Ed25519</div>
+                    <div class="algo-rfc">RFC 8410 · EdDSA</div>
+                    <span class="algo-tag std">EdDSA</span>
+                </div>
+                <div class="algo-cell">
+                    <div class="algo-name">Стрибог-256 / 512</div>
+                    <div class="algo-rfc">RFC 6986 · ГОСТ Р 34.11-2012</div>
+                    <span class="algo-tag gost">ГОСТ</span>
+                </div>
+                <div class="algo-cell">
+                    <div class="algo-name">Кузнечик-CTR-ACPKM</div>
+                    <div class="algo-rfc">RFC 8645 · используется при экспорте PFX</div>
+                    <span class="algo-tag gost">ГОСТ</span>
+                </div>
+                <div class="algo-cell">
+                    <div class="algo-name">Магма-CTR-ACPKM</div>
+                    <div class="algo-rfc">RFC 8645 · также доступен как шифр PBES2</div>
+                    <span class="algo-tag gost">ГОСТ</span>
+                </div>
+            </div>
+        </section>
+
+        <section class="section" id="tour">
+            <div class="section-title">// загляните внутрь</div>
+            <h2>Откройте демо-версию — каждый экран это реальная, кликабельная страница.</h2>
+            <p style="font-size:14px;color:var(--fi-text-muted);max-width:60ch;margin-bottom:28px">
+                Ниже — настоящие шаблоны панели, заполненные вручную подобранными
+                демонстрационными данными. Боковое меню, панели, таблицы,
+                переключатель языка — всё работает. Формы не отправляются
+                (это статичная копия), но каждая ссылка куда-нибудь ведёт.
+            </p>
+            <div class="tour-grid">
+                <a class="tour-card" href="ru/login.html">
+                    <div class="tour-thumb">
+                        <svg viewBox="0 0 320 200" xmlns="http://www.w3.org/2000/svg">
+                            <rect width="320" height="200" fill="#152343"/>
+                            <rect x="100" y="50" width="120" height="100" rx="4" fill="#fff"/>
+                            <rect x="112" y="62" width="60" height="8" rx="2" fill="#1a2436"/>
+                            <rect x="112" y="80" width="96" height="10" rx="2" fill="#eef0f3"/>
+                            <rect x="112" y="96" width="96" height="10" rx="2" fill="#eef0f3"/>
+                            <rect x="112" y="116" width="96" height="14" rx="2" fill="#2470bc"/>
+                            <rect x="112" y="138" width="40" height="6" rx="1" fill="#e7e7e7"/>
+                            <rect x="160" y="138" width="40" height="6" rx="1" fill="#e7e7e7"/>
+                        </svg>
+                    </div>
+                    <div class="tour-card-body">
+                        <h3>Вход</h3>
+                        <p>Экран входа на тёмно-синем фоне демо-среды. Нажмите «Войти», чтобы попасть в панель.</p>
+                        <span class="arrow">Войти →</span>
+                    </div>
+                </a>
+
+                <a class="tour-card" href="ru/dashboard.html">
+                    <div class="tour-thumb">
+                        <svg viewBox="0 0 320 200" xmlns="http://www.w3.org/2000/svg">
+                            <rect width="320" height="200" fill="#f0f2f5"/>
+                            <rect x="0" y="0" width="60" height="200" fill="#fff" stroke="#bdc3c6"/>
+                            <rect x="10" y="14" width="40" height="6" rx="1" fill="#1a2436"/>
+                            <rect x="10" y="42" width="40" height="4" fill="#76848c"/>
+                            <rect x="10" y="54" width="40" height="6" fill="#2470bc"/>
+                            <rect x="10" y="68" width="40" height="6" fill="#e7e7e7"/>
+                            <rect x="10" y="82" width="40" height="6" fill="#e7e7e7"/>
+                            <rect x="60" y="0" width="260" height="20" fill="#fff" stroke="#bdc3c6"/>
+                            <rect x="72" y="6" width="50" height="8" fill="#1a2436"/>
+                            <rect x="72" y="32" width="55" height="34" rx="2" fill="#fff" stroke="#bdc3c6"/>
+                            <rect x="135" y="32" width="55" height="34" rx="2" fill="#fff" stroke="#bdc3c6"/>
+                            <rect x="198" y="32" width="55" height="34" rx="2" fill="#fff" stroke="#bdc3c6"/>
+                            <rect x="261" y="32" width="50" height="34" rx="2" fill="#fff" stroke="#bdc3c6"/>
+                            <rect x="76" y="38" width="22" height="4" fill="#76848c"/>
+                            <rect x="76" y="48" width="30" height="10" fill="#1a2436"/>
+                            <rect x="139" y="38" width="22" height="4" fill="#76848c"/>
+                            <rect x="139" y="48" width="30" height="10" fill="#1a2436"/>
+                            <rect x="72" y="78" width="240" height="50" rx="2" fill="#fff" stroke="#bdc3c6"/>
+                            <rect x="72" y="78" width="240" height="14" fill="#f2f2f2"/>
+                            <rect x="76" y="82" width="60" height="6" fill="#1a2436"/>
+                            <rect x="78" y="100" width="40" height="6" fill="#1a2436"/>
+                            <rect x="124" y="100" width="20" height="5" rx="2" fill="#cce5ff"/>
+                            <rect x="150" y="100" width="20" height="5" rx="2" fill="#d4edda"/>
+                            <rect x="78" y="114" width="40" height="6" fill="#1a2436"/>
+                            <rect x="124" y="114" width="20" height="5" rx="2" fill="#fff3cd"/>
+                        </svg>
+                    </div>
+                    <div class="tour-card-body">
+                        <h3>Сводка</h3>
+                        <p>Ключевые показатели, ваши УЦ, таблица истекающих, лента недавно выпущенных.</p>
+                        <span class="arrow">Открыть сводку →</span>
+                    </div>
+                </a>
+
+                <a class="tour-card" href="ru/cas.html">
+                    <div class="tour-thumb">
+                        <svg viewBox="0 0 320 200" xmlns="http://www.w3.org/2000/svg">
+                            <rect width="320" height="200" fill="#f0f2f5"/>
+                            <rect x="20" y="20" width="280" height="80" rx="3" fill="#fff" stroke="#bdc3c6"/>
+                            <rect x="30" y="30" width="100" height="8" fill="#1a2436"/>
+                            <rect x="30" y="46" width="80" height="6" fill="#76848c"/>
+                            <rect x="30" y="60" width="120" height="22" rx="2" fill="#eef0f3"/>
+                            <rect x="158" y="60" width="120" height="22" rx="2" fill="#eef0f3"/>
+                            <rect x="20" y="110" width="280" height="76" rx="3" fill="#fff" stroke="#bdc3c6"/>
+                            <rect x="20" y="110" width="280" height="14" fill="#e7e7e7"/>
+                            <rect x="28" y="132" width="60" height="6" fill="#1a2436"/>
+                            <rect x="100" y="132" width="22" height="6" rx="2" fill="#cce5ff"/>
+                            <rect x="130" y="132" width="40" height="6" fill="#1a2436"/>
+                            <rect x="28" y="148" width="60" height="6" fill="#1a2436"/>
+                            <rect x="100" y="148" width="22" height="6" rx="2" fill="#fff3cd"/>
+                            <rect x="130" y="148" width="40" height="6" fill="#1a2436"/>
+                            <rect x="28" y="164" width="60" height="6" fill="#1a2436"/>
+                            <rect x="100" y="164" width="22" height="6" rx="2" fill="#fff3cd"/>
+                            <rect x="130" y="164" width="40" height="6" fill="#1a2436"/>
+                        </svg>
+                    </div>
+                    <div class="tour-card-body">
+                        <h3>Список УЦ и форма создания</h3>
+                        <p>Поднимайте корневые и промежуточные УЦ на всех четырёх семействах ключей.</p>
+                        <span class="arrow">Открыть УЦ →</span>
+                    </div>
+                </a>
+
+                <a class="tour-card" href="ru/certificates.html">
+                    <div class="tour-thumb">
+                        <svg viewBox="0 0 320 200" xmlns="http://www.w3.org/2000/svg">
+                            <rect width="320" height="200" fill="#f0f2f5"/>
+                            <rect x="20" y="20" width="280" height="170" rx="3" fill="#fff" stroke="#bdc3c6"/>
+                            <rect x="20" y="20" width="280" height="20" fill="#e7e7e7"/>
+                            <rect x="28" y="26" width="40" height="8" fill="#1a2436"/>
+                            <rect x="76" y="26" width="40" height="8" fill="#1a2436"/>
+                            <rect x="124" y="26" width="40" height="8" fill="#1a2436"/>
+                            <rect x="172" y="26" width="40" height="8" fill="#1a2436"/>
+                            <rect x="220" y="26" width="40" height="8" fill="#1a2436"/>
+                            <rect x="20" y="42" width="280" height="14" fill="#f8f9fa"/>
+                            <rect x="28" y="60" width="60" height="6" fill="#1a2436"/><rect x="172" y="60" width="40" height="6" rx="2" fill="#d4edda"/>
+                            <rect x="28" y="76" width="60" height="6" fill="#1a2436"/><rect x="172" y="76" width="40" height="6" rx="2" fill="#d4edda"/>
+                            <rect x="28" y="92" width="60" height="6" fill="#1a2436"/><rect x="172" y="92" width="40" height="6" rx="2" fill="#fff3cd"/>
+                            <rect x="28" y="108" width="60" height="6" fill="#1a2436"/><rect x="172" y="108" width="40" height="6" rx="2" fill="#f8d7da"/>
+                            <rect x="28" y="124" width="60" height="6" fill="#1a2436"/><rect x="172" y="124" width="40" height="6" rx="2" fill="#d4edda"/>
+                            <rect x="28" y="140" width="60" height="6" fill="#1a2436"/><rect x="172" y="140" width="40" height="6" rx="2" fill="#d4edda"/>
+                            <rect x="28" y="156" width="60" height="6" fill="#1a2436"/><rect x="172" y="156" width="40" height="6" rx="2" fill="#fff3cd"/>
+                            <rect x="28" y="172" width="60" height="6" fill="#1a2436"/><rect x="172" y="172" width="40" height="6" rx="2" fill="#f8d7da"/>
+                        </svg>
+                    </div>
+                    <div class="tour-card-body">
+                        <h3>Таблица выпущенных сертификатов</h3>
+                        <p>Список с фильтрами по столбцам, значками статуса и постраничной навигацией.</p>
+                        <span class="arrow">Открыть список →</span>
+                    </div>
+                </a>
+
+                <a class="tour-card" href="ru/cert-issue.html">
+                    <div class="tour-thumb">
+                        <svg viewBox="0 0 320 200" xmlns="http://www.w3.org/2000/svg">
+                            <rect width="320" height="200" fill="#f0f2f5"/>
+                            <rect x="20" y="20" width="68" height="20" rx="2" fill="#2470bc"/>
+                            <rect x="92" y="20" width="68" height="20" rx="2" fill="#fff" stroke="#bdc3c6"/>
+                            <rect x="164" y="20" width="68" height="20" rx="2" fill="#fff" stroke="#bdc3c6"/>
+                            <rect x="236" y="20" width="64" height="20" rx="2" fill="#fff" stroke="#bdc3c6"/>
+                            <rect x="20" y="52" width="280" height="138" rx="3" fill="#fff" stroke="#bdc3c6"/>
+                            <rect x="32" y="64" width="80" height="6" fill="#76848c"/>
+                            <rect x="32" y="74" width="256" height="18" rx="2" fill="#eef0f3"/>
+                            <rect x="32" y="100" width="80" height="6" fill="#76848c"/>
+                            <rect x="32" y="110" width="256" height="18" rx="2" fill="#eef0f3"/>
+                            <rect x="32" y="136" width="80" height="6" fill="#76848c"/>
+                            <rect x="32" y="146" width="120" height="18" rx="2" fill="#eef0f3"/>
+                            <rect x="160" y="146" width="128" height="18" rx="2" fill="#eef0f3"/>
+                            <rect x="32" y="172" width="70" height="14" rx="2" fill="#2470bc"/>
+                        </svg>
+                    </div>
+                    <div class="tour-card-body">
+                        <h3>Мастер выпуска</h3>
+                        <p>Выберите УЦ → профиль → заполните субъектное имя (DN) и SAN → выпустите или импортируйте CSR.</p>
+                        <span class="arrow">Открыть мастер →</span>
+                    </div>
+                </a>
+
+                <a class="tour-card" href="ru/cert-profiles.html">
+                    <div class="tour-thumb">
+                        <svg viewBox="0 0 320 200" xmlns="http://www.w3.org/2000/svg">
+                            <rect width="320" height="200" fill="#f0f2f5"/>
+                            <rect x="20" y="20" width="280" height="170" rx="3" fill="#fff" stroke="#bdc3c6"/>
+                            <rect x="20" y="20" width="280" height="20" fill="#e7e7e7"/>
+                            <rect x="28" y="26" width="40" height="8" fill="#1a2436"/>
+                            <rect x="76" y="26" width="60" height="8" fill="#1a2436"/>
+                            <rect x="144" y="26" width="80" height="8" fill="#1a2436"/>
+                            <rect x="232" y="26" width="60" height="8" fill="#1a2436"/>
+                            <rect x="28" y="50" width="60" height="6" fill="#1a2436"/><rect x="76" y="50" width="50" height="6" fill="#76848c"/><rect x="144" y="50" width="100" height="6" fill="#76848c"/>
+                            <rect x="28" y="66" width="60" height="6" fill="#1a2436"/><rect x="76" y="66" width="50" height="6" fill="#76848c"/><rect x="144" y="66" width="100" height="6" fill="#76848c"/>
+                            <rect x="28" y="82" width="60" height="6" fill="#1a2436"/><rect x="76" y="82" width="50" height="6" fill="#76848c"/><rect x="144" y="82" width="120" height="6" fill="#76848c"/>
+                            <rect x="28" y="98" width="60" height="6" fill="#1a2436"/><rect x="76" y="98" width="50" height="6" fill="#76848c"/><rect x="144" y="98" width="80" height="6" fill="#76848c"/>
+                            <rect x="28" y="114" width="60" height="6" fill="#1a2436"/><rect x="76" y="114" width="50" height="6" fill="#76848c"/><rect x="144" y="114" width="120" height="6" fill="#76848c"/><rect x="266" y="114" width="22" height="6" rx="2" fill="#fff3cd"/>
+                            <rect x="28" y="130" width="60" height="6" fill="#1a2436"/><rect x="76" y="130" width="50" height="6" fill="#76848c"/><rect x="144" y="130" width="100" height="6" fill="#76848c"/>
+                            <rect x="28" y="146" width="60" height="6" fill="#1a2436"/><rect x="76" y="146" width="50" height="6" fill="#76848c"/><rect x="144" y="146" width="100" height="6" fill="#76848c"/>
+                            <rect x="28" y="162" width="60" height="6" fill="#1a2436"/><rect x="76" y="162" width="50" height="6" fill="#76848c"/><rect x="144" y="162" width="100" height="6" fill="#76848c"/>
+                        </svg>
+                    </div>
+                    <div class="tour-card-body">
+                        <h3>Профили сертификатов</h3>
+                        <p>Реестр KU / EKU, привязки OID-полей и кнопка <strong>«Копировать»</strong> для клонирования.</p>
+                        <span class="arrow">Открыть профили →</span>
+                    </div>
+                </a>
+
+                <a class="tour-card" href="ru/cert-detail.html">
+                    <div class="tour-thumb">
+                        <svg viewBox="0 0 320 200" xmlns="http://www.w3.org/2000/svg">
+                            <rect width="320" height="200" fill="#f0f2f5"/>
+                            <rect x="20" y="20" width="280" height="44" rx="3" fill="#fff" stroke="#bdc3c6"/>
+                            <rect x="28" y="28" width="120" height="9" fill="#1a2436"/>
+                            <rect x="28" y="42" width="180" height="6" fill="#76848c"/>
+                            <rect x="216" y="34" width="38" height="18" rx="2" fill="#2470bc"/>
+                            <rect x="258" y="34" width="34" height="18" rx="2" fill="#eef0f3"/>
+                            <rect x="20" y="72" width="280" height="60" rx="3" fill="#fff" stroke="#bdc3c6"/>
+                            <rect x="20" y="72" width="280" height="14" fill="#f2f2f2"/>
+                            <rect x="28" y="76" width="80" height="6" fill="#1a2436"/>
+                            <rect x="28" y="94" width="60" height="6" fill="#76848c"/>
+                            <rect x="96" y="94" width="180" height="6" fill="#1a2436"/>
+                            <rect x="28" y="108" width="60" height="6" fill="#76848c"/>
+                            <rect x="96" y="108" width="180" height="6" fill="#1a2436"/>
+                            <rect x="28" y="122" width="60" height="6" fill="#76848c"/>
+                            <rect x="96" y="122" width="120" height="6" fill="#1a2436"/>
+                            <rect x="20" y="140" width="280" height="46" rx="3" fill="#152343" stroke="#1a2436"/>
+                            <rect x="28" y="148" width="120" height="4" fill="#3a4d72"/>
+                            <rect x="28" y="156" width="240" height="4" fill="#3a4d72"/>
+                            <rect x="28" y="164" width="200" height="4" fill="#3a4d72"/>
+                            <rect x="28" y="172" width="180" height="4" fill="#3a4d72"/>
+                        </svg>
+                    </div>
+                    <div class="tour-card-body">
+                        <h3>Карточка сертификата</h3>
+                        <p>X.509: субъект, издатель, расширения, исходный PEM, скачивание — включая <code>.gost.p12</code>.</p>
+                        <span class="arrow">Открыть сертификат →</span>
+                    </div>
+                </a>
+
+                <a class="tour-card" href="ru/configuration.html">
+                    <div class="tour-thumb">
+                        <svg viewBox="0 0 320 200" xmlns="http://www.w3.org/2000/svg">
+                            <rect width="320" height="200" fill="#f0f2f5"/>
+                            <rect x="20" y="20" width="280" height="80" rx="3" fill="#fff" stroke="#bdc3c6"/>
+                            <rect x="28" y="32" width="140" height="8" fill="#1a2436"/>
+                            <rect x="28" y="52" width="100" height="6" fill="#76848c"/>
+                            <rect x="160" y="50" width="34" height="14" rx="7" fill="#2470bc"/>
+                            <circle cx="186" cy="57" r="6" fill="#fff"/>
+                            <rect x="28" y="74" width="100" height="6" fill="#76848c"/>
+                            <rect x="160" y="72" width="34" height="14" rx="7" fill="#bdc3c6"/>
+                            <circle cx="167" cy="79" r="6" fill="#fff"/>
+                            <rect x="20" y="110" width="280" height="80" rx="3" fill="#fff" stroke="#bdc3c6"/>
+                            <rect x="20" y="110" width="280" height="14" fill="#f2f2f2"/>
+                            <rect x="28" y="115" width="100" height="6" fill="#1a2436"/>
+                            <rect x="28" y="134" width="120" height="6" fill="#1a2436"/><rect x="152" y="134" width="120" height="6" fill="#76848c"/>
+                            <rect x="28" y="150" width="120" height="6" fill="#1a2436"/><rect x="152" y="150" width="120" height="6" fill="#76848c"/>
+                            <rect x="28" y="166" width="120" height="6" fill="#1a2436"/><rect x="152" y="166" width="120" height="6" fill="#76848c"/>
+                        </svg>
+                    </div>
+                    <div class="tour-card-body">
+                        <h3>Конфигурация</h3>
+                        <p>Переключатели режимов выпуска и таблица переменных окружения, которые панель читает при запуске.</p>
+                        <span class="arrow">Открыть конфигурацию →</span>
+                    </div>
+                </a>
+
+                <a class="tour-card" href="ru/maintenance.html">
+                    <div class="tour-thumb">
+                        <svg viewBox="0 0 320 200" xmlns="http://www.w3.org/2000/svg">
+                            <rect width="320" height="200" fill="#f0f2f5"/>
+                            <rect x="20" y="20" width="280" height="58" rx="3" fill="#fff" stroke="#bdc3c6"/>
+                            <rect x="28" y="32" width="120" height="8" fill="#1a2436"/>
+                            <rect x="28" y="50" width="200" height="6" fill="#76848c"/>
+                            <rect x="28" y="60" width="160" height="6" fill="#76848c"/>
+                            <rect x="20" y="88" width="280" height="58" rx="3" fill="#fff" stroke="#bdc3c6"/>
+                            <rect x="28" y="100" width="80" height="8" fill="#1a2436"/>
+                            <rect x="116" y="100" width="40" height="10" rx="2" fill="#d4edda"/>
+                            <rect x="28" y="118" width="200" height="6" fill="#76848c"/>
+                            <rect x="28" y="130" width="120" height="6" fill="#76848c"/>
+                            <rect x="20" y="156" width="280" height="34" rx="3" fill="#fff" stroke="#bdc3c6"/>
+                            <rect x="28" y="166" width="80" height="14" rx="2" fill="#2470bc"/>
+                            <rect x="116" y="166" width="180" height="14" rx="2" fill="#eef0f3"/>
+                        </svg>
+                    </div>
+                    <div class="tour-card-body">
+                        <h3>Обслуживание</h3>
+                        <p>Версия openssl, состояние gost-engine, ручное обновление метаданных.</p>
+                        <span class="arrow">Открыть обслуживание →</span>
+                    </div>
+                </a>
+            </div>
+        </section>
+
+        <section class="section" id="quickstart">
+            <div class="quickstart-wrap">
+                <div>
+                    <div class="section-title">// запуск за 90 секунд</div>
+                    <h2>Два compose-файла. Выбирайте по вкусу.</h2>
+                    <p style="font-size:14px;color:var(--fi-text-muted);line-height:1.6;max-width:50ch">
+                        <strong>dev_env</strong> монтирует исходный код в контейнер
+                        панели с автоматической перезагрузкой — удобно для доработки.
+                        <strong>demo</strong> поставляется с готовыми образами; его
+                        можно перенести на изолированный от сети сервер одним архивом.
+                    </p>
+                    <div class="cta-row" style="display:flex;gap:10px;margin-top:20px;flex-wrap:wrap">
+                        <a class="cta-primary" href="https://github.com/ilya-maltsev/ownca/tree/main/demo" target="_blank" rel="noopener">compose-файл demo/ <i class="fa fa-external-link"></i></a>
+                        <a class="cta-ghost" href="https://github.com/ilya-maltsev/ownca/tree/main/dev_env" target="_blank" rel="noopener">compose-файл dev_env/</a>
+                    </div>
+                </div>
+                <div class="quickstart">
+                    <div class="qs-tab">
+                        <span class="on">$ bash</span><span>~/ownca/demo</span>
+                    </div>
+                    <div id="qs-code">
+<span class="qs-comment"># клонируем</span>
+<span class="qs-prompt">$</span> <span class="qs-cmd">git clone</span> https://github.com/ilya-maltsev/ownca.git
+<span class="qs-prompt">$</span> <span class="qs-cmd">cd</span> ownca/demo
+
+<span class="qs-comment"># собираем образы УЦ, панели и nginx</span>
+<span class="qs-prompt">$</span> ./build-images.sh
+
+<span class="qs-comment"># запускаем (admin/admin)</span>
+<span class="qs-prompt">$</span> <span class="qs-cmd">docker compose up</span> -d
+
+<span class="qs-comment"># открываем панель</span>
+<span class="qs-prompt">$</span> https://localhost:8443
+                    </div>
+                    <button class="cta-ghost" data-copy-target="#qs-code" data-copied="✓ скопировано" style="position:absolute;top:14px;right:14px;background:rgba(255,255,255,0.06);color:#d0d8e8;border-color:rgba(255,255,255,0.12);padding:4px 12px;font-size:11px"><i class="fa fa-clipboard"></i> копировать</button>
+                </div>
+            </div>
+        </section>
+
+        <footer class="landing-footer">
+            <div class="row">
+                <div>
+                    <div style="display:flex;gap:8px;align-items:center;margin-bottom:6px">
+                        <span class="seal" style="width:24px;height:24px;font-size:10px;border-radius:4px"></span>
+                        <strong style="color:var(--fi-text)"></strong>
+                    </div>
+                    <div>
+                        В демо-версии используются учётные данные по умолчанию —
+                        <code>admin/admin</code>. Не запускайте её в таком виде для реальной эксплуатации.
+                    </div>
+                </div>
+                <div class="row" style="gap:18px">
+                    <a href="https://github.com/ilya-maltsev/ownca"><i class="fa fa-github"></i> исходный код</a>
+                    <a href="https://github.com/gost-engine/engine/pull/527"><i class="fa fa-code-fork"></i> доработанный gost-engine</a>
+                    <a href="ru/login.html">демонстрация →</a>
+                </div>
+            </div>
+        </footer>
+    </div>
+    <script src="assets/landing.js"></script>
+</body>
+</html>

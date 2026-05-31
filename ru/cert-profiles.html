@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Профили сертификатов — OwnCA (демо)</title>
+    <link rel="icon" type="image/svg+xml" href="../assets/favicon.svg">
+    <link rel="stylesheet" href="../assets/vendor/fonts/fonts.css">
+    <link rel="stylesheet" href="../assets/vendor/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="../assets/style.css">
+</head>
+<body data-page="cert_profiles">
+    <nav class="sidebar">
+        <a class="sidebar-brand" href="dashboard.html"><span class="brand-text">Свой</span><span class="seal">УЦ</span></a>
+        <button class="sidebar-toggle" id="sidebar-toggle"><span class="toggle-collapse">⇐</span><span class="toggle-expand">⇒</span></button>
+        <div class="sidebar-section">Мониторинг</div>
+        <a href="dashboard.html" data-tooltip="Сводка"><span class="icon"><i class="fa fa-tachometer"></i></span> <span class="sidebar-text">Сводка</span></a>
+        <div class="sidebar-section">Операции с сертификатами</div>
+        <a href="certificates.html" data-tooltip="Сертификаты"><span class="icon"><i class="fa fa-id-card"></i></span> <span class="sidebar-text">Сертификаты</span></a>
+        <a href="cert-issue.html" data-tooltip="Выпуск сертификата"><span class="icon"><i class="fa fa-magic"></i></span> <span class="sidebar-text">Выпуск сертификата</span></a>
+        <div class="sidebar-section">Удостоверяющий центр</div>
+        <a href="cas.html" data-tooltip="Центры сертификации"><span class="icon"><i class="fa fa-university"></i></span> <span class="sidebar-text">Центры сертификации</span></a>
+        <a href="cert-profiles.html" class="active" data-tooltip="Профили сертификатов"><span class="icon"><i class="fa fa-id-card-o"></i></span> <span class="sidebar-text">Профили сертификатов</span></a>
+        <div class="sidebar-section">Система</div>
+        <a href="configuration.html" data-tooltip="Конфигурация"><span class="icon">⚙</span> <span class="sidebar-text">Конфигурация</span></a>
+        <a href="maintenance.html" data-tooltip="Обслуживание"><span class="icon">⚒</span> <span class="sidebar-text">Обслуживание</span></a>
+        <div class="sidebar-section">Язык</div>
+        <div class="lang-switch"><div class="lang-row"><a href="../en/cert-profiles.html" class="lang-btn">EN</a><a href="cert-profiles.html" class="lang-btn lang-active">RU</a></div></div>
+        <div class="sidebar-section">Справка</div>
+        <a href="#" data-mock-action data-mock-msg="В реальной панели здесь открывается контекстная справка." data-tooltip="Справка"><span class="icon"><i class="fa fa-question-circle"></i></span> <span class="sidebar-text">Справка</span></a>
+        <div style="flex:1"></div>
+        <div style="border-top:1px solid var(--fi-border);padding:8px 16px" class="sidebar-logout"><a href="login.html" style="color:var(--fi-error);font-size:12px;text-decoration:none;display:flex;align-items:center;gap:6px"><span>➜</span> <span class="sidebar-text">Выйти (admin)</span></a></div>
+    </nav>
+
+    <div class="main">
+        <div class="topbar">
+            <h1>Профили сертификатов</h1>
+            <div class="meta">Реестр KU / EKU и привязки OID-полей<span class="pill">демо</span></div>
+        </div>
+        <div class="demo-banner"><i class="fa fa-info-circle"></i> Нажмите на имя профиля, чтобы открыть его карточку с флажками KU / EKU. <a href="../">На главную</a></div>
+        <div class="content">
+
+            <form class="import-form mock-form" data-toast="Новый профиль сохранён.">
+                <h3>Создать профиль сертификата</h3>
+                <p style="margin:0 0 14px;font-size:12px;color:var(--fi-text-muted)">Профиль сертификата задаёт биты «Использование ключа», OID-ы расширенного использования ключа и дополнительные расширения, которые встраиваются в выпускаемые сертификаты.</p>
+                <div class="form-grid-2">
+                    <div><label class="form-label">Имя * <span class="oid-hint">(slug)</span></label><input class="form-input mono" pattern="[a-z0-9_]+" placeholder="my_custom"></div>
+                    <div><label class="form-label">Отображаемое имя *</label><input class="form-input" placeholder="Мой профиль"></div>
+                </div>
+                <div style="margin-top:10px">
+                    <label class="form-label">Описание</label>
+                    <input class="form-input" placeholder="Краткое описание для операторов">
+                </div>
+
+                <h4>Использование ключа (OID 2.5.29.15)</h4>
+                <div class="form-grid-3">
+                    <label style="font-size:12px;display:flex;gap:5px;align-items:center"><input type="checkbox" checked> Цифровая подпись <span class="oid-hint">(0)</span></label>
+                    <label style="font-size:12px;display:flex;gap:5px;align-items:center"><input type="checkbox"> Неотказуемость <span class="oid-hint">(1)</span></label>
+                    <label style="font-size:12px;display:flex;gap:5px;align-items:center"><input type="checkbox"> Шифрование ключа <span class="oid-hint">(2)</span></label>
+                    <label style="font-size:12px;display:flex;gap:5px;align-items:center"><input type="checkbox"> Шифрование данных <span class="oid-hint">(3)</span></label>
+                    <label style="font-size:12px;display:flex;gap:5px;align-items:center"><input type="checkbox"> Согласование ключа <span class="oid-hint">(4)</span></label>
+                    <label style="font-size:12px;display:flex;gap:5px;align-items:center"><input type="checkbox"> Подпись сертификатов <span class="oid-hint">(5)</span></label>
+                    <label style="font-size:12px;display:flex;gap:5px;align-items:center"><input type="checkbox"> Подпись CRL <span class="oid-hint">(6)</span></label>
+                    <label style="font-size:12px;display:flex;gap:5px;align-items:center"><input type="checkbox"> Только шифрование <span class="oid-hint">(7)</span></label>
+                    <label style="font-size:12px;display:flex;gap:5px;align-items:center"><input type="checkbox"> Только расшифрование <span class="oid-hint">(8)</span></label>
+                </div>
+                <div style="margin-top:8px">
+                    <label style="font-size:12px;display:flex;gap:5px;align-items:center"><input type="checkbox" checked> Пометить «Использование ключа» как критическое</label>
+                </div>
+
+                <h4>Расширенное использование ключа (OID 2.5.29.37)</h4>
+                <input class="form-input mono" placeholder="serverAuth, clientAuth">
+                <div style="margin-top:8px">
+                    <label style="font-size:12px;display:flex;gap:5px;align-items:center"><input type="checkbox"> Пометить EKU как критическое</label>
+                </div>
+
+                <h4>OID-поля из реестра</h4>
+                <p style="margin:0 0 8px;font-size:11px;color:var(--fi-text-muted)">Выберите определения OID-полей, которые операторы заполняют при выпуске сертификата.</p>
+                <div style="display:flex;gap:8px;align-items:center;margin-bottom:14px">
+                    <select class="form-input" style="max-width:380px">
+                        <option>DNS-имена (subjectAltName.dnsName) — SAN</option>
+                        <option>IP-адреса (subjectAltName.ipAddress) — SAN</option>
+                        <option>Email (subjectAltName.rfc822Name) — SAN</option>
+                        <option>UPN (1.3.6.1.4.1.311.20.2.3) — SAN</option>
+                        <option>СНИЛС (1.2.643.100.3) — субъектное имя (DN)</option>
+                        <option>ИНН (1.2.643.3.131.1.1) — субъектное имя (DN)</option>
+                        <option>ОГРН (1.2.643.100.1) — субъектное имя (DN)</option>
+                    </select>
+                    <button type="button" class="btn btn-default btn-sm">+ Добавить</button>
+                </div>
+
+                <h4>Дополнительные расширения</h4>
+                <textarea class="form-input mono" rows="2" placeholder="tlsfeature = status_request"></textarea>
+
+                <div style="margin-top:14px">
+                    <label style="font-size:12px;display:flex;gap:5px;align-items:center"><input type="checkbox"> Профиль УЦ (basicConstraints CA:TRUE)</label>
+                </div>
+
+                <button type="submit" class="btn btn-primary" style="margin-top:16px">Создать профиль</button>
+            </form>
+
+            <div class="table-wrap">
+                <table class="datatable">
+                    <thead><tr><th>Имя</th><th>Отображаемое имя</th><th>Описание</th><th>Использование ключа</th><th>Расширенное использование ключа</th><th>УЦ</th><th>Используется</th><th></th></tr></thead>
+                    <tbody>
+                        <tr><td class="mono"><a href="cert-profile-detail.html"><strong>server</strong></a></td><td>TLS-сервер</td><td style="color:var(--fi-text-muted);font-size:12px">Профиль серверной аутентификации для TLS</td><td class="mono">digitalSignature, keyEncipherment, keyAgreement</td><td class="mono">serverAuth</td><td>-</td><td>92 / 0</td><td><button class="btn btn-default btn-sm" data-mock-action data-mock-msg="Профиль скопирован.">Копировать</button></td></tr>
+                        <tr><td class="mono"><a href="cert-profile-detail.html"><strong>client</strong></a></td><td>TLS-клиент</td><td style="color:var(--fi-text-muted);font-size:12px">Профиль клиентской аутентификации</td><td class="mono">digitalSignature, keyEncipherment, dataEncipherment, keyAgreement</td><td class="mono">clientAuth</td><td>-</td><td>14 / 0</td><td><button class="btn btn-default btn-sm" data-mock-action data-mock-msg="Профиль скопирован.">Копировать</button></td></tr>
+                        <tr><td class="mono"><a href="cert-profile-detail.html"><strong>server_client</strong></a></td><td>Сервер и клиент</td><td style="color:var(--fi-text-muted);font-size:12px">TLS двойного назначения</td><td class="mono">digitalSignature, keyEncipherment</td><td class="mono">serverAuth, clientAuth</td><td>-</td><td>5 / 0</td><td><button class="btn btn-default btn-sm" data-mock-action data-mock-msg="Профиль скопирован.">Копировать</button></td></tr>
+                        <tr><td class="mono"><a href="cert-profile-detail.html"><strong>vpn</strong></a></td><td>VPN-шлюз</td><td style="color:var(--fi-text-muted);font-size:12px">Узлы IPSec / OpenVPN</td><td class="mono">digitalSignature</td><td class="mono">serverAuth, clientAuth</td><td>-</td><td>6 / 2</td><td><button class="btn btn-default btn-sm" data-mock-action data-mock-msg="Профиль скопирован.">Копировать</button></td></tr>
+                        <tr><td class="mono"><a href="cert-profile-detail.html"><strong>user</strong></a></td><td>Конечный пользователь</td><td style="color:var(--fi-text-muted);font-size:12px">Универсальный пользовательский сертификат</td><td class="mono">digitalSignature, keyEncipherment</td><td class="mono">clientAuth, emailProtection</td><td>-</td><td>21 / 0</td><td><button class="btn btn-default btn-sm" data-mock-action data-mock-msg="Профиль скопирован.">Копировать</button></td></tr>
+                        <tr><td class="mono"><a href="cert-profile-detail.html"><strong>user_login</strong></a></td><td>Пользователь + вход по смарт-карте</td><td style="color:var(--fi-text-muted);font-size:12px">Пользовательский сертификат с OID входа по смарт-карте Windows</td><td class="mono">digitalSignature, keyEncipherment</td><td class="mono">clientAuth, 1.3.6.1.4.1.311.20.2.2</td><td>-</td><td>18 / 1</td><td><button class="btn btn-default btn-sm" data-mock-action data-mock-msg="Профиль скопирован.">Копировать</button></td></tr>
+                        <tr><td class="mono"><a href="cert-profile-detail.html"><strong>smartcard_logon</strong></a></td><td>Только вход по смарт-карте</td><td style="color:var(--fi-text-muted);font-size:12px">Только EKU входа по смарт-карте</td><td class="mono">digitalSignature</td><td class="mono">1.3.6.1.4.1.311.20.2.2</td><td>-</td><td>2 / 0</td><td><button class="btn btn-default btn-sm" data-mock-action data-mock-msg="Профиль скопирован.">Копировать</button></td></tr>
+                        <tr><td class="mono"><a href="cert-profile-detail.html"><strong>smime_sign</strong></a></td><td>Подпись S/MIME</td><td style="color:var(--fi-text-muted);font-size:12px">Подпись почты</td><td class="mono">digitalSignature, nonRepudiation</td><td class="mono">emailProtection</td><td>-</td><td>9 / 0</td><td><button class="btn btn-default btn-sm" data-mock-action data-mock-msg="Профиль скопирован.">Копировать</button></td></tr>
+                        <tr><td class="mono"><a href="cert-profile-detail.html"><strong>code_signing</strong></a></td><td>Подпись кода</td><td style="color:var(--fi-text-muted);font-size:12px">Подпись сборок и выпусков</td><td class="mono">digitalSignature</td><td class="mono">codeSigning</td><td>-</td><td>4 / 1</td><td><button class="btn btn-default btn-sm" data-mock-action data-mock-msg="Профиль скопирован.">Копировать</button></td></tr>
+                        <tr><td class="mono"><a href="cert-profile-detail.html"><strong>timestamping</strong></a></td><td>Служба меток времени</td><td style="color:var(--fi-text-muted);font-size:12px">Сертификат TSA (RFC 3161)</td><td class="mono">digitalSignature</td><td class="mono">timeStamping (критическое)</td><td>-</td><td>1 / 0</td><td><button class="btn btn-default btn-sm" data-mock-action data-mock-msg="Профиль скопирован.">Копировать</button></td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <script src="../assets/demo.js"></script>
+</body>
+</html>

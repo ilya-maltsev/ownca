@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Authorities — OwnCA (demo)</title>
+    <link rel="icon" type="image/svg+xml" href="../assets/favicon.svg">
+    <link rel="stylesheet" href="../assets/vendor/fonts/fonts.css">
+    <link rel="stylesheet" href="../assets/vendor/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="../assets/style.css">
+</head>
+<body data-page="cas">
+    <nav class="sidebar">
+        <a class="sidebar-brand" href="dashboard.html"><span class="brand-text">Own</span><span class="seal">CA</span></a>
+        <button class="sidebar-toggle" id="sidebar-toggle"><span class="toggle-collapse">⇐</span><span class="toggle-expand">⇒</span></button>
+        <div class="sidebar-section">Monitor</div>
+        <a href="dashboard.html" data-tooltip="Dashboard"><span class="icon"><i class="fa fa-tachometer"></i></span> <span class="sidebar-text">Dashboard</span></a>
+        <div class="sidebar-section">Certificate Operations</div>
+        <a href="certificates.html" data-tooltip="Certificates"><span class="icon"><i class="fa fa-id-card"></i></span> <span class="sidebar-text">Certificates</span></a>
+        <a href="cert-issue.html" data-tooltip="Cert Issue"><span class="icon"><i class="fa fa-magic"></i></span> <span class="sidebar-text">Cert Issue</span></a>
+        <div class="sidebar-section">Certification Authority</div>
+        <a href="cas.html" class="active" data-tooltip="Authorities"><span class="icon"><i class="fa fa-university"></i></span> <span class="sidebar-text">Authorities</span></a>
+        <a href="cert-profiles.html" data-tooltip="Cert Profiles"><span class="icon"><i class="fa fa-id-card-o"></i></span> <span class="sidebar-text">Cert Profiles</span></a>
+        <div class="sidebar-section">System</div>
+        <a href="configuration.html" data-tooltip="Configuration"><span class="icon">⚙</span> <span class="sidebar-text">Configuration</span></a>
+        <a href="maintenance.html" data-tooltip="Maintenance"><span class="icon">⚒</span> <span class="sidebar-text">Maintenance</span></a>
+        <div class="sidebar-section">Language</div>
+        <div class="lang-switch"><div class="lang-row"><a href="cas.html" class="lang-btn lang-active">EN</a><a href="../ru/cas.html" class="lang-btn">RU</a></div></div>
+        <div class="sidebar-section">Help</div>
+        <a href="#" data-mock-action data-mock-msg="In the real app this opens contextual webhelp." data-tooltip="Help"><span class="icon"><i class="fa fa-question-circle"></i></span> <span class="sidebar-text">Help</span></a>
+        <div style="flex:1"></div>
+        <div style="border-top:1px solid var(--fi-border);padding:8px 16px" class="sidebar-logout"><a href="login.html" style="color:var(--fi-error);font-size:12px;text-decoration:none;display:flex;align-items:center;gap:6px"><span>➜</span> <span class="sidebar-text">Logout (admin)</span></a></div>
+    </nav>
+
+    <div class="main">
+        <div class="topbar">
+            <h1>Certificate Authorities</h1>
+            <div class="meta">Roots and intermediates<span class="pill">demo</span></div>
+        </div>
+        <div class="demo-banner"><i class="fa fa-info-circle"></i> Static demo — the create-CA form is wired to a toast, not a real key generator. <a href="index.html">Back to landing</a></div>
+        <div class="content">
+
+            <form class="import-form mock-form" data-toast="Creating a CA would generate a new keypair on disk in the real app.">
+                <h3>Create new authority</h3>
+                <div class="form-grid">
+                    <div><label class="form-label">Name *</label><input class="form-input" name="name" required placeholder="OwnCA Issuing G2"></div>
+                    <div><label class="form-label">Common Name *</label><input class="form-input" name="common_name" required placeholder="OwnCA Issuing G2"></div>
+                    <div>
+                        <label class="form-label">Type</label>
+                        <select class="form-input" name="ca_type" id="ca-type">
+                            <option value="root">root</option>
+                            <option value="intermediate" selected>intermediate</option>
+                        </select>
+                    </div>
+                    <div id="parent-row">
+                        <label class="form-label">Parent CA</label>
+                        <select class="form-input" name="parent">
+                            <option>—</option>
+                            <option>OwnCA Root GOST</option>
+                            <option>OwnCA Root RSA</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="form-label">Algorithm</label>
+                        <select class="form-input" name="key_alg">
+                            <option>GOST R 34.10-2012 (256)</option>
+                            <option>GOST R 34.10-2012 (512)</option>
+                            <option>RSA 2048</option>
+                            <option>RSA 4096</option>
+                            <option>ECDSA P-256</option>
+                            <option>ECDSA P-384</option>
+                            <option>Ed25519</option>
+                        </select>
+                    </div>
+                    <div><label class="form-label">Validity (days)</label><input class="form-input" type="number" name="days" value="3650" min="1"></div>
+                    <div><label class="form-label">Path length</label><input class="form-input" type="number" name="pathlen" placeholder="(none)" min="0"></div>
+                </div>
+                <h4>Distribution points (embedded in issued certs)</h4>
+                <div class="form-grid-2">
+                    <div><label class="form-label">CRL Distribution Point URL</label><input class="form-input" type="url" placeholder="http://ca.example.org/crl.pem"></div>
+                    <div><label class="form-label">AIA caIssuers URL</label><input class="form-input" type="url" placeholder="http://ca.example.org/ca.crt"></div>
+                    <div><label class="form-label">OCSP responder URL</label><input class="form-input" type="url" placeholder="http://ocsp.example.org/"></div>
+                    <div><label class="form-label">SIA caRepository URL</label><input class="form-input" type="url" placeholder="http://ca.example.org/repo/"></div>
+                    <div><label class="form-label">Freshest CRL (delta) URL</label><input class="form-input" type="url" placeholder="http://ca.example.org/delta.crl"></div>
+                    <div style="grid-column:1/-1"><label class="form-label">issuerAltName entries (one per line)</label><textarea class="form-input" rows="2" placeholder="email:ca@example.org&#10;URI:http://ca.example.org/"></textarea></div>
+                </div>
+                <h4>Subject DN (optional)</h4>
+                <div class="form-grid">
+                    <div><label class="form-label">Country (C)</label><input class="form-input" maxlength="2" placeholder="RU"></div>
+                    <div><label class="form-label">State (ST)</label><input class="form-input" placeholder="Moscow"></div>
+                    <div><label class="form-label">Locality (L)</label><input class="form-input" placeholder="Moscow"></div>
+                    <div><label class="form-label">Organization (O)</label><input class="form-input" placeholder="OwnCA Lab"></div>
+                    <div><label class="form-label">Unit (OU)</label><input class="form-input" placeholder="PKI"></div>
+                </div>
+                <div style="margin-top:16px"><button type="submit" class="btn btn-primary">Create CA</button></div>
+            </form>
+
+            <div class="table-wrap">
+                <table class="datatable">
+                    <thead><tr><th>Name</th><th>Type</th><th>Parent</th><th>Algorithm</th><th>Issued</th><th>Valid Until</th><th>Status</th></tr></thead>
+                    <tbody>
+                        <tr><td><a href="ca-detail.html"><strong>OwnCA Root GOST</strong></a></td><td><span class="badge badge-info">root</span></td><td>-</td><td>GOST R 34.10-2012 (256)</td><td>124</td><td>2034-08-12</td><td><span class="badge badge-on">Active</span></td></tr>
+                        <tr><td><a href="ca-detail.html"><strong>OwnCA Issuing G1</strong></a></td><td><span class="badge badge-warn">intermediate</span></td><td>OwnCA Root GOST</td><td>GOST R 34.10-2012 (256)</td><td>118</td><td>2029-08-12</td><td><span class="badge badge-on">Active</span></td></tr>
+                        <tr><td><a href="ca-detail.html"><strong>OwnCA Root RSA</strong></a></td><td><span class="badge badge-info">root</span></td><td>-</td><td>RSA-4096</td><td>62</td><td>2034-08-12</td><td><span class="badge badge-on">Active</span></td></tr>
+                        <tr><td><a href="ca-detail.html"><strong>OwnCA Issuing R1</strong></a></td><td><span class="badge badge-warn">intermediate</span></td><td>OwnCA Root RSA</td><td>RSA-4096</td><td>60</td><td>2029-08-12</td><td><span class="badge badge-on">Active</span></td></tr>
+                        <tr><td><a href="ca-detail.html"><strong>OwnCA Lab GOST</strong></a></td><td><span class="badge badge-info">root</span></td><td>-</td><td>GOST R 34.10-2012 (512)</td><td>4</td><td>2031-02-04</td><td><span class="badge badge-off">Disabled</span></td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <script src="../assets/demo.js"></script>
+</body>
+</html>

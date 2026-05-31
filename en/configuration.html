@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Configuration — OwnCA (demo)</title>
+    <link rel="icon" type="image/svg+xml" href="../assets/favicon.svg">
+    <link rel="stylesheet" href="../assets/vendor/fonts/fonts.css">
+    <link rel="stylesheet" href="../assets/vendor/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="../assets/style.css">
+    <style>
+        .toggle { position: relative; display: inline-block; width: 36px; height: 20px; }
+        .toggle input { opacity: 0; width: 0; height: 0; }
+        .toggle .slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background: var(--fi-border); border-radius: 20px; transition: background .15s; }
+        .toggle .slider::before { position: absolute; content: ""; height: 14px; width: 14px; left: 3px; top: 3px; background: #fff; border-radius: 50%; transition: transform .15s; }
+        .toggle input:checked + .slider { background: var(--fi-primary); }
+        .toggle input:checked + .slider::before { transform: translateX(16px); }
+    </style>
+</head>
+<body data-page="configuration">
+    <nav class="sidebar">
+        <a class="sidebar-brand" href="dashboard.html"><span class="brand-text">Own</span><span class="seal">CA</span></a>
+        <button class="sidebar-toggle" id="sidebar-toggle"><span class="toggle-collapse">⇐</span><span class="toggle-expand">⇒</span></button>
+        <div class="sidebar-section">Monitor</div>
+        <a href="dashboard.html" data-tooltip="Dashboard"><span class="icon"><i class="fa fa-tachometer"></i></span> <span class="sidebar-text">Dashboard</span></a>
+        <div class="sidebar-section">Certificate Operations</div>
+        <a href="certificates.html" data-tooltip="Certificates"><span class="icon"><i class="fa fa-id-card"></i></span> <span class="sidebar-text">Certificates</span></a>
+        <a href="cert-issue.html" data-tooltip="Cert Issue"><span class="icon"><i class="fa fa-magic"></i></span> <span class="sidebar-text">Cert Issue</span></a>
+        <div class="sidebar-section">Certification Authority</div>
+        <a href="cas.html" data-tooltip="Authorities"><span class="icon"><i class="fa fa-university"></i></span> <span class="sidebar-text">Authorities</span></a>
+        <a href="cert-profiles.html" data-tooltip="Cert Profiles"><span class="icon"><i class="fa fa-id-card-o"></i></span> <span class="sidebar-text">Cert Profiles</span></a>
+        <div class="sidebar-section">System</div>
+        <a href="configuration.html" class="active" data-tooltip="Configuration"><span class="icon">⚙</span> <span class="sidebar-text">Configuration</span></a>
+        <a href="maintenance.html" data-tooltip="Maintenance"><span class="icon">⚒</span> <span class="sidebar-text">Maintenance</span></a>
+        <div class="sidebar-section">Language</div>
+        <div class="lang-switch"><div class="lang-row"><a href="configuration.html" class="lang-btn lang-active">EN</a><a href="../ru/configuration.html" class="lang-btn">RU</a></div></div>
+        <div class="sidebar-section">Help</div>
+        <a href="#" data-mock-action data-mock-msg="In the real app this opens contextual webhelp." data-tooltip="Help"><span class="icon"><i class="fa fa-question-circle"></i></span> <span class="sidebar-text">Help</span></a>
+        <div style="flex:1"></div>
+        <div style="border-top:1px solid var(--fi-border);padding:8px 16px" class="sidebar-logout"><a href="login.html" style="color:var(--fi-error);font-size:12px;text-decoration:none;display:flex;align-items:center;gap:6px"><span>➜</span> <span class="sidebar-text">Logout (admin)</span></a></div>
+    </nav>
+
+    <div class="main">
+        <div class="topbar">
+            <h1>Configuration</h1>
+            <div class="meta">Issuance toggles &amp; runtime environment<span class="pill">demo</span></div>
+        </div>
+        <div class="demo-banner"><i class="fa fa-info-circle"></i> Toggles persist to <code>dashboard_setting</code> in the real panel; here they're cosmetic. <a href="index.html">Back to landing</a></div>
+        <div class="content">
+
+            <div class="panel">
+                <div class="panel-header">Issuance modes</div>
+                <div class="panel-body">
+                    <form class="mock-form" data-toast="Issuance toggles saved.">
+                        <div class="detail-row" style="align-items:center">
+                            <div class="detail-label">Allow server-side keygen<div class="oid-hint">If off, only CSR uploads are accepted.</div></div>
+                            <div class="detail-value"><label class="toggle"><input type="checkbox" checked><span class="slider"></span></label></div>
+                        </div>
+                        <div class="detail-row" style="align-items:center">
+                            <div class="detail-label">Allow GOST keys<div class="oid-hint">Requires <code>OWNCA_GOST_ENGINE=on</code>.</div></div>
+                            <div class="detail-value"><label class="toggle"><input type="checkbox" checked><span class="slider"></span></label></div>
+                        </div>
+                        <div class="detail-row" style="align-items:center">
+                            <div class="detail-label">Allow RSA keys</div>
+                            <div class="detail-value"><label class="toggle"><input type="checkbox" checked><span class="slider"></span></label></div>
+                        </div>
+                        <div class="detail-row" style="align-items:center">
+                            <div class="detail-label">Allow ECDSA / Ed25519</div>
+                            <div class="detail-value"><label class="toggle"><input type="checkbox"><span class="slider"></span></label></div>
+                        </div>
+                        <div class="detail-row" style="align-items:center">
+                            <div class="detail-label">Offer <code>.gost.p12</code> export <span class="oid-hint">(TK-26 / RFC 9337+9548)</span></div>
+                            <div class="detail-value"><label class="toggle"><input type="checkbox" checked><span class="slider"></span></label></div>
+                        </div>
+                        <div class="detail-row" style="align-items:center">
+                            <div class="detail-label">Allow profile editing</div>
+                            <div class="detail-value"><label class="toggle"><input type="checkbox" checked><span class="slider"></span></label></div>
+                        </div>
+                        <div style="margin-top:12px"><button class="btn btn-primary" type="submit">Save toggles</button></div>
+                    </form>
+                </div>
+            </div>
+
+            <div class="panel">
+                <div class="panel-header">Environment variables (read at boot)</div>
+                <div class="table-wrap">
+                    <table>
+                        <thead><tr><th>Name</th><th>Effective value</th><th>Source</th></tr></thead>
+                        <tbody>
+                            <tr><td class="mono">OWNCA_STORAGE_DIR</td><td class="mono">/var/lib/ownca</td><td><span class="badge badge-info">compose</span></td></tr>
+                            <tr><td class="mono">OWNCA_GOST_ENGINE</td><td class="mono">on</td><td><span class="badge badge-info">compose</span></td></tr>
+                            <tr><td class="mono">OWNCA_GOST_PFX_DEFAULT</td><td class="mono">kuznyechik-ctr-acpkm</td><td><span class="badge badge-info">compose</span></td></tr>
+                            <tr><td class="mono">OWNCA_DB_HOST</td><td class="mono">postgresql</td><td><span class="badge badge-info">compose</span></td></tr>
+                            <tr><td class="mono">OWNCA_DB_NAME</td><td class="mono">ownca</td><td><span class="badge badge-info">compose</span></td></tr>
+                            <tr><td class="mono">OWNCA_DB_USER</td><td class="mono">ownca</td><td><span class="badge badge-info">compose</span></td></tr>
+                            <tr><td class="mono">OWNCA_DB_PASSWORD</td><td class="mono">●●●●●●●●●●</td><td><span class="badge badge-warn">secret</span></td></tr>
+                            <tr><td class="mono">OWNCA_DEFAULT_LANG</td><td class="mono">ru</td><td><span class="badge badge-info">compose</span></td></tr>
+                            <tr><td class="mono">OWNCA_TRUST_X_REAL_IP</td><td class="mono">1</td><td><span class="badge badge-info">compose</span></td></tr>
+                            <tr><td class="mono">DJANGO_DEBUG</td><td class="mono">0</td><td><span class="badge badge-info">compose</span></td></tr>
+                            <tr><td class="mono">DJANGO_ALLOWED_HOSTS</td><td class="mono">ca.ownca.example, localhost</td><td><span class="badge badge-info">compose</span></td></tr>
+                            <tr><td class="mono">DJANGO_SECRET_KEY</td><td class="mono">●●●●●●●●●●</td><td><span class="badge badge-warn">secret</span></td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="../assets/demo.js"></script>
+</body>
+</html>

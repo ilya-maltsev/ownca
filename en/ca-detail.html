@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>OwnCA Issuing G1 — OwnCA (demo)</title>
+    <link rel="icon" type="image/svg+xml" href="../assets/favicon.svg">
+    <link rel="stylesheet" href="../assets/vendor/fonts/fonts.css">
+    <link rel="stylesheet" href="../assets/vendor/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="../assets/style.css">
+</head>
+<body data-page="cas">
+    <nav class="sidebar">
+        <a class="sidebar-brand" href="dashboard.html"><span class="brand-text">Own</span><span class="seal">CA</span></a>
+        <button class="sidebar-toggle" id="sidebar-toggle"><span class="toggle-collapse">⇐</span><span class="toggle-expand">⇒</span></button>
+        <div class="sidebar-section">Monitor</div>
+        <a href="dashboard.html" data-tooltip="Dashboard"><span class="icon"><i class="fa fa-tachometer"></i></span> <span class="sidebar-text">Dashboard</span></a>
+        <div class="sidebar-section">Certificate Operations</div>
+        <a href="certificates.html" data-tooltip="Certificates"><span class="icon"><i class="fa fa-id-card"></i></span> <span class="sidebar-text">Certificates</span></a>
+        <a href="cert-issue.html" data-tooltip="Cert Issue"><span class="icon"><i class="fa fa-magic"></i></span> <span class="sidebar-text">Cert Issue</span></a>
+        <div class="sidebar-section">Certification Authority</div>
+        <a href="cas.html" class="active" data-tooltip="Authorities"><span class="icon"><i class="fa fa-university"></i></span> <span class="sidebar-text">Authorities</span></a>
+        <a href="cert-profiles.html" data-tooltip="Cert Profiles"><span class="icon"><i class="fa fa-id-card-o"></i></span> <span class="sidebar-text">Cert Profiles</span></a>
+        <div class="sidebar-section">System</div>
+        <a href="configuration.html" data-tooltip="Configuration"><span class="icon">⚙</span> <span class="sidebar-text">Configuration</span></a>
+        <a href="maintenance.html" data-tooltip="Maintenance"><span class="icon">⚒</span> <span class="sidebar-text">Maintenance</span></a>
+        <div class="sidebar-section">Language</div>
+        <div class="lang-switch"><div class="lang-row"><a href="ca-detail.html" class="lang-btn lang-active">EN</a><a href="../ru/ca-detail.html" class="lang-btn">RU</a></div></div>
+        <div class="sidebar-section">Help</div>
+        <a href="#" data-mock-action data-mock-msg="In the real app this opens contextual webhelp." data-tooltip="Help"><span class="icon"><i class="fa fa-question-circle"></i></span> <span class="sidebar-text">Help</span></a>
+        <div style="flex:1"></div>
+        <div style="border-top:1px solid var(--fi-border);padding:8px 16px" class="sidebar-logout"><a href="login.html" style="color:var(--fi-error);font-size:12px;text-decoration:none;display:flex;align-items:center;gap:6px"><span>➜</span> <span class="sidebar-text">Logout (admin)</span></a></div>
+    </nav>
+
+    <div class="main">
+        <div class="topbar">
+            <h1>OwnCA Issuing G1</h1>
+            <div class="meta"><a href="cas.html" style="color:var(--fi-link)">← all authorities</a><span class="pill">demo</span></div>
+        </div>
+        <div class="demo-banner"><i class="fa fa-info-circle"></i> The distribution points get baked into every cert signed by this CA. <a href="index.html">Back to landing</a></div>
+        <div class="content">
+
+            <div class="cards">
+                <div class="card"><div class="card-label">Type</div><div class="card-value" style="font-size:16px"><span class="badge badge-warn">intermediate</span></div><div class="card-sub">parent: OwnCA Root GOST</div></div>
+                <div class="card"><div class="card-label">Algorithm</div><div class="card-value" style="font-size:16px">gost-256</div><div class="card-sub">paramset A · RFC 7836</div></div>
+                <div class="card"><div class="card-label">Issued</div><div class="card-value">118</div><div class="card-sub">108 active / 7 revoked</div></div>
+                <div class="card"><div class="card-label">CRL</div><div class="card-value" style="font-size:16px">v37</div><div class="card-sub">last refresh 2026-05-26 04:00 UTC</div></div>
+            </div>
+
+            <div class="panel">
+                <div class="panel-header">CA certificate <span class="btn-row" style="margin-left:auto"><a class="btn btn-default btn-sm" data-mock-download="issuing-g1.crt" href="#"><i class="fa fa-download"></i> CA cert</a><a class="btn btn-default btn-sm" data-mock-download="chain.pem" href="#"><i class="fa fa-archive"></i> chain.pem</a><a class="btn btn-default btn-sm" data-mock-download="issuing-g1.crl" href="#"><i class="fa fa-list-ul"></i> current CRL</a></span></div>
+                <div class="panel-body">
+                    <div class="detail-row"><div class="detail-label">Subject DN</div><div class="detail-value mono">CN=OwnCA Issuing G1 (GOST), O=OwnCA Lab, C=RU</div></div>
+                    <div class="detail-row"><div class="detail-label">Issuer DN</div><div class="detail-value mono">CN=OwnCA Root GOST, O=OwnCA Lab, C=RU</div></div>
+                    <div class="detail-row"><div class="detail-label">Serial number</div><div class="detail-value mono">7C:0E:11:92:E0:1A:88:36:B2:55:14:0D</div></div>
+                    <div class="detail-row"><div class="detail-label">Public key</div><div class="detail-value mono">GOST R 34.10-2012 · 256 bit · id-tc26-gost-3410-12-256-paramSetA</div></div>
+                    <div class="detail-row"><div class="detail-label">Not after</div><div class="detail-value mono">2029-08-12 09:00:00 UTC · in 3 years 76 days</div></div>
+                    <div class="detail-row"><div class="detail-label">Path length</div><div class="detail-value mono">0 (cannot issue further intermediates)</div></div>
+                </div>
+            </div>
+
+            <div class="panel">
+                <div class="panel-header">Distribution points <button class="btn btn-default btn-sm" data-mock-action data-mock-msg="Distribution-point changes saved.">Save</button></div>
+                <div class="panel-body">
+                    <form class="mock-form" data-toast="Distribution-point changes saved.">
+                        <div class="form-grid-2">
+                            <div><label class="form-label">CRL Distribution Point URL</label><input class="form-input" type="url" value="http://ca.ownca.example/crl/issuing-g1.crl"></div>
+                            <div><label class="form-label">AIA caIssuers URL</label><input class="form-input" type="url" value="http://ca.ownca.example/ca/issuing-g1.crt"></div>
+                            <div><label class="form-label">OCSP responder URL</label><input class="form-input" type="url" value="http://ocsp.ownca.example/"></div>
+                            <div><label class="form-label">SIA caRepository URL</label><input class="form-input" type="url" value="http://ca.ownca.example/repo/"></div>
+                            <div><label class="form-label">Freshest CRL (delta) URL</label><input class="form-input" type="url" placeholder="(not set)"></div>
+                            <div><label class="form-label">issuerAltName entries</label><textarea class="form-input" rows="2">email:pki@ownca.example
+URI:http://ca.ownca.example/</textarea></div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <div class="panel">
+                <div class="panel-header">Recently issued by this CA</div>
+                <div class="table-wrap">
+                    <table>
+                        <thead><tr><th>Date</th><th>Common Name</th><th>Profile</th><th>Status</th></tr></thead>
+                        <tbody>
+                            <tr><td>2026-05-28 09:14</td><td><a href="cert-detail.html"><strong>portal.ownca.example</strong></a></td><td>server</td><td><span class="badge badge-on">Active</span></td></tr>
+                            <tr><td>2026-05-27 18:02</td><td><a href="cert-detail.html"><strong>api.ownca.example</strong></a></td><td>server</td><td><span class="badge badge-on">Active</span></td></tr>
+                            <tr><td>2026-05-22 11:30</td><td><a href="cert-detail.html"><strong>a.ivanov@ownca.example</strong></a></td><td>smime_sign</td><td><span class="badge badge-on">Active</span></td></tr>
+                            <tr><td>2025-11-19 08:00</td><td><a href="cert-detail.html"><strong>ts-responder.ownca.example</strong></a></td><td>timestamping</td><td><span class="badge badge-warn">Expired</span></td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="panel">
+                <div class="panel-header" style="background:#fff7e0;color:#6b4f00;border-bottom-color:#ffd887">Danger zone</div>
+                <div class="panel-body">
+                    <div style="display:flex;gap:18px;flex-wrap:wrap;align-items:center">
+                        <button class="btn btn-default" data-mock-action data-mock-msg="CRL rebuild scheduled.">Rebuild CRL now</button>
+                        <button class="btn btn-default" data-mock-action data-mock-msg="CA disabled — won't sign new certs.">Disable CA</button>
+                        <button class="btn btn-danger" data-mock-action data-mock-msg="Cannot delete a CA with issued certs — revoke and try again." data-toast-type="error">Delete CA</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="../assets/demo.js"></script>
+</body>
+</html>

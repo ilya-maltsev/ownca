@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Выпуск сертификата — OwnCA (демо)</title>
+    <link rel="icon" type="image/svg+xml" href="../assets/favicon.svg">
+    <link rel="stylesheet" href="../assets/vendor/fonts/fonts.css">
+    <link rel="stylesheet" href="../assets/vendor/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="../assets/style.css">
+</head>
+<body data-page="cert_issue">
+    <nav class="sidebar">
+        <a class="sidebar-brand" href="dashboard.html"><span class="brand-text">Свой</span><span class="seal">УЦ</span></a>
+        <button class="sidebar-toggle" id="sidebar-toggle"><span class="toggle-collapse">⇐</span><span class="toggle-expand">⇒</span></button>
+        <div class="sidebar-section">Мониторинг</div>
+        <a href="dashboard.html" data-tooltip="Сводка"><span class="icon"><i class="fa fa-tachometer"></i></span> <span class="sidebar-text">Сводка</span></a>
+        <div class="sidebar-section">Операции с сертификатами</div>
+        <a href="certificates.html" data-tooltip="Сертификаты"><span class="icon"><i class="fa fa-id-card"></i></span> <span class="sidebar-text">Сертификаты</span></a>
+        <a href="cert-issue.html" class="active" data-tooltip="Выпуск сертификата"><span class="icon"><i class="fa fa-magic"></i></span> <span class="sidebar-text">Выпуск сертификата</span></a>
+        <div class="sidebar-section">Удостоверяющий центр</div>
+        <a href="cas.html" data-tooltip="Центры сертификации"><span class="icon"><i class="fa fa-university"></i></span> <span class="sidebar-text">Центры сертификации</span></a>
+        <a href="cert-profiles.html" data-tooltip="Профили сертификатов"><span class="icon"><i class="fa fa-id-card-o"></i></span> <span class="sidebar-text">Профили сертификатов</span></a>
+        <div class="sidebar-section">Система</div>
+        <a href="configuration.html" data-tooltip="Конфигурация"><span class="icon">⚙</span> <span class="sidebar-text">Конфигурация</span></a>
+        <a href="maintenance.html" data-tooltip="Обслуживание"><span class="icon">⚒</span> <span class="sidebar-text">Обслуживание</span></a>
+        <div class="sidebar-section">Язык</div>
+        <div class="lang-switch"><div class="lang-row"><a href="../en/cert-issue.html" class="lang-btn">EN</a><a href="cert-issue.html" class="lang-btn lang-active">RU</a></div></div>
+        <div class="sidebar-section">Справка</div>
+        <a href="#" data-mock-action data-mock-msg="В реальной панели здесь открывается контекстная справка." data-tooltip="Справка"><span class="icon"><i class="fa fa-question-circle"></i></span> <span class="sidebar-text">Справка</span></a>
+        <div style="flex:1"></div>
+        <div style="border-top:1px solid var(--fi-border);padding:8px 16px" class="sidebar-logout"><a href="login.html" style="color:var(--fi-error);font-size:12px;text-decoration:none;display:flex;align-items:center;gap:6px"><span>➜</span> <span class="sidebar-text">Выйти (admin)</span></a></div>
+    </nav>
+
+    <div class="main">
+        <div class="topbar">
+            <h1>Выпуск сертификата</h1>
+            <div class="meta">УЦ и профиль → атрибуты → расширения и выпуск<span class="pill">демо</span></div>
+        </div>
+        <div class="demo-banner"><i class="fa fa-info-circle"></i> Клиентский мастер «Вперёд/Назад» над одной формой — скрытые шаги остаются в DOM, поэтому единственная отправка несёт все поля. В этой копии отправка показывает уведомление. <a href="../">На главную</a></div>
+        <div class="content">
+
+            <div class="steps-strip" id="steps-strip">
+                <div class="step active" data-step="1"><span class="step-num">1</span>УЦ и профиль</div>
+                <div class="step" data-step="2"><span class="step-num">2</span>Атрибуты</div>
+                <div class="step" data-step="3"><span class="step-num">3</span>Расширения и выпуск</div>
+            </div>
+
+            <form class="import-form mock-form" data-toast="Выпуск сертификата поставлен в очередь — пара ключей и сертификат записались бы в OWNCA_STORAGE_DIR." data-toast-type="success">
+
+                <!-- ── Шаг 1 — УЦ и профиль ────────────────────────────── -->
+                <div class="wizard-step active" data-step="1">
+                <h4 style="margin-top:0">Издатель и профиль</h4>
+                <div class="form-grid">
+                    <div>
+                        <label class="form-label">Издатель *</label>
+                        <select class="form-input">
+                            <option>OwnCA Issuing G1 — GOST R 34.10-2012 (256)</option>
+                            <option>OwnCA Issuing R1 — RSA-4096</option>
+                            <option>OwnCA Root GOST — GOST R 34.10-2012 (256)</option>
+                            <option>OwnCA Root RSA — RSA-4096</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="form-label">Профиль</label>
+                        <select class="form-input">
+                            <option>— Свободный (без профиля) —</option>
+                            <option>server — TLS-сервер, KU=digitalSignature,keyEncipherment,keyAgreement / EKU=serverAuth</option>
+                            <option>client — TLS-клиент</option>
+                            <option>server_client — двойное назначение</option>
+                            <option>vpn — VPN-шлюз</option>
+                            <option>user — пользовательский сертификат</option>
+                            <option>user_login — пользователь + OID входа по смарт-карте</option>
+                            <option>smime_sign — подпись S/MIME</option>
+                            <option>code_signing — подпись кода</option>
+                            <option>timestamping — служба меток времени (TSA)</option>
+                            <option>smartcard_logon</option>
+                        </select>
+                    </div>
+                </div>
+
+                <h4>Ключ и срок действия</h4>
+                <div class="form-grid">
+                    <div>
+                        <label class="form-label">Алгоритм</label>
+                        <select class="form-input">
+                            <option>GOST R 34.10-2012 (256)</option>
+                            <option>GOST R 34.10-2012 (512)</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="form-label">Параметры ГОСТ</label>
+                        <select class="form-input">
+                            <option>id-tc26-gost-3410-12-256-paramSetA</option>
+                            <option>id-tc26-gost-3410-12-256-paramSetB</option>
+                            <option>id-tc26-gost-3410-12-256-paramSetC</option>
+                            <option>id-tc26-gost-3410-12-256-paramSetD</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="form-label">Срок действия (дней)</label>
+                        <input class="form-input" type="number" value="365">
+                    </div>
+                </div>
+                </div><!-- /wizard-step 1 -->
+
+                <!-- ── Шаг 2 — Атрибуты (источник ключа + субъект + SAN) ── -->
+                <div class="wizard-step" data-step="2">
+                <h4 style="margin-top:0">Внешний CSR (опционально)</h4>
+                <p style="margin:0 0 8px;font-size:12px;color:var(--fi-text-muted)">Загрузите CSR, чтобы использовать внешне сгенерированную пару ключей. Оставьте пустым для генерации ключа на сервере.</p>
+                <input class="form-input" type="file">
+
+                <h4>Субъект</h4>
+                <div class="form-grid">
+                    <div><label class="form-label">Общее имя (CN) *</label><input class="form-input" required value="portal.ownca.example"></div>
+                    <div><label class="form-label">Страна (C)</label><input class="form-input" maxlength="2" value="RU"></div>
+                    <div><label class="form-label">Регион (ST)</label><input class="form-input" value="Moscow"></div>
+                    <div><label class="form-label">Город (L)</label><input class="form-input" value="Moscow"></div>
+                    <div><label class="form-label">Организация (O)</label><input class="form-input" value="OwnCA Lab"></div>
+                    <div><label class="form-label">Подразделение (OU)</label><input class="form-input" value="Web"></div>
+                </div>
+
+                <h4>Альтернативные имена субъекта</h4>
+                <div class="form-grid-2">
+                    <div><label class="form-label">DNS-имена</label><textarea class="form-input" rows="2">portal.ownca.example, www.portal.ownca.example</textarea></div>
+                    <div><label class="form-label">IP-адреса</label><textarea class="form-input" rows="2">10.0.4.21</textarea></div>
+                    <div><label class="form-label">E-mail адреса</label><textarea class="form-input" rows="2"></textarea></div>
+                    <div><label class="form-label">URI</label><textarea class="form-input" rows="2"></textarea></div>
+                    <div style="grid-column:1/-1"><label class="form-label">Записи otherName (по одной на строку, формат openssl)</label><textarea class="form-input" rows="2" placeholder="1.2.643.100.3;UTF8String:value"></textarea></div>
+                </div>
+                </div><!-- /wizard-step 2 -->
+
+                <!-- ── Шаг 3 — Расширения и выпуск ─────────────────────── -->
+                <div class="wizard-step" data-step="3">
+                <h4 style="margin-top:0">Использование ключа (OID 2.5.29.15)</h4>
+                <div class="form-grid-3">
+                    <label class="chk"><input type="checkbox" checked> Цифровая подпись</label>
+                    <label class="chk"><input type="checkbox"> Неотрекаемость</label>
+                    <label class="chk"><input type="checkbox" checked> Шифрование ключей</label>
+                    <label class="chk"><input type="checkbox"> Шифрование данных</label>
+                    <label class="chk"><input type="checkbox" checked> Согласование ключей</label>
+                    <label class="chk"><input type="checkbox"> Подпись сертификатов</label>
+                    <label class="chk"><input type="checkbox"> Подпись CRL</label>
+                    <label class="chk"><input type="checkbox"> Только шифрование</label>
+                    <label class="chk"><input type="checkbox"> Только расшифровка</label>
+                </div>
+                <div style="margin-top:8px"><label class="chk"><input type="checkbox" checked> Пометить Key Usage как критическое</label></div>
+
+                <h4>Расширенное использование ключа (OID 2.5.29.37)</h4>
+                <input class="form-input" type="text" value="serverAuth, clientAuth">
+                <div style="margin-top:6px"><label class="chk"><input type="checkbox"> Пометить EKU как критическое</label></div>
+
+                <h4>Переопределение точек распространения (пусто = унаследовать от УЦ)</h4>
+                <div class="form-grid-2">
+                    <div><label class="form-label">URL CRL</label><input class="form-input" type="url"></div>
+                    <div><label class="form-label">URL AIA</label><input class="form-input" type="url"></div>
+                    <div><label class="form-label">URL OCSP</label><input class="form-input" type="url"></div>
+                    <div><label class="form-label">URL SIA</label><input class="form-input" type="url"></div>
+                    <div style="grid-column:1/-1"><label class="form-label">URL дельта-CRL</label><input class="form-input" type="url"></div>
+                </div>
+
+                <h4>Идентификаторы ключа субъекта / издателя</h4>
+                <div style="display:flex;gap:18px;flex-wrap:wrap">
+                    <label class="chk"><input type="checkbox" checked> Включать subjectKeyIdentifier</label>
+                    <label class="chk"><input type="checkbox" checked> Включать authorityKeyIdentifier</label>
+                    <label class="chk"><input type="checkbox"> AKI с issuer:always</label>
+                </div>
+
+                <h4>Значения кастомных OID</h4>
+                <p style="margin:0 0 6px;font-size:11px;color:var(--fi-text-muted)">Добавляйте произвольные OID как критические или некритические расширения. Каждая строка становится одной строкой openssl.</p>
+                <button type="button" class="btn btn-default" style="padding:4px 10px;font-size:12px" data-mock-action data-mock-msg="В реальной панели здесь добавляется строка ввода OID.">+ Добавить OID</button>
+
+                <h4>Дополнительные строки расширений openssl</h4>
+                <p style="margin:0 0 6px;font-size:11px;color:var(--fi-text-muted)">Сырые строки расширений openssl.cnf, по одной в строке. Используются дословно в extfile.</p>
+                <textarea class="form-input" rows="4" placeholder="tlsfeature = status_request"></textarea>
+                </div><!-- /wizard-step 3 -->
+
+                <div class="wizard-nav" style="margin-top:18px;display:flex;gap:8px;align-items:center;flex-wrap:wrap">
+                    <button type="button" class="btn btn-default" id="btn-back" style="display:none">← Назад</button>
+                    <button type="button" class="btn btn-primary" id="btn-next">Вперёд →</button>
+                    <button type="submit" class="btn btn-primary" id="btn-submit" style="display:none"><i class="fa fa-magic"></i> Выпустить сертификат</button>
+                    <a href="dashboard.html" class="btn btn-default" style="margin-left:auto">Отмена</a>
+                </div>
+            </form>
+        </div>
+    </div>
+    <script src="../assets/demo.js"></script>
+    <script>
+    // Клиентский мастер «Вперёд/Назад» — повторяет реальную панель выпуска.
+    (function () {
+        var panels = document.querySelectorAll('.wizard-step');
+        var chips = document.querySelectorAll('#steps-strip .step');
+        var btnBack = document.getElementById('btn-back');
+        var btnNext = document.getElementById('btn-next');
+        var btnSubmit = document.getElementById('btn-submit');
+        var total = panels.length, cur = 1;
+
+        function show(n) {
+            cur = Math.min(Math.max(n, 1), total);
+            panels.forEach(function (p) { p.classList.toggle('active', +p.dataset.step === cur); });
+            chips.forEach(function (c) {
+                var i = +c.dataset.step;
+                c.classList.toggle('active', i === cur);
+                c.classList.toggle('done', i < cur);
+            });
+            btnBack.style.display = cur > 1 ? '' : 'none';
+            btnNext.style.display = cur < total ? '' : 'none';
+            btnSubmit.style.display = cur === total ? '' : 'none';
+        }
+        function stepValid() {
+            var ok = true;
+            panels[cur - 1].querySelectorAll('input,select,textarea').forEach(function (el) {
+                if (el.required && !el.reportValidity()) ok = false;
+            });
+            return ok;
+        }
+        btnNext.addEventListener('click', function () { if (stepValid()) show(cur + 1); });
+        btnBack.addEventListener('click', function () { show(cur - 1); });
+        chips.forEach(function (c) {
+            c.addEventListener('click', function () {
+                var t = +c.dataset.step;
+                if (t <= cur) show(t); else if (stepValid()) show(cur + 1);
+            });
+        });
+        show(1);
+    })();
+    </script>
+</body>
+</html>

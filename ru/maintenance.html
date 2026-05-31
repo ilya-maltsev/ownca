@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Обслуживание — OwnCA (демо)</title>
+    <link rel="icon" type="image/svg+xml" href="../assets/favicon.svg">
+    <link rel="stylesheet" href="../assets/vendor/fonts/fonts.css">
+    <link rel="stylesheet" href="../assets/vendor/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="../assets/style.css">
+</head>
+<body data-page="maintenance">
+    <nav class="sidebar">
+        <a class="sidebar-brand" href="dashboard.html"><span class="brand-text">Свой</span><span class="seal">УЦ</span></a>
+        <button class="sidebar-toggle" id="sidebar-toggle"><span class="toggle-collapse">⇐</span><span class="toggle-expand">⇒</span></button>
+        <div class="sidebar-section">Мониторинг</div>
+        <a href="dashboard.html" data-tooltip="Сводка"><span class="icon"><i class="fa fa-tachometer"></i></span> <span class="sidebar-text">Сводка</span></a>
+        <div class="sidebar-section">Операции с сертификатами</div>
+        <a href="certificates.html" data-tooltip="Сертификаты"><span class="icon"><i class="fa fa-id-card"></i></span> <span class="sidebar-text">Сертификаты</span></a>
+        <a href="cert-issue.html" data-tooltip="Выпуск сертификата"><span class="icon"><i class="fa fa-magic"></i></span> <span class="sidebar-text">Выпуск сертификата</span></a>
+        <div class="sidebar-section">Удостоверяющий центр</div>
+        <a href="cas.html" data-tooltip="Центры сертификации"><span class="icon"><i class="fa fa-university"></i></span> <span class="sidebar-text">Центры сертификации</span></a>
+        <a href="cert-profiles.html" data-tooltip="Профили сертификатов"><span class="icon"><i class="fa fa-id-card-o"></i></span> <span class="sidebar-text">Профили сертификатов</span></a>
+        <div class="sidebar-section">Система</div>
+        <a href="configuration.html" data-tooltip="Конфигурация"><span class="icon">⚙</span> <span class="sidebar-text">Конфигурация</span></a>
+        <a href="maintenance.html" class="active" data-tooltip="Обслуживание"><span class="icon">⚒</span> <span class="sidebar-text">Обслуживание</span></a>
+        <div class="sidebar-section">Язык</div>
+        <div class="lang-switch"><div class="lang-row"><a href="../en/maintenance.html" class="lang-btn">EN</a><a href="maintenance.html" class="lang-btn lang-active">RU</a></div></div>
+        <div class="sidebar-section">Справка</div>
+        <a href="#" data-mock-action data-mock-msg="В реальной панели здесь открывается контекстная справка." data-tooltip="Справка"><span class="icon"><i class="fa fa-question-circle"></i></span> <span class="sidebar-text">Справка</span></a>
+        <div style="flex:1"></div>
+        <div style="border-top:1px solid var(--fi-border);padding:8px 16px" class="sidebar-logout"><a href="login.html" style="color:var(--fi-error);font-size:12px;text-decoration:none;display:flex;align-items:center;gap:6px"><span>➜</span> <span class="sidebar-text">Выйти (admin)</span></a></div>
+    </nav>
+
+    <div class="main">
+        <div class="topbar">
+            <h1>Обслуживание</h1>
+            <div class="meta">OpenSSL · gost-engine · метаданные<span class="pill">демо</span></div>
+        </div>
+        <div class="demo-banner"><i class="fa fa-info-circle"></i> В реальной панели «Обновить метаданные» обходит каталог хранения и сверяет его с Postgres. <a href="../">На главную</a></div>
+        <div class="content">
+
+            <div class="cards">
+                <div class="card"><div class="card-label">Хранилище</div><div class="card-value" style="font-size:14px;font-family:'Space Mono',monospace">/var/lib/ownca</div><div class="card-sub">186 файлов сертификатов · 14 ключей · 5 УЦ · 4 CRL</div></div>
+                <div class="card"><div class="card-label">Индекс Postgres</div><div class="card-value"><span class="badge badge-on">синхронизирован</span></div><div class="card-sub">сверка 2 мин. назад</div></div>
+                <div class="card"><div class="card-label">Задача обновления CRL</div><div class="card-value" style="font-size:16px">cron · 04:00 UTC</div><div class="card-sub">следующий запуск через 9 ч 12 мин</div></div>
+                <div class="card"><div class="card-label">Использование диска</div><div class="card-value">42 MB</div><div class="card-sub">из тома 10 ГБ</div></div>
+            </div>
+
+            <div class="panel">
+                <div class="panel-header">OpenSSL</div>
+                <div class="panel-body">
+                    <div class="detail-row"><div class="detail-label">Версия</div><div class="detail-value mono">OpenSSL 3.0.13 30 Jan 2024</div></div>
+                    <div class="detail-row"><div class="detail-label">Собрано с</div><div class="detail-value mono">--with-engine, --with-providers</div></div>
+                    <div class="detail-row"><div class="detail-label">Загруженные провайдеры</div><div class="detail-value mono">default, legacy</div></div>
+                </div>
+            </div>
+
+            <div class="panel">
+                <div class="panel-header">gost-engine <span class="badge badge-on" style="margin-left:auto">загружен</span></div>
+                <div class="panel-body">
+                    <div class="detail-row"><div class="detail-label">Идентификатор движка</div><div class="detail-value mono">gost</div></div>
+                    <div class="detail-row"><div class="detail-label">Источник</div><div class="detail-value mono"><a href="https://github.com/gost-engine/engine" style="color:var(--fi-link)">github.com/gost-engine/engine</a></div></div>
+                    <div class="detail-row"><div class="detail-label">Доступные шифры</div><div class="detail-value mono">kuznyechik-ctr-acpkm, magma-ctr-acpkm, gost89, gost89-cnt, gost89-cnt-12, gost89-cbc</div></div>
+                    <div class="detail-row"><div class="detail-label">Доступные хэш-функции</div><div class="detail-value mono">streebog256, streebog512, gost-mac, gost-mac-12</div></div>
+                    <div class="detail-row"><div class="detail-label">Формат PFX</div><div class="detail-value">RFC 9337 + RFC 9548 — формирует штатный <code>openssl pkcs12 -export</code></div></div>
+                </div>
+            </div>
+
+            <div class="panel">
+                <div class="panel-header">Операции</div>
+                <div class="panel-body">
+                    <div style="display:flex;gap:10px;flex-wrap:wrap">
+                        <button class="btn btn-primary" data-mock-action data-mock-msg="Запущено обновление метаданных — обход /var/lib/ownca…">Обновить метаданные</button>
+                        <button class="btn btn-default" data-mock-action data-mock-msg="Перевыпуск CRL поставлен в очередь для всех включённых УЦ.">Перевыпустить все CRL</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="../assets/demo.js"></script>
+</body>
+</html>

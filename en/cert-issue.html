@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Cert Issue — OwnCA (demo)</title>
+    <link rel="icon" type="image/svg+xml" href="../assets/favicon.svg">
+    <link rel="stylesheet" href="../assets/vendor/fonts/fonts.css">
+    <link rel="stylesheet" href="../assets/vendor/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="../assets/style.css">
+</head>
+<body data-page="cert_issue">
+    <nav class="sidebar">
+        <a class="sidebar-brand" href="dashboard.html"><span class="brand-text">Own</span><span class="seal">CA</span></a>
+        <button class="sidebar-toggle" id="sidebar-toggle"><span class="toggle-collapse">⇐</span><span class="toggle-expand">⇒</span></button>
+        <div class="sidebar-section">Monitor</div>
+        <a href="dashboard.html" data-tooltip="Dashboard"><span class="icon"><i class="fa fa-tachometer"></i></span> <span class="sidebar-text">Dashboard</span></a>
+        <div class="sidebar-section">Certificate Operations</div>
+        <a href="certificates.html" data-tooltip="Certificates"><span class="icon"><i class="fa fa-id-card"></i></span> <span class="sidebar-text">Certificates</span></a>
+        <a href="cert-issue.html" class="active" data-tooltip="Cert Issue"><span class="icon"><i class="fa fa-magic"></i></span> <span class="sidebar-text">Cert Issue</span></a>
+        <div class="sidebar-section">Certification Authority</div>
+        <a href="cas.html" data-tooltip="Authorities"><span class="icon"><i class="fa fa-university"></i></span> <span class="sidebar-text">Authorities</span></a>
+        <a href="cert-profiles.html" data-tooltip="Cert Profiles"><span class="icon"><i class="fa fa-id-card-o"></i></span> <span class="sidebar-text">Cert Profiles</span></a>
+        <div class="sidebar-section">System</div>
+        <a href="configuration.html" data-tooltip="Configuration"><span class="icon">⚙</span> <span class="sidebar-text">Configuration</span></a>
+        <a href="maintenance.html" data-tooltip="Maintenance"><span class="icon">⚒</span> <span class="sidebar-text">Maintenance</span></a>
+        <div class="sidebar-section">Language</div>
+        <div class="lang-switch"><div class="lang-row"><a href="cert-issue.html" class="lang-btn lang-active">EN</a><a href="../ru/cert-issue.html" class="lang-btn">RU</a></div></div>
+        <div class="sidebar-section">Help</div>
+        <a href="#" data-mock-action data-mock-msg="In the real app this opens contextual webhelp." data-tooltip="Help"><span class="icon"><i class="fa fa-question-circle"></i></span> <span class="sidebar-text">Help</span></a>
+        <div style="flex:1"></div>
+        <div style="border-top:1px solid var(--fi-border);padding:8px 16px" class="sidebar-logout"><a href="login.html" style="color:var(--fi-error);font-size:12px;text-decoration:none;display:flex;align-items:center;gap:6px"><span>➜</span> <span class="sidebar-text">Logout (admin)</span></a></div>
+    </nav>
+
+    <div class="main">
+        <div class="topbar">
+            <h1>Issue a certificate</h1>
+            <div class="meta">CA &amp; profile → attributes → extensions &amp; issue<span class="pill">demo</span></div>
+        </div>
+        <div class="demo-banner"><i class="fa fa-info-circle"></i> A client-side Next/Back wizard over one unified form — hidden steps stay in the DOM so the single submit carries everything. Submit shows a toast in this mirror. <a href="index.html">Back to landing</a></div>
+        <div class="content">
+
+            <div class="steps-strip" id="steps-strip">
+                <div class="step active" data-step="1"><span class="step-num">1</span>CA &amp; profile</div>
+                <div class="step" data-step="2"><span class="step-num">2</span>Attributes</div>
+                <div class="step" data-step="3"><span class="step-num">3</span>Extensions &amp; issue</div>
+            </div>
+
+            <form class="import-form mock-form" data-toast="Certificate issuance queued — would write keypair + cert under OWNCA_STORAGE_DIR." data-toast-type="success">
+
+                <!-- ── Step 1 — CA & profile ───────────────────────────── -->
+                <div class="wizard-step active" data-step="1">
+                <h4 style="margin-top:0">Issuer &amp; profile</h4>
+                <div class="form-grid">
+                    <div>
+                        <label class="form-label">Issuer CA *</label>
+                        <select class="form-input">
+                            <option>OwnCA Issuing G1 — GOST R 34.10-2012 (256)</option>
+                            <option>OwnCA Issuing R1 — RSA-4096</option>
+                            <option>OwnCA Root GOST — GOST R 34.10-2012 (256)</option>
+                            <option>OwnCA Root RSA — RSA-4096</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="form-label">Profile</label>
+                        <select class="form-input">
+                            <option>— Free-form (no profile) —</option>
+                            <option>server — TLS server, KU=digitalSignature,keyEncipherment,keyAgreement / EKU=serverAuth</option>
+                            <option>client — TLS client</option>
+                            <option>server_client — dual-use</option>
+                            <option>vpn — VPN gateway</option>
+                            <option>user — end-user cert</option>
+                            <option>user_login — user + smartcard logon OID</option>
+                            <option>smime_sign — S/MIME signing</option>
+                            <option>code_signing — code signing</option>
+                            <option>timestamping — TSA</option>
+                            <option>smartcard_logon</option>
+                        </select>
+                    </div>
+                </div>
+
+                <h4>Key &amp; validity</h4>
+                <div class="form-grid">
+                    <div>
+                        <label class="form-label">Algorithm</label>
+                        <select class="form-input">
+                            <option>GOST R 34.10-2012 (256)</option>
+                            <option>GOST R 34.10-2012 (512)</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="form-label">GOST paramset</label>
+                        <select class="form-input">
+                            <option>id-tc26-gost-3410-12-256-paramSetA</option>
+                            <option>id-tc26-gost-3410-12-256-paramSetB</option>
+                            <option>id-tc26-gost-3410-12-256-paramSetC</option>
+                            <option>id-tc26-gost-3410-12-256-paramSetD</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="form-label">Validity (days)</label>
+                        <input class="form-input" type="number" value="365">
+                    </div>
+                </div>
+                </div><!-- /wizard-step 1 -->
+
+                <!-- ── Step 2 — Attributes (key source + subject + SAN) ── -->
+                <div class="wizard-step" data-step="2">
+                <h4 style="margin-top:0">External CSR (optional)</h4>
+                <p style="margin:0 0 8px;font-size:12px;color:var(--fi-text-muted)">Upload a CSR to use an externally generated key pair. Leave empty to generate the key server-side.</p>
+                <input class="form-input" type="file">
+
+                <h4>Subject</h4>
+                <div class="form-grid">
+                    <div><label class="form-label">Common Name (CN) *</label><input class="form-input" required value="portal.ownca.example"></div>
+                    <div><label class="form-label">Country (C)</label><input class="form-input" maxlength="2" value="RU"></div>
+                    <div><label class="form-label">State (ST)</label><input class="form-input" value="Moscow"></div>
+                    <div><label class="form-label">Locality (L)</label><input class="form-input" value="Moscow"></div>
+                    <div><label class="form-label">Organization (O)</label><input class="form-input" value="OwnCA Lab"></div>
+                    <div><label class="form-label">Organizational Unit (OU)</label><input class="form-input" value="Web"></div>
+                </div>
+
+                <h4>Subject Alternative Names</h4>
+                <div class="form-grid-2">
+                    <div><label class="form-label">DNS names</label><textarea class="form-input" rows="2">portal.ownca.example, www.portal.ownca.example</textarea></div>
+                    <div><label class="form-label">IP addresses</label><textarea class="form-input" rows="2">10.0.4.21</textarea></div>
+                    <div><label class="form-label">Email addresses</label><textarea class="form-input" rows="2"></textarea></div>
+                    <div><label class="form-label">URIs</label><textarea class="form-input" rows="2"></textarea></div>
+                    <div style="grid-column:1/-1"><label class="form-label">otherName entries (one per line, openssl format)</label><textarea class="form-input" rows="2" placeholder="1.2.643.100.3;UTF8String:value"></textarea></div>
+                </div>
+                </div><!-- /wizard-step 2 -->
+
+                <!-- ── Step 3 — Extensions & issue ─────────────────────── -->
+                <div class="wizard-step" data-step="3">
+                <h4 style="margin-top:0">Key Usage (OID 2.5.29.15)</h4>
+                <div class="form-grid-3">
+                    <label class="chk"><input type="checkbox" checked> Digital signature</label>
+                    <label class="chk"><input type="checkbox"> Non-repudiation</label>
+                    <label class="chk"><input type="checkbox" checked> Key encipherment</label>
+                    <label class="chk"><input type="checkbox"> Data encipherment</label>
+                    <label class="chk"><input type="checkbox" checked> Key agreement</label>
+                    <label class="chk"><input type="checkbox"> Certificate signing</label>
+                    <label class="chk"><input type="checkbox"> CRL signing</label>
+                    <label class="chk"><input type="checkbox"> Encipher only</label>
+                    <label class="chk"><input type="checkbox"> Decipher only</label>
+                </div>
+                <div style="margin-top:8px"><label class="chk"><input type="checkbox" checked> Mark Key Usage as critical</label></div>
+
+                <h4>Extended Key Usage (OID 2.5.29.37)</h4>
+                <input class="form-input" type="text" value="serverAuth, clientAuth">
+                <div style="margin-top:6px"><label class="chk"><input type="checkbox"> Mark EKU as critical</label></div>
+
+                <h4>Distribution-point overrides (blank = inherit from issuing CA)</h4>
+                <div class="form-grid-2">
+                    <div><label class="form-label">CRL URL</label><input class="form-input" type="url"></div>
+                    <div><label class="form-label">AIA URL</label><input class="form-input" type="url"></div>
+                    <div><label class="form-label">OCSP URL</label><input class="form-input" type="url"></div>
+                    <div><label class="form-label">SIA URL</label><input class="form-input" type="url"></div>
+                    <div style="grid-column:1/-1"><label class="form-label">Delta-CRL URL</label><input class="form-input" type="url"></div>
+                </div>
+
+                <h4>Subject / Authority Key Identifiers</h4>
+                <div style="display:flex;gap:18px;flex-wrap:wrap">
+                    <label class="chk"><input type="checkbox" checked> Include subjectKeyIdentifier</label>
+                    <label class="chk"><input type="checkbox" checked> Include authorityKeyIdentifier</label>
+                    <label class="chk"><input type="checkbox"> AKI include issuer:always</label>
+                </div>
+
+                <h4>Custom OID values</h4>
+                <p style="margin:0 0 6px;font-size:11px;color:var(--fi-text-muted)">Add ad-hoc OIDs to embed as critical or non-critical extensions. Each row becomes one openssl line.</p>
+                <button type="button" class="btn btn-default" style="padding:4px 10px;font-size:12px" data-mock-action data-mock-msg="In the real app this appends an OID input row.">+ Add OID</button>
+
+                <h4>Extra openssl extension lines</h4>
+                <p style="margin:0 0 6px;font-size:11px;color:var(--fi-text-muted)">Raw openssl.cnf extension lines, one per line. Used verbatim in the extfile.</p>
+                <textarea class="form-input" rows="4" placeholder="tlsfeature = status_request"></textarea>
+                </div><!-- /wizard-step 3 -->
+
+                <div class="wizard-nav" style="margin-top:18px;display:flex;gap:8px;align-items:center;flex-wrap:wrap">
+                    <button type="button" class="btn btn-default" id="btn-back" style="display:none">← Back</button>
+                    <button type="button" class="btn btn-primary" id="btn-next">Next →</button>
+                    <button type="submit" class="btn btn-primary" id="btn-submit" style="display:none"><i class="fa fa-magic"></i> Issue certificate</button>
+                    <a href="dashboard.html" class="btn btn-default" style="margin-left:auto">Cancel</a>
+                </div>
+            </form>
+        </div>
+    </div>
+    <script src="../assets/demo.js"></script>
+    <script>
+    // Client-side Next/Back wizard — mirrors the real cert-issue panel.
+    (function () {
+        var panels = document.querySelectorAll('.wizard-step');
+        var chips = document.querySelectorAll('#steps-strip .step');
+        var btnBack = document.getElementById('btn-back');
+        var btnNext = document.getElementById('btn-next');
+        var btnSubmit = document.getElementById('btn-submit');
+        var total = panels.length, cur = 1;
+
+        function show(n) {
+            cur = Math.min(Math.max(n, 1), total);
+            panels.forEach(function (p) { p.classList.toggle('active', +p.dataset.step === cur); });
+            chips.forEach(function (c) {
+                var i = +c.dataset.step;
+                c.classList.toggle('active', i === cur);
+                c.classList.toggle('done', i < cur);
+            });
+            btnBack.style.display = cur > 1 ? '' : 'none';
+            btnNext.style.display = cur < total ? '' : 'none';
+            btnSubmit.style.display = cur === total ? '' : 'none';
+        }
+        function stepValid() {
+            var ok = true;
+            panels[cur - 1].querySelectorAll('input,select,textarea').forEach(function (el) {
+                if (el.required && !el.reportValidity()) ok = false;
+            });
+            return ok;
+        }
+        btnNext.addEventListener('click', function () { if (stepValid()) show(cur + 1); });
+        btnBack.addEventListener('click', function () { show(cur - 1); });
+        chips.forEach(function (c) {
+            c.addEventListener('click', function () {
+                var t = +c.dataset.step;
+                if (t <= cur) show(t); else if (stepValid()) show(cur + 1);
+            });
+        });
+        show(1);
+    })();
+    </script>
+</body>
+</html>

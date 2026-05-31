@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>server — Cert Profile — OwnCA (demo)</title>
+    <link rel="icon" type="image/svg+xml" href="../assets/favicon.svg">
+    <link rel="stylesheet" href="../assets/vendor/fonts/fonts.css">
+    <link rel="stylesheet" href="../assets/vendor/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="../assets/style.css">
+</head>
+<body data-page="cert_profiles">
+    <nav class="sidebar">
+        <a class="sidebar-brand" href="dashboard.html"><span class="brand-text">Own</span><span class="seal">CA</span></a>
+        <button class="sidebar-toggle" id="sidebar-toggle"><span class="toggle-collapse">⇐</span><span class="toggle-expand">⇒</span></button>
+        <div class="sidebar-section">Monitor</div>
+        <a href="dashboard.html" data-tooltip="Dashboard"><span class="icon"><i class="fa fa-tachometer"></i></span> <span class="sidebar-text">Dashboard</span></a>
+        <div class="sidebar-section">Certificate Operations</div>
+        <a href="certificates.html" data-tooltip="Certificates"><span class="icon"><i class="fa fa-id-card"></i></span> <span class="sidebar-text">Certificates</span></a>
+        <a href="cert-issue.html" data-tooltip="Cert Issue"><span class="icon"><i class="fa fa-magic"></i></span> <span class="sidebar-text">Cert Issue</span></a>
+        <div class="sidebar-section">Certification Authority</div>
+        <a href="cas.html" data-tooltip="Authorities"><span class="icon"><i class="fa fa-university"></i></span> <span class="sidebar-text">Authorities</span></a>
+        <a href="cert-profiles.html" class="active" data-tooltip="Cert Profiles"><span class="icon"><i class="fa fa-id-card-o"></i></span> <span class="sidebar-text">Cert Profiles</span></a>
+        <div class="sidebar-section">System</div>
+        <a href="configuration.html" data-tooltip="Configuration"><span class="icon">⚙</span> <span class="sidebar-text">Configuration</span></a>
+        <a href="maintenance.html" data-tooltip="Maintenance"><span class="icon">⚒</span> <span class="sidebar-text">Maintenance</span></a>
+        <div class="sidebar-section">Language</div>
+        <div class="lang-switch"><div class="lang-row"><a href="cert-profile-detail.html" class="lang-btn lang-active">EN</a><a href="../ru/cert-profile-detail.html" class="lang-btn">RU</a></div></div>
+        <div class="sidebar-section">Help</div>
+        <a href="#" data-mock-action data-mock-msg="In the real app this opens contextual webhelp." data-tooltip="Help"><span class="icon"><i class="fa fa-question-circle"></i></span> <span class="sidebar-text">Help</span></a>
+        <div style="flex:1"></div>
+        <div style="border-top:1px solid var(--fi-border);padding:8px 16px" class="sidebar-logout"><a href="login.html" style="color:var(--fi-error);font-size:12px;text-decoration:none;display:flex;align-items:center;gap:6px"><span>➜</span> <span class="sidebar-text">Logout (admin)</span></a></div>
+    </nav>
+
+    <div class="main">
+        <div class="topbar">
+            <h1>Profile · server</h1>
+            <div class="meta"><a href="cert-profiles.html" style="color:var(--fi-link)">← all profiles</a><span class="pill">demo</span></div>
+        </div>
+        <div class="demo-banner"><i class="fa fa-info-circle"></i> "Save" persists changes in the real panel; here it shows a toast. <a href="index.html">Back to landing</a></div>
+        <div class="content">
+
+            <form class="import-form mock-form" data-toast="Profile saved.">
+                <div class="form-grid-2">
+                    <div><label class="form-label">Name <span class="oid-hint">(slug)</span></label><input class="form-input mono" value="server" readonly></div>
+                    <div><label class="form-label">Display name *</label><input class="form-input" value="TLS Server"></div>
+                </div>
+                <div style="margin-top:10px">
+                    <label class="form-label">Description</label>
+                    <input class="form-input" value="Server-auth profile for TLS endpoints (web, gateways, internal services).">
+                </div>
+
+                <h4>Key Usage (OID 2.5.29.15)</h4>
+                <div class="form-grid-3">
+                    <label style="font-size:12px;display:flex;gap:5px;align-items:center"><input type="checkbox" checked> Digital signature <span class="oid-hint">(0)</span></label>
+                    <label style="font-size:12px;display:flex;gap:5px;align-items:center"><input type="checkbox"> Non-repudiation <span class="oid-hint">(1)</span></label>
+                    <label style="font-size:12px;display:flex;gap:5px;align-items:center"><input type="checkbox" checked> Key encipherment <span class="oid-hint">(2)</span></label>
+                    <label style="font-size:12px;display:flex;gap:5px;align-items:center"><input type="checkbox"> Data encipherment <span class="oid-hint">(3)</span></label>
+                    <label style="font-size:12px;display:flex;gap:5px;align-items:center"><input type="checkbox" checked> Key agreement <span class="oid-hint">(4)</span></label>
+                    <label style="font-size:12px;display:flex;gap:5px;align-items:center"><input type="checkbox"> Certificate signing <span class="oid-hint">(5)</span></label>
+                    <label style="font-size:12px;display:flex;gap:5px;align-items:center"><input type="checkbox"> CRL signing <span class="oid-hint">(6)</span></label>
+                    <label style="font-size:12px;display:flex;gap:5px;align-items:center"><input type="checkbox"> Encipher only <span class="oid-hint">(7)</span></label>
+                    <label style="font-size:12px;display:flex;gap:5px;align-items:center"><input type="checkbox"> Decipher only <span class="oid-hint">(8)</span></label>
+                </div>
+                <div style="margin-top:8px">
+                    <label style="font-size:12px;display:flex;gap:5px;align-items:center"><input type="checkbox" checked> Mark Key Usage as critical</label>
+                </div>
+
+                <h4>Extended Key Usage (OID 2.5.29.37)</h4>
+                <input class="form-input mono" value="serverAuth">
+
+                <h4>OID fields from registry</h4>
+                <div style="display:grid;gap:6px;margin-bottom:10px">
+                    <div style="display:flex;gap:10px;align-items:center;padding:6px 10px;border:1px solid var(--fi-border);border-radius:3px;background:#fafafa">
+                        <span style="font-size:13px;font-weight:600">DNS Names</span>
+                        <span class="oid-hint">(SAN.dnsName)</span>
+                        <span class="badge badge-info" style="font-size:10px">SAN</span>
+                        <label style="margin-left:auto;font-size:11px;display:flex;gap:4px;align-items:center"><input type="checkbox" checked> required</label>
+                        <button type="button" class="btn btn-default btn-sm" style="color:var(--fi-error);border-color:var(--fi-error)">×</button>
+                    </div>
+                    <div style="display:flex;gap:10px;align-items:center;padding:6px 10px;border:1px solid var(--fi-border);border-radius:3px;background:#fafafa">
+                        <span style="font-size:13px;font-weight:600">IP Addresses</span>
+                        <span class="oid-hint">(SAN.ipAddress)</span>
+                        <span class="badge badge-info" style="font-size:10px">SAN</span>
+                        <label style="margin-left:auto;font-size:11px;display:flex;gap:4px;align-items:center"><input type="checkbox"> required</label>
+                        <button type="button" class="btn btn-default btn-sm" style="color:var(--fi-error);border-color:var(--fi-error)">×</button>
+                    </div>
+                </div>
+                <div style="display:flex;gap:8px;align-items:center;margin-bottom:14px">
+                    <select class="form-input" style="max-width:380px">
+                        <option>Email (SAN.rfc822Name) — SAN</option>
+                        <option>UPN (1.3.6.1.4.1.311.20.2.3) — SAN</option>
+                        <option>URI (SAN.uniformResourceIdentifier) — SAN</option>
+                    </select>
+                    <button type="button" class="btn btn-default btn-sm">+ Add</button>
+                </div>
+
+                <h4>Extra extensions</h4>
+                <textarea class="form-input mono" rows="2">tlsfeature = status_request</textarea>
+
+                <div style="margin-top:14px">
+                    <label style="font-size:12px;display:flex;gap:5px;align-items:center"><input type="checkbox"> CA profile (basicConstraints CA:TRUE)</label>
+                </div>
+
+                <div style="margin-top:18px;display:flex;gap:8px">
+                    <button type="submit" class="btn btn-primary">Save profile</button>
+                    <button type="button" class="btn btn-default" data-mock-action data-mock-msg="Profile cloned as server_copy.">Copy</button>
+                    <button type="button" class="btn btn-danger" data-mock-action data-mock-msg="Cannot delete — 92 issued certificates reference this profile." data-toast-type="error" style="margin-left:auto">Delete</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <script src="../assets/demo.js"></script>
+</body>
+</html>

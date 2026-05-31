@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>portal.ownca.example — OwnCA (демо)</title>
+    <link rel="icon" type="image/svg+xml" href="../assets/favicon.svg">
+    <link rel="stylesheet" href="../assets/vendor/fonts/fonts.css">
+    <link rel="stylesheet" href="../assets/vendor/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="../assets/style.css">
+</head>
+<body data-page="certificates">
+    <nav class="sidebar">
+        <a class="sidebar-brand" href="dashboard.html"><span class="brand-text">Свой</span><span class="seal">УЦ</span></a>
+        <button class="sidebar-toggle" id="sidebar-toggle"><span class="toggle-collapse">⇐</span><span class="toggle-expand">⇒</span></button>
+        <div class="sidebar-section">Мониторинг</div>
+        <a href="dashboard.html" data-tooltip="Сводка"><span class="icon"><i class="fa fa-tachometer"></i></span> <span class="sidebar-text">Сводка</span></a>
+        <div class="sidebar-section">Операции с сертификатами</div>
+        <a href="certificates.html" class="active" data-tooltip="Сертификаты"><span class="icon"><i class="fa fa-id-card"></i></span> <span class="sidebar-text">Сертификаты</span></a>
+        <a href="cert-issue.html" data-tooltip="Выпуск сертификата"><span class="icon"><i class="fa fa-magic"></i></span> <span class="sidebar-text">Выпуск сертификата</span></a>
+        <div class="sidebar-section">Удостоверяющий центр</div>
+        <a href="cas.html" data-tooltip="Центры сертификации"><span class="icon"><i class="fa fa-university"></i></span> <span class="sidebar-text">Центры сертификации</span></a>
+        <a href="cert-profiles.html" data-tooltip="Профили сертификатов"><span class="icon"><i class="fa fa-id-card-o"></i></span> <span class="sidebar-text">Профили сертификатов</span></a>
+        <div class="sidebar-section">Система</div>
+        <a href="configuration.html" data-tooltip="Конфигурация"><span class="icon">⚙</span> <span class="sidebar-text">Конфигурация</span></a>
+        <a href="maintenance.html" data-tooltip="Обслуживание"><span class="icon">⚒</span> <span class="sidebar-text">Обслуживание</span></a>
+        <div class="sidebar-section">Язык</div>
+        <div class="lang-switch"><div class="lang-row"><a href="../en/cert-detail.html" class="lang-btn">EN</a><a href="cert-detail.html" class="lang-btn lang-active">RU</a></div></div>
+        <div class="sidebar-section">Справка</div>
+        <a href="#" data-mock-action data-mock-msg="В реальной панели здесь открывается контекстная справка." data-tooltip="Справка"><span class="icon"><i class="fa fa-question-circle"></i></span> <span class="sidebar-text">Справка</span></a>
+        <div style="flex:1"></div>
+        <div style="border-top:1px solid var(--fi-border);padding:8px 16px" class="sidebar-logout"><a href="login.html" style="color:var(--fi-error);font-size:12px;text-decoration:none;display:flex;align-items:center;gap:6px"><span>➜</span> <span class="sidebar-text">Выйти (admin)</span></a></div>
+    </nav>
+
+    <div class="main">
+        <div class="topbar">
+            <h1>portal.ownca.example</h1>
+            <div class="meta"><a href="certificates.html" style="color:var(--fi-link)">← все сертификаты</a><span class="pill">демо</span></div>
+        </div>
+        <div class="demo-banner"><i class="fa fa-info-circle"></i> В этой статичной копии скачивание показывает уведомление. Реальная панель отдаёт двоичные файлы. <a href="../">На главную</a></div>
+        <div class="content">
+
+            <div class="panel">
+                <div class="panel-header">
+                    Сертификат
+                    <span class="badge badge-on" style="margin-left:auto">Действует</span>
+                </div>
+                <div class="panel-body">
+                    <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:18px;flex-wrap:wrap">
+                        <div>
+                            <div style="font-size:11px;color:var(--fi-text-muted);text-transform:uppercase;letter-spacing:0.6px;font-weight:700">Субъект (CN)</div>
+                            <div style="font-size:18px;font-weight:800;margin:2px 0 6px">portal.ownca.example</div>
+                            <div style="font-size:12px;color:var(--fi-text-muted)">Выпущен УЦ <strong style="color:var(--fi-text)">OwnCA Issuing G1</strong> 2026-05-28 09:14 UTC</div>
+                        </div>
+                        <div class="btn-row">
+                            <a class="btn btn-default" data-mock-download="portal.ownca.example.crt" href="#"><i class="fa fa-download"></i> .crt</a>
+                            <a class="btn btn-default" data-mock-download="portal.ownca.example.key" href="#"><i class="fa fa-key"></i> .key</a>
+                            <a class="btn btn-default" data-mock-download="portal.ownca.example.csr" href="#"><i class="fa fa-file-text-o"></i> .csr</a>
+                            <a class="btn btn-default" data-mock-download="portal.ownca.example.bundle.pem" href="#"><i class="fa fa-archive"></i> bundle.pem</a>
+                            <a class="btn btn-default" data-mock-download="portal.ownca.example.p12" href="#"><i class="fa fa-shield"></i> .p12</a>
+                            <a class="btn btn-primary" data-mock-download="portal.ownca.example.gost.p12" href="#"><i class="fa fa-shield"></i> .gost.p12 <span class="oid-hint" style="color:#cfe2ff">(TK-26)</span></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="panel">
+                <div class="panel-header">X.509: субъект / издатель / срок действия</div>
+                <div class="panel-body">
+                    <div class="detail-row"><div class="detail-label">Субъектное имя (DN)</div><div class="detail-value mono">CN=portal.ownca.example, O=OwnCA Lab, OU=Web, L=Moscow, ST=Moscow, C=RU</div></div>
+                    <div class="detail-row"><div class="detail-label">Имя издателя (DN)</div><div class="detail-value mono">CN=OwnCA Issuing G1, O=OwnCA Lab, C=RU</div></div>
+                    <div class="detail-row"><div class="detail-label">Серийный номер</div><div class="detail-value mono">4C:E8:13:7A:6F:09:21:88:00:13</div></div>
+                    <div class="detail-row"><div class="detail-label">Алгоритм подписи</div><div class="detail-value mono">id-tc26-signwithdigest-gost3410-12-256 (1.2.643.7.1.1.3.2)</div></div>
+                    <div class="detail-row"><div class="detail-label">Открытый ключ</div><div class="detail-value mono">GOST R 34.10-2012 · 256 bit · paramset id-tc26-gost-3410-12-256-paramSetA</div></div>
+                    <div class="detail-row"><div class="detail-label">Действителен с</div><div class="detail-value mono">2026-05-28 09:14:02 UTC</div></div>
+                    <div class="detail-row"><div class="detail-label">Действителен до</div><div class="detail-value mono">2026-08-30 09:14:02 UTC · через 94 дня</div></div>
+                    <div class="detail-row"><div class="detail-label">Отпечаток SHA-256</div><div class="detail-value mono">B7:14:88:9A:30:21:CC:D9:5F:01:84:7E:12:6A:9C:0B:33:11:48:0E:F1:0D:62:91:55:8A:01:7C:60:B3:E4:88</div></div>
+                </div>
+            </div>
+
+            <div class="panel">
+                <div class="panel-header">Расширения</div>
+                <div class="panel-body">
+                    <div class="detail-row"><div class="detail-label">Профиль</div><div class="detail-value"><span class="badge badge-info">server</span></div></div>
+                    <div class="detail-row"><div class="detail-label">Использование ключа <span class="oid-hint">(критическое, 2.5.29.15)</span></div><div class="detail-value mono">digitalSignature, keyEncipherment, keyAgreement</div></div>
+                    <div class="detail-row"><div class="detail-label">Расширенное использование ключа <span class="oid-hint">(2.5.29.37)</span></div><div class="detail-value mono">serverAuth</div></div>
+                    <div class="detail-row"><div class="detail-label">Альтернативное имя субъекта (SAN)</div><div class="detail-value mono">DNS:portal.ownca.example, DNS:www.portal.ownca.example, IP:10.0.4.21</div></div>
+                    <div class="detail-row"><div class="detail-label">Основные ограничения (Basic Constraints)</div><div class="detail-value mono">CA:FALSE</div></div>
+                    <div class="detail-row"><div class="detail-label">Точки распространения CRL</div><div class="detail-value mono">URI:http://ca.ownca.example/crl/issuing-g1.crl</div></div>
+                    <div class="detail-row"><div class="detail-label">Доступ к информации УЦ (AIA)</div><div class="detail-value mono">caIssuers — URI:http://ca.ownca.example/ca/issuing-g1.crt<br>OCSP — URI:http://ocsp.ownca.example/</div></div>
+                    <div class="detail-row"><div class="detail-label">Идентификатор ключа субъекта (SKI)</div><div class="detail-value mono">A4:18:7E:62:11:0C:9D:F0:43:55:88:CA:E7:11:02:9A:5F:DC:01:88</div></div>
+                    <div class="detail-row"><div class="detail-label">Идентификатор ключа УЦ (AKI)</div><div class="detail-value mono">keyid:7C:0E:11:92:E0:1A:88:36:B2:55:14:0D:DD:00:AC:F1:8E:84:0F:50</div></div>
+                </div>
+            </div>
+
+            <div class="panel">
+                <div class="panel-header">
+                    Исходный PEM
+                    <button class="btn btn-default btn-sm" data-mock-action data-mock-msg="PEM скопирован в буфер обмена.">Копировать</button>
+                </div>
+                <div class="panel-body">
+                    <pre class="pem-block">-----BEGIN CERTIFICATE-----
+MIIDXjCCA0CgAwIBAgIULsgTen8JIYgAEZswCgYIKoUDBwEBAwIwYjELMAkGA1UE
+BhMCUlUxEjAQBgNVBAgMCU1vc2NvdyByZWcxEjAQBgNVBAcMCU1vc2NvdzEPMA0G
+A1UECgwGT3duQ0ExHTAbBgNVBAMMFE93bkNBIElzc3VpbmcgRzEgKEdPU1QpMB4X
+DTI2MDUyODA5MTQwMloXDTI2MDgzMDA5MTQwMloweTELMAkGA1UEBhMCUlUxDzAN
+BgNVBAcMBk1vc2NvdzERMA8GA1UECgwIT3duQ0EgTGFiMQwwCgYDVQQLDANXZWIx
+HzAdBgNVBAMMFnBvcnRhbC5vd25jYS5leGFtcGxlMRcwFQYJKoZIhvcNAQkBFghv
+cHNAb3duY2EwZjAfBggqhQMHAQEBATATBgcqhQMCAiMBBggqhQMHAQECAgNDAARA
+9QQv1xT9N6lL4kxr5VnFTU2g4dEh+3kLEh1IqkX6kEaywGoOAR1ZE+Yom86OWzdY
+4q2GJEbS1xkH4aMyHpcLLqOCAQYwggECMAkGA1UdEwQCMAAwCwYDVR0PBAQDAgWg
+MB0GA1UdJQQWMBQGCCsGAQUFBwMBBggrBgEFBQcDAjBfBgNVHREEWDBWghZwb3J0
+YWwub3duY2EuZXhhbXBsZYIad3d3LnBvcnRhbC5vd25jYS5leGFtcGxlhwQKAAQV
+hwQKAAQWhxAgAQ24AAAAAAAAAAAAAAAUMB0GA1UdDgQWBBSkGH5iEQyd8ENViMrn
+EQKaX9wBiDAfBgNVHSMEGDAWgBR8DhGS4BqINrJVFA3dAKzxjoQPUDA1BgNVHR8E
+LjAsMCqgKKAmhiRodHRwOi8vY2Eub3duY2EuZXhhbXBsZS9jcmwvZzEuY3JsMAoG
+CCqFAwcBAQMCA0EAVS6Wn/QwsTzCWg3R7HdYf2K0nL+TJjXxgvlSbn1ZQq8ALDqk
+4yJL3FCEsk+Q8OOmIeXLPmKxXjBI4uJ3sLgWKQ==
+-----END CERTIFICATE-----</pre>
+                </div>
+            </div>
+
+            <div class="panel">
+                <div class="panel-header" style="background:#fff7e0;color:#6b4f00;border-bottom-color:#ffd887">Опасная зона</div>
+                <div class="panel-body">
+                    <div style="display:flex;gap:14px;align-items:center;flex-wrap:wrap">
+                        <div style="flex:1;min-width:280px;font-size:13px">
+                            <strong>Отозвать этот сертификат.</strong>
+                            <div style="color:var(--fi-text-muted);margin-top:4px">Он будет добавлен в следующий CRL, выпущенный <code>OwnCA Issuing G1</code>. Действие необратимо.</div>
+                        </div>
+                        <select class="form-input" style="width:auto">
+                            <option>unspecified</option><option>keyCompromise</option><option>cACompromise</option>
+                            <option>affiliationChanged</option><option>superseded</option>
+                            <option>cessationOfOperation</option><option>certificateHold</option>
+                        </select>
+                        <button class="btn btn-danger" data-mock-action data-mock-msg="Отзыв поставлен в очередь — была бы добавлена запись в CRL." data-toast-type="error">Отозвать</button>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <script src="../assets/demo.js"></script>
+</body>
+</html>

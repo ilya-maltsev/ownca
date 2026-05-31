@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Сводка — OwnCA (демо)</title>
+    <link rel="icon" type="image/svg+xml" href="../assets/favicon.svg">
+    <link rel="stylesheet" href="../assets/vendor/fonts/fonts.css">
+    <link rel="stylesheet" href="../assets/vendor/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="../assets/style.css">
+</head>
+<body data-page="dashboard">
+    <nav class="sidebar">
+        <a class="sidebar-brand" href="dashboard.html"><span class="brand-text">Свой</span><span class="seal">УЦ</span></a>
+        <button class="sidebar-toggle" id="sidebar-toggle"><span class="toggle-collapse">⇐</span><span class="toggle-expand">⇒</span></button>
+
+        <div class="sidebar-section">Мониторинг</div>
+        <a href="dashboard.html" class="active" data-tooltip="Сводка"><span class="icon"><i class="fa fa-tachometer"></i></span> <span class="sidebar-text">Сводка</span></a>
+
+        <div class="sidebar-section">Операции с сертификатами</div>
+        <a href="certificates.html" data-tooltip="Сертификаты"><span class="icon"><i class="fa fa-id-card"></i></span> <span class="sidebar-text">Сертификаты</span></a>
+        <a href="cert-issue.html" data-tooltip="Выпуск сертификата"><span class="icon"><i class="fa fa-magic"></i></span> <span class="sidebar-text">Выпуск сертификата</span></a>
+
+        <div class="sidebar-section">Удостоверяющий центр</div>
+        <a href="cas.html" data-tooltip="Центры сертификации"><span class="icon"><i class="fa fa-university"></i></span> <span class="sidebar-text">Центры сертификации</span></a>
+        <a href="cert-profiles.html" data-tooltip="Профили сертификатов"><span class="icon"><i class="fa fa-id-card-o"></i></span> <span class="sidebar-text">Профили сертификатов</span></a>
+
+        <div class="sidebar-section">Система</div>
+        <a href="configuration.html" data-tooltip="Конфигурация"><span class="icon">⚙</span> <span class="sidebar-text">Конфигурация</span></a>
+        <a href="maintenance.html" data-tooltip="Обслуживание"><span class="icon">⚒</span> <span class="sidebar-text">Обслуживание</span></a>
+
+        <div class="sidebar-section">Язык</div>
+        <div class="lang-switch">
+            <div class="lang-row">
+                <a href="../en/dashboard.html" class="lang-btn">EN</a>
+                <a href="dashboard.html" class="lang-btn lang-active">RU</a>
+            </div>
+        </div>
+
+        <div class="sidebar-section">Справка</div>
+        <a href="#" data-mock-action data-mock-msg="В реальной панели здесь открывается контекстная справка." data-tooltip="Справка"><span class="icon"><i class="fa fa-question-circle"></i></span> <span class="sidebar-text">Справка</span></a>
+
+        <div style="flex:1"></div>
+        <div style="border-top:1px solid var(--fi-border);padding:8px 16px" class="sidebar-logout">
+            <a href="login.html" style="color:var(--fi-error);font-size:12px;text-decoration:none;display:flex;align-items:center;gap:6px">
+                <span>➜</span> <span class="sidebar-text">Выйти (admin)</span>
+            </a>
+        </div>
+    </nav>
+
+    <div class="main">
+        <div class="topbar">
+            <h1>Сводка</h1>
+            <div class="meta">Панель удостоверяющего центра <span class="pill">демо</span></div>
+        </div>
+        <div class="demo-banner">
+            <i class="fa fa-info-circle"></i>
+            Статичная демонстрация — сервер не подключён. Формы не отправляются, переходы по ссылкам работают.
+            <a href="../">На главную</a>
+        </div>
+        <div class="content">
+            <div class="cards">
+                <div class="card">
+                    <div class="card-label">Центры сертификации</div>
+                    <div class="card-value">5</div>
+                    <div class="card-sub">3 корневых / 2 промежуточных</div>
+                </div>
+                <div class="card">
+                    <div class="card-label">Действующие сертификаты</div>
+                    <div class="card-value">186 <span style="font-size:14px;color:var(--fi-text-muted)">/ 200</span></div>
+                    <div class="card-sub">действующих / всего</div>
+                </div>
+                <div class="card">
+                    <div class="card-label">Отозваны</div>
+                    <div class="card-value">11</div>
+                    <div class="card-sub">в списке отзыва (CRL)</div>
+                </div>
+                <div class="card">
+                    <div class="card-label">Истекли</div>
+                    <div class="card-value">3</div>
+                    <div class="card-sub">срок действия истёк</div>
+                </div>
+            </div>
+
+            <div class="panel">
+                <div class="panel-header">Удостоверяющие центры</div>
+                <div class="table-wrap">
+                    <table>
+                        <thead><tr>
+                            <th>Название</th><th>Тип</th><th>Алгоритм</th><th>Выпущено</th><th>Действующих</th><th>Отозвано</th><th>Действителен до</th>
+                        </tr></thead>
+                        <tbody>
+                            <tr><td><a href="ca-detail.html"><strong>OwnCA Root GOST</strong></a></td><td><span class="badge badge-info">корневой</span></td><td>GOST R 34.10-2012 (256)</td><td>124</td><td>113</td><td>7</td><td>2034-08-12</td></tr>
+                            <tr><td><a href="ca-detail.html"><strong>OwnCA Issuing G1</strong></a></td><td><span class="badge badge-warn">промежуточный</span></td><td>GOST R 34.10-2012 (256)</td><td>118</td><td>108</td><td>7</td><td>2029-08-12</td></tr>
+                            <tr><td><a href="ca-detail.html"><strong>OwnCA Root RSA</strong></a></td><td><span class="badge badge-info">корневой</span></td><td>RSA-4096</td><td>62</td><td>55</td><td>4</td><td>2034-08-12</td></tr>
+                            <tr><td><a href="ca-detail.html"><strong>OwnCA Issuing R1</strong></a></td><td><span class="badge badge-warn">промежуточный</span></td><td>RSA-4096</td><td>60</td><td>53</td><td>4</td><td>2029-08-12</td></tr>
+                            <tr><td><a href="ca-detail.html"><strong>OwnCA Lab GOST</strong></a></td><td><span class="badge badge-info">корневой</span></td><td>GOST R 34.10-2012 (512)</td><td>4</td><td>1</td><td>1</td><td>2031-02-04</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="panel">
+                <div class="panel-header">Истекают скоро (ближайшие 30 дней)</div>
+                <div class="table-wrap">
+                    <table>
+                        <thead><tr><th>Общее имя (CN)</th><th>Издатель</th><th>Профиль</th><th>Действителен до</th></tr></thead>
+                        <tbody>
+                            <tr><td><a href="cert-detail.html"><strong>a.ivanov@ownca.example</strong></a></td><td>OwnCA Issuing G1</td><td><span class="badge badge-info">smime_sign</span></td><td>2026-06-04 12:00</td></tr>
+                            <tr><td><a href="cert-detail.html"><strong>operator-laptop-12</strong></a></td><td>OwnCA Issuing G1</td><td><span class="badge badge-info">user_login</span></td><td>2026-06-03 12:00</td></tr>
+                            <tr><td><a href="cert-detail.html"><strong>build-signer-2026</strong></a></td><td>OwnCA Issuing R1</td><td><span class="badge badge-info">code_signing</span></td><td>2026-06-12 12:00</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="panel">
+                <div class="panel-header">Недавно выпущенные</div>
+                <div class="table-wrap">
+                    <table>
+                        <thead><tr><th>Дата</th><th>Общее имя (CN)</th><th>Издатель</th><th>Профиль</th><th>Действителен до</th><th>Статус</th></tr></thead>
+                        <tbody>
+                            <tr><td>2026-05-28 09:14</td><td><a href="cert-detail.html"><strong>portal.ownca.example</strong></a></td><td>OwnCA Issuing G1</td><td>server</td><td>2026-08-30</td><td><span class="badge badge-on">Действует</span></td></tr>
+                            <tr><td>2026-05-27 18:02</td><td><a href="cert-detail.html"><strong>api.ownca.example</strong></a></td><td>OwnCA Issuing G1</td><td>server</td><td>2026-08-29</td><td><span class="badge badge-on">Действует</span></td></tr>
+                            <tr><td>2026-05-27 14:48</td><td><a href="cert-detail.html"><strong>vpn-gw-01.ownca.example</strong></a></td><td>OwnCA Issuing R1</td><td>vpn</td><td>2026-12-01</td><td><span class="badge badge-on">Действует</span></td></tr>
+                            <tr><td>2026-05-22 11:30</td><td><a href="cert-detail.html"><strong>dev-leak-2025</strong></a></td><td>OwnCA Issuing R1</td><td>server</td><td>2026-01-10</td><td><span class="badge badge-off">Отозван</span></td></tr>
+                            <tr><td>2025-11-19 08:00</td><td><a href="cert-detail.html"><strong>ts-responder.ownca.example</strong></a></td><td>OwnCA Issuing G1</td><td>timestamping</td><td>2025-11-20</td><td><span class="badge badge-warn">Истёк</span></td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="confirm-modal" style="display:none;position:fixed;top:0;left:0;right:0;bottom:0;z-index:10000;background:rgba(0,0,0,0.5)">
+        <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);background:#fff;border-radius:4px;box-shadow:0 8px 30px rgba(0,0,0,0.3);width:420px;max-width:90%">
+            <div style="padding:20px 24px;border-bottom:1px solid var(--fi-border)"><h3 style="font-size:16px;color:var(--fi-text);margin:0">Подтверждение</h3></div>
+            <div style="padding:20px 24px"><p id="confirm-message" style="font-size:14px;color:var(--fi-text);margin:0"></p></div>
+            <div style="padding:14px 24px;border-top:1px solid var(--fi-border);display:flex;justify-content:flex-end;gap:8px;background:#f8f9fa;border-radius:0 0 4px 4px"><button data-confirm-cancel class="btn btn-default">Отмена</button><button class="btn btn-primary">Подтвердить</button></div>
+        </div>
+    </div>
+    <script src="../assets/demo.js"></script>
+</body>
+</html>

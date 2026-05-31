@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Сертификаты — OwnCA (демо)</title>
+    <link rel="icon" type="image/svg+xml" href="../assets/favicon.svg">
+    <link rel="stylesheet" href="../assets/vendor/fonts/fonts.css">
+    <link rel="stylesheet" href="../assets/vendor/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="../assets/style.css">
+</head>
+<body data-page="certificates">
+    <nav class="sidebar">
+        <a class="sidebar-brand" href="dashboard.html"><span class="brand-text">Свой</span><span class="seal">УЦ</span></a>
+        <button class="sidebar-toggle" id="sidebar-toggle"><span class="toggle-collapse">⇐</span><span class="toggle-expand">⇒</span></button>
+        <div class="sidebar-section">Мониторинг</div>
+        <a href="dashboard.html" data-tooltip="Сводка"><span class="icon"><i class="fa fa-tachometer"></i></span> <span class="sidebar-text">Сводка</span></a>
+        <div class="sidebar-section">Операции с сертификатами</div>
+        <a href="certificates.html" class="active" data-tooltip="Сертификаты"><span class="icon"><i class="fa fa-id-card"></i></span> <span class="sidebar-text">Сертификаты</span></a>
+        <a href="cert-issue.html" data-tooltip="Выпуск сертификата"><span class="icon"><i class="fa fa-magic"></i></span> <span class="sidebar-text">Выпуск сертификата</span></a>
+        <div class="sidebar-section">Удостоверяющий центр</div>
+        <a href="cas.html" data-tooltip="Центры сертификации"><span class="icon"><i class="fa fa-university"></i></span> <span class="sidebar-text">Центры сертификации</span></a>
+        <a href="cert-profiles.html" data-tooltip="Профили сертификатов"><span class="icon"><i class="fa fa-id-card-o"></i></span> <span class="sidebar-text">Профили сертификатов</span></a>
+        <div class="sidebar-section">Система</div>
+        <a href="configuration.html" data-tooltip="Конфигурация"><span class="icon">⚙</span> <span class="sidebar-text">Конфигурация</span></a>
+        <a href="maintenance.html" data-tooltip="Обслуживание"><span class="icon">⚒</span> <span class="sidebar-text">Обслуживание</span></a>
+        <div class="sidebar-section">Язык</div>
+        <div class="lang-switch"><div class="lang-row"><a href="../en/certificates.html" class="lang-btn">EN</a><a href="certificates.html" class="lang-btn lang-active">RU</a></div></div>
+        <div class="sidebar-section">Справка</div>
+        <a href="#" data-mock-action data-mock-msg="В реальной панели здесь открывается контекстная справка." data-tooltip="Справка"><span class="icon"><i class="fa fa-question-circle"></i></span> <span class="sidebar-text">Справка</span></a>
+        <div style="flex:1"></div>
+        <div style="border-top:1px solid var(--fi-border);padding:8px 16px" class="sidebar-logout"><a href="login.html" style="color:var(--fi-error);font-size:12px;text-decoration:none;display:flex;align-items:center;gap:6px"><span>➜</span> <span class="sidebar-text">Выйти (admin)</span></a></div>
+    </nav>
+
+    <div class="main">
+        <div class="topbar">
+            <h1>Сертификаты</h1>
+            <div class="meta">Фильтр по УЦ / статусу / профилю<span class="pill">демо</span></div>
+        </div>
+        <div class="demo-banner"><i class="fa fa-info-circle"></i> Статичная демонстрация — поля фильтров работают; значки статуса и постраничная навигация — оформление. <a href="../">На главную</a></div>
+        <div class="content">
+
+            <div class="panel">
+                <div class="panel-header">
+                    Фильтры
+                    <span style="font-weight:400;font-size:11px;color:var(--fi-text-muted)">200 записей · 186 действуют · 11 отозваны · 3 истекли</span>
+                </div>
+                <div class="panel-body">
+                    <div class="form-grid">
+                        <div>
+                            <label class="form-label">Издатель</label>
+                            <select class="form-input">
+                                <option>— все —</option>
+                                <option>OwnCA Issuing G1</option>
+                                <option>OwnCA Issuing R1</option>
+                                <option>OwnCA Root GOST</option>
+                                <option>OwnCA Root RSA</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="form-label">Статус</label>
+                            <select class="form-input">
+                                <option>— все —</option>
+                                <option>действующие</option><option>отозванные</option><option>истёкшие</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="form-label">Профиль</label>
+                            <select class="form-input">
+                                <option>— все —</option>
+                                <option>server</option><option>client</option><option>vpn</option>
+                                <option>code_signing</option><option>user_login</option><option>smime_sign</option>
+                                <option>timestamping</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="form-label">Семейство ключей</label>
+                            <select class="form-input">
+                                <option>— все —</option>
+                                <option>gost</option><option>rsa</option><option>ec</option><option>ed25519</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="table-wrap">
+                <table class="datatable">
+                    <thead><tr>
+                        <th>Общее имя (CN)</th><th>Издатель</th><th>Профиль</th><th>Алгоритм</th><th>Действителен до</th><th>Статус</th><th>Серийный №</th>
+                    </tr></thead>
+                    <tbody>
+                        <tr><td><a href="cert-detail.html"><strong>portal.ownca.example</strong></a></td><td>OwnCA Issuing G1</td><td><span class="badge badge-info">server</span></td><td>gost-256</td><td>2026-08-30</td><td><span class="badge badge-on">Действует</span></td><td class="mono">4C:E8:13:7A</td></tr>
+                        <tr><td><a href="cert-detail.html"><strong>api.ownca.example</strong></a></td><td>OwnCA Issuing G1</td><td><span class="badge badge-info">server</span></td><td>gost-256</td><td>2026-08-29</td><td><span class="badge badge-on">Действует</span></td><td class="mono">4C:E8:13:7B</td></tr>
+                        <tr><td><a href="cert-detail.html"><strong>vpn-gw-01.ownca.example</strong></a></td><td>OwnCA Issuing R1</td><td><span class="badge badge-info">vpn</span></td><td>rsa-4096</td><td>2026-12-01</td><td><span class="badge badge-on">Действует</span></td><td class="mono">2F:11:9A:08</td></tr>
+                        <tr><td><a href="cert-detail.html"><strong>vpn-gw-02.ownca.example</strong></a></td><td>OwnCA Issuing R1</td><td><span class="badge badge-info">vpn</span></td><td>rsa-4096</td><td>2026-12-01</td><td><span class="badge badge-on">Действует</span></td><td class="mono">2F:11:9A:09</td></tr>
+                        <tr><td><a href="cert-detail.html"><strong>build-signer-2026</strong></a></td><td>OwnCA Issuing R1</td><td><span class="badge badge-info">code_signing</span></td><td>rsa-4096</td><td>2026-06-12</td><td><span class="badge badge-on">Действует</span></td><td class="mono">2F:11:9B:1C</td></tr>
+                        <tr><td><a href="cert-detail.html"><strong>a.ivanov@ownca.example</strong></a></td><td>OwnCA Issuing G1</td><td><span class="badge badge-info">smime_sign</span></td><td>gost-256</td><td>2026-06-04</td><td><span class="badge badge-on">Действует</span></td><td class="mono">4C:E8:14:01</td></tr>
+                        <tr><td><a href="cert-detail.html"><strong>operator-laptop-12</strong></a></td><td>OwnCA Issuing G1</td><td><span class="badge badge-info">user_login</span></td><td>gost-256</td><td>2026-06-03</td><td><span class="badge badge-on">Действует</span></td><td class="mono">4C:E8:14:02</td></tr>
+                        <tr><td><a href="cert-detail.html"><strong>operator-laptop-13</strong></a></td><td>OwnCA Issuing G1</td><td><span class="badge badge-info">user_login</span></td><td>gost-256</td><td>2026-06-03</td><td><span class="badge badge-on">Действует</span></td><td class="mono">4C:E8:14:03</td></tr>
+                        <tr><td><a href="cert-detail.html"><strong>m.petrova@ownca.example</strong></a></td><td>OwnCA Issuing G1</td><td><span class="badge badge-info">smime_sign</span></td><td>gost-256</td><td>2027-01-12</td><td><span class="badge badge-on">Действует</span></td><td class="mono">4C:E8:14:18</td></tr>
+                        <tr><td><a href="cert-detail.html"><strong>ldap.ownca.example</strong></a></td><td>OwnCA Issuing G1</td><td><span class="badge badge-info">server_client</span></td><td>gost-256</td><td>2026-09-04</td><td><span class="badge badge-on">Действует</span></td><td class="mono">4C:E8:13:F2</td></tr>
+                        <tr><td><a href="cert-detail.html"><strong>dev-leak-2025</strong></a></td><td>OwnCA Issuing R1</td><td><span class="badge badge-info">server</span></td><td>rsa-4096</td><td>2026-01-10</td><td><span class="badge badge-off">Отозван</span></td><td class="mono">2F:11:88:44</td></tr>
+                        <tr><td><a href="cert-detail.html"><strong>old-jenkins-ca</strong></a></td><td>OwnCA Issuing R1</td><td><span class="badge badge-info">code_signing</span></td><td>rsa-4096</td><td>2025-09-12</td><td><span class="badge badge-off">Отозван</span></td><td class="mono">2F:11:80:01</td></tr>
+                        <tr><td><a href="cert-detail.html"><strong>ts-responder.ownca.example</strong></a></td><td>OwnCA Issuing G1</td><td><span class="badge badge-info">timestamping</span></td><td>gost-256</td><td>2025-11-20</td><td><span class="badge badge-warn">Истёк</span></td><td class="mono">4C:E8:12:9E</td></tr>
+                        <tr><td><a href="cert-detail.html"><strong>old.portal.ownca.example</strong></a></td><td>OwnCA Issuing G1</td><td><span class="badge badge-info">server</span></td><td>gost-256</td><td>2025-10-02</td><td><span class="badge badge-warn">Истёк</span></td><td class="mono">4C:E8:12:A0</td></tr>
+                    </tbody>
+                </table>
+                <div class="dt-info">Показаны 1–14 из 200 записей</div>
+                <div class="dt-paginate"><button>Назад</button><button class="current">1</button><button>2</button><button>3</button><button>4</button><button>…</button><button>15</button><button>Вперёд</button></div>
+            </div>
+        </div>
+    </div>
+    <script src="../assets/demo.js"></script>
+</body>
+</html>

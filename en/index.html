@@ -1,0 +1,556 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>OwnCA — a self-hosted CA panel that replaces your EasyRSA scripts</title>
+    <meta name="description" content="OwnCA is a self-hosted Certificate Authority web panel — an EasyRSA replacement with a UI. Stand up roots and intermediates, issue and revoke X.509 certs with RSA, ECDSA and Ed25519 on stock OpenSSL. GOST R 34.10-2012 support is optional and can be switched off for a clean, unpatched OpenSSL build.">
+    <link rel="icon" type="image/svg+xml" href="../assets/favicon.svg">
+    <link rel="stylesheet" href="../assets/vendor/fonts/fonts.css">
+    <link rel="stylesheet" href="../assets/vendor/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="../assets/style.css">
+    <link rel="stylesheet" href="../assets/landing.css">
+</head>
+<body class="landing">
+    <div class="landing-shell">
+        <nav class="landing-nav">
+            <a class="brand-mark" href="./">
+                <span class="brand-text">Own</span><span class="seal">CA</span>
+            </a>
+            <div class="nav-links">
+                <a href="#features">Features</a>
+                <a href="#algorithms">Algorithms</a>
+                <a href="#tour">Tour</a>
+                <a href="#quickstart">Quickstart</a>
+            </div>
+            <div class="nav-cta">
+                <span class="lang-pills">
+                    <a href="./" class="active">EN</a>
+                    <a href="../">RU</a>
+                </span>
+                <a class="cta-ghost" href="https://github.com/ilya-maltsev/ownca" target="_blank" rel="noopener"><i class="fa fa-github"></i> GitHub</a>
+            </div>
+        </nav>
+
+        <section class="hero">
+            <div class="hero-copy">
+                <span class="hero-eyebrow"><span class="dot-live"></span> Self-hosted · Docker · EasyRSA, but a web panel</span>
+                <h1>
+                    Your EasyRSA scripts,
+                    <span class="accent">as a web panel</span>
+                    <span class="strike-oid">// init-pki · build-ca · build-server-full · sign-req · gen-crl</span>
+                </h1>
+                <p class="lead">
+                    OwnCA is a self-hosted web panel that does what your pile of
+                    EasyRSA shell scripts does — stand up roots and intermediates,
+                    issue and revoke X.509 certificates, keep CRLs fresh — only from
+                    a UI instead of a terminal. It runs on stock OpenSSL with RSA,
+                    ECDSA and Ed25519; GOST R 34.10-2012 is strictly opt-in, and with
+                    it switched off you're on a clean, unpatched OpenSSL build with no
+                    engine to install.
+                </p>
+                <div class="hero-cta">
+                    <a class="cta-primary" href="dashboard.html">
+                        Tour the dashboard <i class="fa fa-arrow-right"></i>
+                    </a>
+                    <a class="cta-ghost" href="#quickstart"><i class="fa fa-terminal"></i> Run it locally</a>
+                </div>
+                <div class="hero-meta">
+                    <div><b>10</b>built-in profiles</div>
+                    <div><b>4</b>key families</div>
+                    <div><b>2</b>PFX dialects</div>
+                    <div><b>RU&nbsp;/&nbsp;EN</b>UI &amp; webhelp</div>
+                </div>
+            </div>
+
+            <div class="hero-preview">
+                <div class="hero-art-orbit"></div>
+                <div class="hp-bar">
+                    <span class="dot r"></span><span class="dot y"></span><span class="dot g"></span>
+                    <span class="url"><span class="lock"><i class="fa fa-lock"></i></span>https://ca.ownca.example/dashboard</span>
+                </div>
+                <div class="hp-body">
+                    <div class="hp-side">
+                        <div class="ico active"><i class="fa fa-tachometer"></i></div>
+                        <div class="ico"><i class="fa fa-id-card"></i></div>
+                        <div class="ico"><i class="fa fa-magic"></i></div>
+                        <div class="ico"><i class="fa fa-university"></i></div>
+                        <div class="ico"><i class="fa fa-id-card-o"></i></div>
+                        <div class="ico"><i class="fa fa-cog"></i></div>
+                    </div>
+                    <div class="hp-main">
+                        <div class="hp-topline">
+                            <strong>Dashboard</strong>
+                            <span>OwnCA · demo env <span style="color:var(--fi-success)">●</span></span>
+                        </div>
+                        <div class="hp-grid">
+                            <div class="hp-kpi accent"><div class="lbl">Authorities</div><div class="val">5</div></div>
+                            <div class="hp-kpi"><div class="lbl">Active</div><div class="val">186</div></div>
+                            <div class="hp-kpi warn"><div class="lbl">Revoked</div><div class="val">11</div></div>
+                            <div class="hp-kpi"><div class="lbl">Expired</div><div class="val">3</div></div>
+                        </div>
+                        <div class="hp-tbl">
+                            <div class="row">
+                                <span class="nm">OwnCA Root GOST</span>
+                                <span class="bdg b">root</span>
+                                <span class="alg">gost-256</span>
+                                <span>2034-08-12</span>
+                            </div>
+                            <div class="row">
+                                <span class="nm">OwnCA Issuing G1</span>
+                                <span class="bdg w">int.</span>
+                                <span class="alg">gost-256</span>
+                                <span>2029-08-12</span>
+                            </div>
+                            <div class="row">
+                                <span class="nm">OwnCA Root RSA</span>
+                                <span class="bdg b">root</span>
+                                <span class="alg">rsa-4096</span>
+                                <span>2034-08-12</span>
+                            </div>
+                            <div class="row">
+                                <span class="nm">OwnCA Issuing R1</span>
+                                <span class="bdg w">int.</span>
+                                <span class="alg">rsa-4096</span>
+                                <span>2029-08-12</span>
+                            </div>
+                            <div class="row">
+                                <span class="nm">OwnCA Lab GOST</span>
+                                <span class="bdg g">root</span>
+                                <span class="alg">gost-512</span>
+                                <span>2031-02-04</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <div class="serial-ribbon">
+            <span class="scroll-track">
+                <span style="margin-right:48px">SERIAL · 4C:E8:13:7A:6F:09:21:88</span>
+                <span style="margin-right:48px">OID 1.2.643.7.1.1.1.1 · id-tc26-gost3410-12-256</span>
+                <span style="margin-right:48px">OID 1.2.643.7.1.1.5.2 · id-tc26-hmac-gost3411-12-512</span>
+                <span style="margin-right:48px">RFC 9337 · PBES2 over Kuznyechik-CTR-ACPKM</span>
+                <span style="margin-right:48px">RFC 9548 · HMAC-Streebog-512 MAC</span>
+                <span style="margin-right:48px">CRL · last issued 2026-05-26 04:00:00 UTC</span>
+                <span style="margin-right:48px">cipher · GOST2012-KUZNYECHIK-KUZNYECHIKOMAC</span>
+                <span style="margin-right:48px">SERIAL · 4C:E8:13:7A:6F:09:21:88</span>
+                <span style="margin-right:48px">OID 1.2.643.7.1.1.1.1 · id-tc26-gost3410-12-256</span>
+            </span>
+        </div>
+
+        <section class="section" id="features">
+            <div class="section-title">// what's inside</div>
+            <h2>Everything your EasyRSA wrapper does — without the shell scripts.</h2>
+            <div class="feat-grid">
+                <div class="feat">
+                    <div class="feat-num">ISSUANCE</div>
+                    <div class="feat-icon"><i class="fa fa-magic"></i></div>
+                    <h3>Unified Cert Issue form</h3>
+                    <p>One form replaces the <code>build-server-full</code> / <code>build-client-full</code> / <code>sign-req</code> incantations: pick a CA, optionally a profile, fill the Subject DN and SANs. Bring your own CSR or have the panel generate the key. GOST paramset selection only appears when GOST is enabled.</p>
+                </div>
+                <div class="feat">
+                    <div class="feat-num">EXPORT</div>
+                    <div class="feat-icon"><i class="fa fa-download"></i></div>
+                    <h3>Standard PFX, GOST optional</h3>
+                    <p>Stock <code>.p12</code> (PBES2 / AES / SHA-256) works on any vanilla OpenSSL — the same bundle <code>easyrsa export-p12</code> would hand you. The optional <code>.gost.p12</code> (RFC 9337 + 9548, read by CryptoPro) is the only piece that wants a patched gost-engine; turn GOST off and you never touch it.</p>
+                </div>
+                <div class="feat alt">
+                    <div class="feat-num">PROFILES</div>
+                    <div class="feat-icon"><i class="fa fa-id-card-o"></i></div>
+                    <h3>10 ready-made profiles</h3>
+                    <p>server, client, server_client, vpn, user, user_login, smartcard_logon, smime_sign, code_signing, timestamping — all with KU/EKU and OID-field bindings you can edit or clone.</p>
+                </div>
+                <div class="feat">
+                    <div class="feat-num">AUTHORITIES</div>
+                    <div class="feat-icon"><i class="fa fa-university"></i></div>
+                    <h3>Roots &amp; intermediates</h3>
+                    <p>The <code>init-pki</code> / <code>build-ca</code> step, made clickable: spin up root and intermediate CAs with any supported key family. Each CA carries its own distribution points — CRL, AIA, OCSP, SIA, freshestCRL, issuerAltName — embedded in every leaf it signs.</p>
+                </div>
+                <div class="feat">
+                    <div class="feat-num">NGINX TLS</div>
+                    <div class="feat-icon"><i class="fa fa-shield"></i></div>
+                    <h3>Plain TLS, GOST on demand</h3>
+                    <p>The bundled nginx serves the regular RSA/ECDHE suites out of the box. Enable GOST and it also terminates <code>GOST2012-KUZNYECHIK-KUZNYECHIKOMAC</code> on the same socket; leave it off and it's an ordinary TLS endpoint on stock OpenSSL.</p>
+                </div>
+                <div class="feat dark">
+                    <div class="feat-num">OPS</div>
+                    <div class="feat-icon"><i class="fa fa-database"></i></div>
+                    <h3>State lives in files</h3>
+                    <p>CA material, issued certs and CRLs are flat files under <code>OWNCA_STORAGE_DIR/</code>. Postgres is only the metadata index — you can tar the storage dir and move a CA between hosts.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="section" id="algorithms">
+            <div class="section-title">// supported algorithms</div>
+            <h2>Standard crypto by default, GOST when you opt in</h2>
+            <div class="algo-strip">
+                <div class="algo-cell">
+                    <div class="algo-name">RSA 2048 / 4096</div>
+                    <div class="algo-rfc">PKCS #1 v2.2 · PSS &amp; PKCS1-v1_5</div>
+                    <span class="algo-tag std">Standard</span>
+                </div>
+                <div class="algo-cell">
+                    <div class="algo-name">ECDSA P-256 / P-384</div>
+                    <div class="algo-rfc">FIPS 186-4 · X9.62</div>
+                    <span class="algo-tag std">Standard</span>
+                </div>
+                <div class="algo-cell">
+                    <div class="algo-name">Ed25519</div>
+                    <div class="algo-rfc">RFC 8410 · EdDSA</div>
+                    <span class="algo-tag std">Standard</span>
+                </div>
+                <div class="algo-cell">
+                    <div class="algo-name">GOST R 34.10-2012 / 256</div>
+                    <div class="algo-rfc">RFC 7836 · TC26 paramsets A / B / C / D</div>
+                    <span class="algo-tag gost">GOST</span>
+                </div>
+                <div class="algo-cell">
+                    <div class="algo-name">GOST R 34.10-2012 / 512</div>
+                    <div class="algo-rfc">RFC 7836 · TC26 paramsets A / B / C</div>
+                    <span class="algo-tag gost">GOST</span>
+                </div>
+                <div class="algo-cell">
+                    <div class="algo-name">Streebog-256 / 512</div>
+                    <div class="algo-rfc">RFC 6986 · GOST R 34.11-2012</div>
+                    <span class="algo-tag gost">GOST</span>
+                </div>
+                <div class="algo-cell">
+                    <div class="algo-name">Kuznyechik-CTR-ACPKM</div>
+                    <div class="algo-rfc">RFC 8645 · used by PFX export</div>
+                    <span class="algo-tag gost">GOST</span>
+                </div>
+                <div class="algo-cell">
+                    <div class="algo-name">Magma-CTR-ACPKM</div>
+                    <div class="algo-rfc">RFC 8645 · also offered as PBES2 cipher</div>
+                    <span class="algo-tag gost">GOST</span>
+                </div>
+            </div>
+        </section>
+
+        <section class="section" id="tour">
+            <div class="section-title">// click around</div>
+            <h2>Tour the demo — every screen is a real, navigable page.</h2>
+            <p style="font-size:14px;color:var(--fi-text-muted);max-width:60ch;margin-bottom:28px">
+                The pages below are the actual dashboard templates, rendered with
+                hand-crafted mock data. Sidebar, panels, tables, lang switch — all live.
+                Forms are intercepted (this is a static mirror), but every link goes somewhere.
+            </p>
+            <div class="tour-grid">
+                <a class="tour-card" href="login.html">
+                    <div class="tour-thumb">
+                        <svg viewBox="0 0 320 200" xmlns="http://www.w3.org/2000/svg">
+                            <rect width="320" height="200" fill="#152343"/>
+                            <rect x="100" y="50" width="120" height="100" rx="4" fill="#fff"/>
+                            <rect x="112" y="62" width="60" height="8" rx="2" fill="#1a2436"/>
+                            <rect x="112" y="80" width="96" height="10" rx="2" fill="#eef0f3"/>
+                            <rect x="112" y="96" width="96" height="10" rx="2" fill="#eef0f3"/>
+                            <rect x="112" y="116" width="96" height="14" rx="2" fill="#2470bc"/>
+                            <rect x="112" y="138" width="40" height="6" rx="1" fill="#e7e7e7"/>
+                            <rect x="160" y="138" width="40" height="6" rx="1" fill="#e7e7e7"/>
+                        </svg>
+                    </div>
+                    <div class="tour-card-body">
+                        <h3>Login</h3>
+                        <p>Auth screen on the deep-navy demo background. Click Sign In to enter the panel.</p>
+                        <span class="arrow">Sign in →</span>
+                    </div>
+                </a>
+
+                <a class="tour-card" href="dashboard.html">
+                    <div class="tour-thumb">
+                        <svg viewBox="0 0 320 200" xmlns="http://www.w3.org/2000/svg">
+                            <rect width="320" height="200" fill="#f0f2f5"/>
+                            <rect x="0" y="0" width="60" height="200" fill="#fff" stroke="#bdc3c6"/>
+                            <rect x="10" y="14" width="40" height="6" rx="1" fill="#1a2436"/>
+                            <rect x="10" y="42" width="40" height="4" fill="#76848c"/>
+                            <rect x="10" y="54" width="40" height="6" fill="#2470bc"/>
+                            <rect x="10" y="68" width="40" height="6" fill="#e7e7e7"/>
+                            <rect x="10" y="82" width="40" height="6" fill="#e7e7e7"/>
+                            <rect x="60" y="0" width="260" height="20" fill="#fff" stroke="#bdc3c6"/>
+                            <rect x="72" y="6" width="50" height="8" fill="#1a2436"/>
+                            <rect x="72" y="32" width="55" height="34" rx="2" fill="#fff" stroke="#bdc3c6"/>
+                            <rect x="135" y="32" width="55" height="34" rx="2" fill="#fff" stroke="#bdc3c6"/>
+                            <rect x="198" y="32" width="55" height="34" rx="2" fill="#fff" stroke="#bdc3c6"/>
+                            <rect x="261" y="32" width="50" height="34" rx="2" fill="#fff" stroke="#bdc3c6"/>
+                            <rect x="76" y="38" width="22" height="4" fill="#76848c"/>
+                            <rect x="76" y="48" width="30" height="10" fill="#1a2436"/>
+                            <rect x="139" y="38" width="22" height="4" fill="#76848c"/>
+                            <rect x="139" y="48" width="30" height="10" fill="#1a2436"/>
+                            <rect x="72" y="78" width="240" height="50" rx="2" fill="#fff" stroke="#bdc3c6"/>
+                            <rect x="72" y="78" width="240" height="14" fill="#f2f2f2"/>
+                            <rect x="76" y="82" width="60" height="6" fill="#1a2436"/>
+                            <rect x="78" y="100" width="40" height="6" fill="#1a2436"/>
+                            <rect x="124" y="100" width="20" height="5" rx="2" fill="#cce5ff"/>
+                            <rect x="150" y="100" width="20" height="5" rx="2" fill="#d4edda"/>
+                            <rect x="78" y="114" width="40" height="6" fill="#1a2436"/>
+                            <rect x="124" y="114" width="20" height="5" rx="2" fill="#fff3cd"/>
+                        </svg>
+                    </div>
+                    <div class="tour-card-body">
+                        <h3>Dashboard</h3>
+                        <p>KPIs, your CAs, expiring-soon table, recently-issued feed.</p>
+                        <span class="arrow">Open dashboard →</span>
+                    </div>
+                </a>
+
+                <a class="tour-card" href="cas.html">
+                    <div class="tour-thumb">
+                        <svg viewBox="0 0 320 200" xmlns="http://www.w3.org/2000/svg">
+                            <rect width="320" height="200" fill="#f0f2f5"/>
+                            <rect x="20" y="20" width="280" height="80" rx="3" fill="#fff" stroke="#bdc3c6"/>
+                            <rect x="30" y="30" width="100" height="8" fill="#1a2436"/>
+                            <rect x="30" y="46" width="80" height="6" fill="#76848c"/>
+                            <rect x="30" y="60" width="120" height="22" rx="2" fill="#eef0f3"/>
+                            <rect x="158" y="60" width="120" height="22" rx="2" fill="#eef0f3"/>
+                            <rect x="20" y="110" width="280" height="76" rx="3" fill="#fff" stroke="#bdc3c6"/>
+                            <rect x="20" y="110" width="280" height="14" fill="#e7e7e7"/>
+                            <rect x="28" y="132" width="60" height="6" fill="#1a2436"/>
+                            <rect x="100" y="132" width="22" height="6" rx="2" fill="#cce5ff"/>
+                            <rect x="130" y="132" width="40" height="6" fill="#1a2436"/>
+                            <rect x="28" y="148" width="60" height="6" fill="#1a2436"/>
+                            <rect x="100" y="148" width="22" height="6" rx="2" fill="#fff3cd"/>
+                            <rect x="130" y="148" width="40" height="6" fill="#1a2436"/>
+                            <rect x="28" y="164" width="60" height="6" fill="#1a2436"/>
+                            <rect x="100" y="164" width="22" height="6" rx="2" fill="#fff3cd"/>
+                            <rect x="130" y="164" width="40" height="6" fill="#1a2436"/>
+                        </svg>
+                    </div>
+                    <div class="tour-card-body">
+                        <h3>CA list &amp; create form</h3>
+                        <p>Stand up root and intermediate CAs across all four key families.</p>
+                        <span class="arrow">View CAs →</span>
+                    </div>
+                </a>
+
+                <a class="tour-card" href="certificates.html">
+                    <div class="tour-thumb">
+                        <svg viewBox="0 0 320 200" xmlns="http://www.w3.org/2000/svg">
+                            <rect width="320" height="200" fill="#f0f2f5"/>
+                            <rect x="20" y="20" width="280" height="170" rx="3" fill="#fff" stroke="#bdc3c6"/>
+                            <rect x="20" y="20" width="280" height="20" fill="#e7e7e7"/>
+                            <rect x="28" y="26" width="40" height="8" fill="#1a2436"/>
+                            <rect x="76" y="26" width="40" height="8" fill="#1a2436"/>
+                            <rect x="124" y="26" width="40" height="8" fill="#1a2436"/>
+                            <rect x="172" y="26" width="40" height="8" fill="#1a2436"/>
+                            <rect x="220" y="26" width="40" height="8" fill="#1a2436"/>
+                            <rect x="20" y="42" width="280" height="14" fill="#f8f9fa"/>
+                            <rect x="28" y="60" width="60" height="6" fill="#1a2436"/><rect x="172" y="60" width="40" height="6" rx="2" fill="#d4edda"/>
+                            <rect x="28" y="76" width="60" height="6" fill="#1a2436"/><rect x="172" y="76" width="40" height="6" rx="2" fill="#d4edda"/>
+                            <rect x="28" y="92" width="60" height="6" fill="#1a2436"/><rect x="172" y="92" width="40" height="6" rx="2" fill="#fff3cd"/>
+                            <rect x="28" y="108" width="60" height="6" fill="#1a2436"/><rect x="172" y="108" width="40" height="6" rx="2" fill="#f8d7da"/>
+                            <rect x="28" y="124" width="60" height="6" fill="#1a2436"/><rect x="172" y="124" width="40" height="6" rx="2" fill="#d4edda"/>
+                            <rect x="28" y="140" width="60" height="6" fill="#1a2436"/><rect x="172" y="140" width="40" height="6" rx="2" fill="#d4edda"/>
+                            <rect x="28" y="156" width="60" height="6" fill="#1a2436"/><rect x="172" y="156" width="40" height="6" rx="2" fill="#fff3cd"/>
+                            <rect x="28" y="172" width="60" height="6" fill="#1a2436"/><rect x="172" y="172" width="40" height="6" rx="2" fill="#f8d7da"/>
+                        </svg>
+                    </div>
+                    <div class="tour-card-body">
+                        <h3>Issued certs table</h3>
+                        <p>Filterable list with per-column filters, status badges, paginator.</p>
+                        <span class="arrow">Browse certs →</span>
+                    </div>
+                </a>
+
+                <a class="tour-card" href="cert-issue.html">
+                    <div class="tour-thumb">
+                        <svg viewBox="0 0 320 200" xmlns="http://www.w3.org/2000/svg">
+                            <rect width="320" height="200" fill="#f0f2f5"/>
+                            <rect x="20" y="20" width="68" height="20" rx="2" fill="#2470bc"/>
+                            <rect x="92" y="20" width="68" height="20" rx="2" fill="#fff" stroke="#bdc3c6"/>
+                            <rect x="164" y="20" width="68" height="20" rx="2" fill="#fff" stroke="#bdc3c6"/>
+                            <rect x="236" y="20" width="64" height="20" rx="2" fill="#fff" stroke="#bdc3c6"/>
+                            <rect x="20" y="52" width="280" height="138" rx="3" fill="#fff" stroke="#bdc3c6"/>
+                            <rect x="32" y="64" width="80" height="6" fill="#76848c"/>
+                            <rect x="32" y="74" width="256" height="18" rx="2" fill="#eef0f3"/>
+                            <rect x="32" y="100" width="80" height="6" fill="#76848c"/>
+                            <rect x="32" y="110" width="256" height="18" rx="2" fill="#eef0f3"/>
+                            <rect x="32" y="136" width="80" height="6" fill="#76848c"/>
+                            <rect x="32" y="146" width="120" height="18" rx="2" fill="#eef0f3"/>
+                            <rect x="160" y="146" width="128" height="18" rx="2" fill="#eef0f3"/>
+                            <rect x="32" y="172" width="70" height="14" rx="2" fill="#2470bc"/>
+                        </svg>
+                    </div>
+                    <div class="tour-card-body">
+                        <h3>Cert Issue wizard</h3>
+                        <p>Pick CA → profile → fill Subject DN &amp; SAN → issue or import CSR.</p>
+                        <span class="arrow">Run the wizard →</span>
+                    </div>
+                </a>
+
+                <a class="tour-card" href="cert-profiles.html">
+                    <div class="tour-thumb">
+                        <svg viewBox="0 0 320 200" xmlns="http://www.w3.org/2000/svg">
+                            <rect width="320" height="200" fill="#f0f2f5"/>
+                            <rect x="20" y="20" width="280" height="170" rx="3" fill="#fff" stroke="#bdc3c6"/>
+                            <rect x="20" y="20" width="280" height="20" fill="#e7e7e7"/>
+                            <rect x="28" y="26" width="40" height="8" fill="#1a2436"/>
+                            <rect x="76" y="26" width="60" height="8" fill="#1a2436"/>
+                            <rect x="144" y="26" width="80" height="8" fill="#1a2436"/>
+                            <rect x="232" y="26" width="60" height="8" fill="#1a2436"/>
+                            <rect x="28" y="50" width="60" height="6" fill="#1a2436"/><rect x="76" y="50" width="50" height="6" fill="#76848c"/><rect x="144" y="50" width="100" height="6" fill="#76848c"/>
+                            <rect x="28" y="66" width="60" height="6" fill="#1a2436"/><rect x="76" y="66" width="50" height="6" fill="#76848c"/><rect x="144" y="66" width="100" height="6" fill="#76848c"/>
+                            <rect x="28" y="82" width="60" height="6" fill="#1a2436"/><rect x="76" y="82" width="50" height="6" fill="#76848c"/><rect x="144" y="82" width="120" height="6" fill="#76848c"/>
+                            <rect x="28" y="98" width="60" height="6" fill="#1a2436"/><rect x="76" y="98" width="50" height="6" fill="#76848c"/><rect x="144" y="98" width="80" height="6" fill="#76848c"/>
+                            <rect x="28" y="114" width="60" height="6" fill="#1a2436"/><rect x="76" y="114" width="50" height="6" fill="#76848c"/><rect x="144" y="114" width="120" height="6" fill="#76848c"/><rect x="266" y="114" width="22" height="6" rx="2" fill="#fff3cd"/>
+                            <rect x="28" y="130" width="60" height="6" fill="#1a2436"/><rect x="76" y="130" width="50" height="6" fill="#76848c"/><rect x="144" y="130" width="100" height="6" fill="#76848c"/>
+                            <rect x="28" y="146" width="60" height="6" fill="#1a2436"/><rect x="76" y="146" width="50" height="6" fill="#76848c"/><rect x="144" y="146" width="100" height="6" fill="#76848c"/>
+                            <rect x="28" y="162" width="60" height="6" fill="#1a2436"/><rect x="76" y="162" width="50" height="6" fill="#76848c"/><rect x="144" y="162" width="100" height="6" fill="#76848c"/>
+                        </svg>
+                    </div>
+                    <div class="tour-card-body">
+                        <h3>Cert Profiles</h3>
+                        <p>KU / EKU registry, OID-field bindings, the <strong>Copy</strong> clone affordance.</p>
+                        <span class="arrow">Open profiles →</span>
+                    </div>
+                </a>
+
+                <a class="tour-card" href="cert-detail.html">
+                    <div class="tour-thumb">
+                        <svg viewBox="0 0 320 200" xmlns="http://www.w3.org/2000/svg">
+                            <rect width="320" height="200" fill="#f0f2f5"/>
+                            <rect x="20" y="20" width="280" height="44" rx="3" fill="#fff" stroke="#bdc3c6"/>
+                            <rect x="28" y="28" width="120" height="9" fill="#1a2436"/>
+                            <rect x="28" y="42" width="180" height="6" fill="#76848c"/>
+                            <rect x="216" y="34" width="38" height="18" rx="2" fill="#2470bc"/>
+                            <rect x="258" y="34" width="34" height="18" rx="2" fill="#eef0f3"/>
+                            <rect x="20" y="72" width="280" height="60" rx="3" fill="#fff" stroke="#bdc3c6"/>
+                            <rect x="20" y="72" width="280" height="14" fill="#f2f2f2"/>
+                            <rect x="28" y="76" width="80" height="6" fill="#1a2436"/>
+                            <rect x="28" y="94" width="60" height="6" fill="#76848c"/>
+                            <rect x="96" y="94" width="180" height="6" fill="#1a2436"/>
+                            <rect x="28" y="108" width="60" height="6" fill="#76848c"/>
+                            <rect x="96" y="108" width="180" height="6" fill="#1a2436"/>
+                            <rect x="28" y="122" width="60" height="6" fill="#76848c"/>
+                            <rect x="96" y="122" width="120" height="6" fill="#1a2436"/>
+                            <rect x="20" y="140" width="280" height="46" rx="3" fill="#152343" stroke="#1a2436"/>
+                            <rect x="28" y="148" width="120" height="4" fill="#3a4d72"/>
+                            <rect x="28" y="156" width="240" height="4" fill="#3a4d72"/>
+                            <rect x="28" y="164" width="200" height="4" fill="#3a4d72"/>
+                            <rect x="28" y="172" width="180" height="4" fill="#3a4d72"/>
+                        </svg>
+                    </div>
+                    <div class="tour-card-body">
+                        <h3>Certificate detail</h3>
+                        <p>X.509 subject, issuer, extensions, raw PEM, downloads — including <code>.gost.p12</code>.</p>
+                        <span class="arrow">Open a cert →</span>
+                    </div>
+                </a>
+
+                <a class="tour-card" href="configuration.html">
+                    <div class="tour-thumb">
+                        <svg viewBox="0 0 320 200" xmlns="http://www.w3.org/2000/svg">
+                            <rect width="320" height="200" fill="#f0f2f5"/>
+                            <rect x="20" y="20" width="280" height="80" rx="3" fill="#fff" stroke="#bdc3c6"/>
+                            <rect x="28" y="32" width="140" height="8" fill="#1a2436"/>
+                            <rect x="28" y="52" width="100" height="6" fill="#76848c"/>
+                            <rect x="160" y="50" width="34" height="14" rx="7" fill="#2470bc"/>
+                            <circle cx="186" cy="57" r="6" fill="#fff"/>
+                            <rect x="28" y="74" width="100" height="6" fill="#76848c"/>
+                            <rect x="160" y="72" width="34" height="14" rx="7" fill="#bdc3c6"/>
+                            <circle cx="167" cy="79" r="6" fill="#fff"/>
+                            <rect x="20" y="110" width="280" height="80" rx="3" fill="#fff" stroke="#bdc3c6"/>
+                            <rect x="20" y="110" width="280" height="14" fill="#f2f2f2"/>
+                            <rect x="28" y="115" width="100" height="6" fill="#1a2436"/>
+                            <rect x="28" y="134" width="120" height="6" fill="#1a2436"/><rect x="152" y="134" width="120" height="6" fill="#76848c"/>
+                            <rect x="28" y="150" width="120" height="6" fill="#1a2436"/><rect x="152" y="150" width="120" height="6" fill="#76848c"/>
+                            <rect x="28" y="166" width="120" height="6" fill="#1a2436"/><rect x="152" y="166" width="120" height="6" fill="#76848c"/>
+                        </svg>
+                    </div>
+                    <div class="tour-card-body">
+                        <h3>Configuration</h3>
+                        <p>Issuance-mode toggles plus the env-var matrix the dashboard reads at boot.</p>
+                        <span class="arrow">Open config →</span>
+                    </div>
+                </a>
+
+                <a class="tour-card" href="maintenance.html">
+                    <div class="tour-thumb">
+                        <svg viewBox="0 0 320 200" xmlns="http://www.w3.org/2000/svg">
+                            <rect width="320" height="200" fill="#f0f2f5"/>
+                            <rect x="20" y="20" width="280" height="58" rx="3" fill="#fff" stroke="#bdc3c6"/>
+                            <rect x="28" y="32" width="120" height="8" fill="#1a2436"/>
+                            <rect x="28" y="50" width="200" height="6" fill="#76848c"/>
+                            <rect x="28" y="60" width="160" height="6" fill="#76848c"/>
+                            <rect x="20" y="88" width="280" height="58" rx="3" fill="#fff" stroke="#bdc3c6"/>
+                            <rect x="28" y="100" width="80" height="8" fill="#1a2436"/>
+                            <rect x="116" y="100" width="40" height="10" rx="2" fill="#d4edda"/>
+                            <rect x="28" y="118" width="200" height="6" fill="#76848c"/>
+                            <rect x="28" y="130" width="120" height="6" fill="#76848c"/>
+                            <rect x="20" y="156" width="280" height="34" rx="3" fill="#fff" stroke="#bdc3c6"/>
+                            <rect x="28" y="166" width="80" height="14" rx="2" fill="#2470bc"/>
+                            <rect x="116" y="166" width="180" height="14" rx="2" fill="#eef0f3"/>
+                        </svg>
+                    </div>
+                    <div class="tour-card-body">
+                        <h3>Maintenance</h3>
+                        <p>openssl version, gost-engine status, manual metadata refresh.</p>
+                        <span class="arrow">Open maintenance →</span>
+                    </div>
+                </a>
+            </div>
+        </section>
+
+        <section class="section" id="quickstart">
+            <div class="quickstart-wrap">
+                <div>
+                    <div class="section-title">// run it in 90 seconds</div>
+                    <h2>Two compose files. Pick your poison.</h2>
+                    <p style="font-size:14px;color:var(--fi-text-muted);line-height:1.6;max-width:50ch">
+                        <strong>dev_env</strong> mounts the source into the dashboard
+                        container with auto-reload — good for hacking on the panel.
+                        <strong>demo</strong> ships prebuilt images and can be
+                        sneakernet'd onto an air-gapped host as a single tarball.
+                    </p>
+                    <div class="cta-row" style="display:flex;gap:10px;margin-top:20px;flex-wrap:wrap">
+                        <a class="cta-primary" href="https://github.com/ilya-maltsev/ownca/tree/main/demo" target="_blank" rel="noopener">demo/ Compose file <i class="fa fa-external-link"></i></a>
+                        <a class="cta-ghost" href="https://github.com/ilya-maltsev/ownca/tree/main/dev_env" target="_blank" rel="noopener">dev_env/ Compose file</a>
+                    </div>
+                </div>
+                <div class="quickstart">
+                    <div class="qs-tab">
+                        <span class="on">$ bash</span><span>~/ownca/demo</span>
+                    </div>
+                    <div id="qs-code">
+<span class="qs-comment"># clone</span>
+<span class="qs-prompt">$</span> <span class="qs-cmd">git clone</span> https://github.com/ilya-maltsev/ownca.git
+<span class="qs-prompt">$</span> <span class="qs-cmd">cd</span> ownca/demo
+
+<span class="qs-comment"># build CA + dashboard + nginx images</span>
+<span class="qs-prompt">$</span> ./build-images.sh
+
+<span class="qs-comment"># bring up the stack (admin/admin)</span>
+<span class="qs-prompt">$</span> <span class="qs-cmd">docker compose up</span> -d
+
+<span class="qs-comment"># open the panel</span>
+<span class="qs-prompt">$</span> xdg-open https://localhost:8443
+                    </div>
+                    <button class="cta-ghost" data-copy-target="#qs-code" data-copied="✓ copied" style="position:absolute;top:14px;right:14px;background:rgba(255,255,255,0.06);color:#d0d8e8;border-color:rgba(255,255,255,0.12);padding:4px 12px;font-size:11px"><i class="fa fa-clipboard"></i> copy</button>
+                </div>
+            </div>
+        </section>
+
+        <footer class="landing-footer">
+            <div class="row">
+                <div>
+                    <div style="display:flex;gap:8px;align-items:center;margin-bottom:6px">
+                        
+                    </div>
+                    <div>
+                        Educational / lab CA panel. Default credentials are <code>admin/admin</code>.
+                        Don't run this in production untouched.
+                    </div>
+                </div>
+                <div class="row" style="gap:18px">
+                    <a href="https://github.com/ilya-maltsev/ownca"><i class="fa fa-github"></i> source</a>
+                    <a href="https://github.com/gost-engine/engine/pull/527"><i class="fa fa-code-fork"></i> patched gost-engine</a>
+                    <a href="login.html">tour →</a>
+                </div>
+            </div>
+        </footer>
+    </div>
+    <script src="../assets/landing.js"></script>
+</body>
+</html>
