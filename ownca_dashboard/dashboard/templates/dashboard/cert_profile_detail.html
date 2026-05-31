@@ -1,0 +1,243 @@
+{% extends "dashboard/base.html" %}
+{% load i18n %}
+{% block title %}{{ cp.display_name }} - OwnCA{% endblock %}
+{% block page_title %}{% trans "Cert Profile" %}: {{ cp.display_name }}{% endblock %}
+{% block content %}
+
+<div style="margin-bottom:14px;display:flex;gap:8px;flex-wrap:wrap">
+    <a href="{% url 'cert_profiles' %}" class="btn btn-default">&laquo; {% trans "Back to cert profiles" %}</a>
+    <form method="post" action="{% url 'cert_profile_delete' cp.pk %}" style="display:inline" id="delete-cp-form">
+        {% csrf_token %}
+        <button type="button" class="btn btn-default" id="delete-cp-btn" style="color:var(--fi-error);border-color:var(--fi-error)">{% trans "Delete" %}</button>
+    </form>
+    <form method="post" action="{% url 'cert_profile_copy' cp.pk %}" style="display:inline">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-default">{% trans "Copy" %}</button>
+    </form>
+</div>
+
+<div class="import-form">
+    <h3 style="margin-bottom:12px">{% trans "Edit profile" %}</h3>
+    <form method="post">
+        {% csrf_token %}
+        <div style="max-width:700px">
+            <div style="display:grid;grid-template-columns:1fr 2fr;gap:12px 20px;margin-bottom:10px">
+                <div>
+                    <label style="display:block;font-size:11px;color:var(--fi-text-muted);font-weight:700;text-transform:uppercase;margin-bottom:4px">{% trans "Name" %} *</label>
+                    <input type="text" name="name" required value="{{ cp.name }}" pattern="[a-z0-9_]+" style="width:100%;padding:6px 10px;border:1px solid var(--fi-border);border-radius:3px;font-size:13px;font-family:monospace;box-sizing:border-box">
+                </div>
+                <div>
+                    <label style="display:block;font-size:11px;color:var(--fi-text-muted);font-weight:700;text-transform:uppercase;margin-bottom:4px">{% trans "Display name" %} *</label>
+                    <input type="text" name="display_name" required value="{{ cp.display_name }}" style="width:100%;padding:6px 10px;border:1px solid var(--fi-border);border-radius:3px;font-size:13px;font-family:inherit;box-sizing:border-box">
+                </div>
+            </div>
+            <div style="margin-bottom:14px">
+                <label style="display:block;font-size:11px;color:var(--fi-text-muted);font-weight:700;text-transform:uppercase;margin-bottom:4px">{% trans "Description" %}</label>
+                <input type="text" name="description" value="{{ cp.description }}" style="width:100%;padding:6px 10px;border:1px solid var(--fi-border);border-radius:3px;font-size:13px;font-family:inherit;box-sizing:border-box">
+            </div>
+
+            <h4 style="margin:0 0 8px;font-size:12px;color:var(--fi-text-muted);text-transform:uppercase;letter-spacing:0.5px">{% trans "Key Usage" %} (OID 2.5.29.15)</h4>
+            <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:6px 16px;margin-bottom:10px">
+                <label style="font-size:12px;display:flex;gap:5px;align-items:center"><input type="checkbox" name="ku_digital_signature" value="on" {% if cp.ku_digital_signature %}checked{% endif %}> {% trans "Digital signature" %} <span style="font-family:monospace;font-size:10px;color:var(--fi-text-muted)">(0)</span></label>
+                <label style="font-size:12px;display:flex;gap:5px;align-items:center"><input type="checkbox" name="ku_non_repudiation" value="on" {% if cp.ku_non_repudiation %}checked{% endif %}> {% trans "Non-repudiation" %} <span style="font-family:monospace;font-size:10px;color:var(--fi-text-muted)">(1)</span></label>
+                <label style="font-size:12px;display:flex;gap:5px;align-items:center"><input type="checkbox" name="ku_key_encipherment" value="on" {% if cp.ku_key_encipherment %}checked{% endif %}> {% trans "Key encipherment" %} <span style="font-family:monospace;font-size:10px;color:var(--fi-text-muted)">(2)</span></label>
+                <label style="font-size:12px;display:flex;gap:5px;align-items:center"><input type="checkbox" name="ku_data_encipherment" value="on" {% if cp.ku_data_encipherment %}checked{% endif %}> {% trans "Data encipherment" %} <span style="font-family:monospace;font-size:10px;color:var(--fi-text-muted)">(3)</span></label>
+                <label style="font-size:12px;display:flex;gap:5px;align-items:center"><input type="checkbox" name="ku_key_agreement" value="on" {% if cp.ku_key_agreement %}checked{% endif %}> {% trans "Key agreement" %} <span style="font-family:monospace;font-size:10px;color:var(--fi-text-muted)">(4)</span></label>
+                <label style="font-size:12px;display:flex;gap:5px;align-items:center"><input type="checkbox" name="ku_key_cert_sign" value="on" {% if cp.ku_key_cert_sign %}checked{% endif %}> {% trans "Certificate signing" %} <span style="font-family:monospace;font-size:10px;color:var(--fi-text-muted)">(5)</span></label>
+                <label style="font-size:12px;display:flex;gap:5px;align-items:center"><input type="checkbox" name="ku_crl_sign" value="on" {% if cp.ku_crl_sign %}checked{% endif %}> {% trans "CRL signing" %} <span style="font-family:monospace;font-size:10px;color:var(--fi-text-muted)">(6)</span></label>
+                <label style="font-size:12px;display:flex;gap:5px;align-items:center"><input type="checkbox" name="ku_encipher_only" value="on" {% if cp.ku_encipher_only %}checked{% endif %}> {% trans "Encipher only" %} <span style="font-family:monospace;font-size:10px;color:var(--fi-text-muted)">(7)</span></label>
+                <label style="font-size:12px;display:flex;gap:5px;align-items:center"><input type="checkbox" name="ku_decipher_only" value="on" {% if cp.ku_decipher_only %}checked{% endif %}> {% trans "Decipher only" %} <span style="font-family:monospace;font-size:10px;color:var(--fi-text-muted)">(8)</span></label>
+            </div>
+            <div style="display:flex;gap:16px;margin-bottom:14px">
+                <label style="font-size:12px;display:flex;gap:5px;align-items:center"><input type="checkbox" name="ku_critical" value="on" {% if cp.ku_critical %}checked{% endif %}> {% trans "Mark Key Usage as critical" %}</label>
+            </div>
+
+            <h4 style="margin:0 0 8px;font-size:12px;color:var(--fi-text-muted);text-transform:uppercase;letter-spacing:0.5px">{% trans "Extended Key Usage" %} (OID 2.5.29.37)</h4>
+            <div style="margin-bottom:6px">
+                <input type="text" name="eku" value="{{ cp.eku }}" placeholder="serverAuth, clientAuth" style="width:100%;padding:6px 10px;border:1px solid var(--fi-border);border-radius:3px;font-size:13px;font-family:monospace;box-sizing:border-box">
+            </div>
+            <div style="margin-bottom:14px">
+                <label style="font-size:12px;display:flex;gap:5px;align-items:center"><input type="checkbox" name="eku_critical" value="on" {% if cp.eku_critical %}checked{% endif %}> {% trans "Mark EKU as critical" %}</label>
+            </div>
+
+            <h4 style="margin:0 0 8px;font-size:12px;color:var(--fi-text-muted);text-transform:uppercase;letter-spacing:0.5px">{% trans "OID fields from registry" %}</h4>
+            <p style="margin:0 0 8px;font-size:11px;color:var(--fi-text-muted)">{% trans "Select OID field definitions that operators fill in at certificate issuance time." %}</p>
+            <div id="oid-field-list" style="margin-bottom:10px"></div>
+            <div style="display:flex;gap:8px;align-items:center;margin-bottom:14px">
+                <select id="oid-add-select" style="padding:5px 8px;border:1px solid var(--fi-border);border-radius:3px;font-size:12px;box-sizing:border-box"></select>
+                <button type="button" id="oid-add-btn" class="btn btn-default" style="padding:4px 10px;font-size:12px">+ {% trans "Add" %}</button>
+            </div>
+            <input type="hidden" name="oid_fields_json" id="oid-fields-json" value="">
+
+            <h4 style="margin:0 0 8px;font-size:12px;color:var(--fi-text-muted);text-transform:uppercase;letter-spacing:0.5px">{% trans "Name Constraints" %} (OID 2.5.29.30)</h4>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:6px">
+                <div>
+                    <label style="display:block;font-size:11px;color:var(--fi-text-muted);margin-bottom:4px">{% trans "Permitted (one per line, e.g. DNS:.example.org)" %}</label>
+                    <textarea name="name_constraints_permitted" rows="3" style="width:100%;padding:6px 10px;border:1px solid var(--fi-border);border-radius:3px;font-size:12px;font-family:monospace;box-sizing:border-box;resize:vertical">{{ cp.name_constraints_permitted }}</textarea>
+                </div>
+                <div>
+                    <label style="display:block;font-size:11px;color:var(--fi-text-muted);margin-bottom:4px">{% trans "Excluded (one per line)" %}</label>
+                    <textarea name="name_constraints_excluded" rows="3" style="width:100%;padding:6px 10px;border:1px solid var(--fi-border);border-radius:3px;font-size:12px;font-family:monospace;box-sizing:border-box;resize:vertical">{{ cp.name_constraints_excluded }}</textarea>
+                </div>
+            </div>
+            <div style="margin-bottom:14px">
+                <label style="font-size:12px;display:flex;gap:5px;align-items:center"><input type="checkbox" name="name_constraints_critical" value="on" {% if cp.name_constraints_critical %}checked{% endif %}> {% trans "nameConstraints critical" %}</label>
+            </div>
+
+            <h4 style="margin:0 0 8px;font-size:12px;color:var(--fi-text-muted);text-transform:uppercase;letter-spacing:0.5px">{% trans "Policy Constraints / Inhibit Any-Policy" %}</h4>
+            <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:14px">
+                <div>
+                    <label style="display:block;font-size:11px;color:var(--fi-text-muted);margin-bottom:4px">{% trans "Require explicit policy" %}</label>
+                    <input type="number" min="0" name="policy_constraints_require_explicit" value="{{ cp.policy_constraints_require_explicit|default_if_none:'' }}" style="width:100%;padding:6px 10px;border:1px solid var(--fi-border);border-radius:3px;font-size:12px;box-sizing:border-box">
+                </div>
+                <div>
+                    <label style="display:block;font-size:11px;color:var(--fi-text-muted);margin-bottom:4px">{% trans "Inhibit policy mapping" %}</label>
+                    <input type="number" min="0" name="policy_constraints_inhibit_mapping" value="{{ cp.policy_constraints_inhibit_mapping|default_if_none:'' }}" style="width:100%;padding:6px 10px;border:1px solid var(--fi-border);border-radius:3px;font-size:12px;box-sizing:border-box">
+                </div>
+                <div>
+                    <label style="display:block;font-size:11px;color:var(--fi-text-muted);margin-bottom:4px">{% trans "Inhibit any-policy" %}</label>
+                    <input type="number" min="0" name="inhibit_any_policy" value="{{ cp.inhibit_any_policy|default_if_none:'' }}" style="width:100%;padding:6px 10px;border:1px solid var(--fi-border);border-radius:3px;font-size:12px;box-sizing:border-box">
+                </div>
+            </div>
+
+            <h4 style="margin:0 0 8px;font-size:12px;color:var(--fi-text-muted);text-transform:uppercase;letter-spacing:0.5px">{% trans "Distribution-point overrides (blank = inherit from CA)" %}</h4>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px">
+                <div>
+                    <label style="display:block;font-size:11px;color:var(--fi-text-muted);margin-bottom:4px">{% trans "CRL URL" %}</label>
+                    <input type="url" name="crl_url" value="{{ cp.crl_url }}" style="width:100%;padding:6px 10px;border:1px solid var(--fi-border);border-radius:3px;font-size:12px;font-family:monospace;box-sizing:border-box">
+                </div>
+                <div>
+                    <label style="display:block;font-size:11px;color:var(--fi-text-muted);margin-bottom:4px">{% trans "AIA URL" %}</label>
+                    <input type="url" name="aia_url" value="{{ cp.aia_url }}" style="width:100%;padding:6px 10px;border:1px solid var(--fi-border);border-radius:3px;font-size:12px;font-family:monospace;box-sizing:border-box">
+                </div>
+                <div>
+                    <label style="display:block;font-size:11px;color:var(--fi-text-muted);margin-bottom:4px">{% trans "OCSP URL" %}</label>
+                    <input type="url" name="ocsp_url" value="{{ cp.ocsp_url }}" style="width:100%;padding:6px 10px;border:1px solid var(--fi-border);border-radius:3px;font-size:12px;font-family:monospace;box-sizing:border-box">
+                </div>
+                <div>
+                    <label style="display:block;font-size:11px;color:var(--fi-text-muted);margin-bottom:4px">{% trans "SIA URL" %}</label>
+                    <input type="url" name="sia_url" value="{{ cp.sia_url }}" style="width:100%;padding:6px 10px;border:1px solid var(--fi-border);border-radius:3px;font-size:12px;font-family:monospace;box-sizing:border-box">
+                </div>
+                <div style="grid-column:1/-1">
+                    <label style="display:block;font-size:11px;color:var(--fi-text-muted);margin-bottom:4px">{% trans "Delta-CRL URL" %}</label>
+                    <input type="url" name="freshest_crl_url" value="{{ cp.freshest_crl_url }}" style="width:100%;padding:6px 10px;border:1px solid var(--fi-border);border-radius:3px;font-size:12px;font-family:monospace;box-sizing:border-box">
+                </div>
+            </div>
+
+            <h4 style="margin:0 0 8px;font-size:12px;color:var(--fi-text-muted);text-transform:uppercase;letter-spacing:0.5px">{% trans "Subject / Authority Key Identifiers" %}</h4>
+            <div style="display:flex;gap:18px;flex-wrap:wrap;margin-bottom:14px">
+                <label style="font-size:12px;display:flex;gap:5px;align-items:center"><input type="checkbox" name="include_subject_key_identifier" value="on" {% if cp.include_subject_key_identifier %}checked{% endif %}> {% trans "Include subjectKeyIdentifier" %}</label>
+                <label style="font-size:12px;display:flex;gap:5px;align-items:center"><input type="checkbox" name="include_authority_key_identifier" value="on" {% if cp.include_authority_key_identifier %}checked{% endif %}> {% trans "Include authorityKeyIdentifier" %}</label>
+                <label style="font-size:12px;display:flex;gap:5px;align-items:center"><input type="checkbox" name="aki_include_issuer" value="on" {% if cp.aki_include_issuer %}checked{% endif %}> {% trans "AKI include issuer:always" %}</label>
+            </div>
+
+            <h4 style="margin:0 0 8px;font-size:12px;color:var(--fi-text-muted);text-transform:uppercase;letter-spacing:0.5px">{% trans "Extra extensions" %}</h4>
+            <textarea name="extra_extensions" rows="3" style="width:100%;padding:6px 10px;border:1px solid var(--fi-border);border-radius:3px;font-size:12px;font-family:monospace;box-sizing:border-box;resize:vertical">{{ cp.extra_extensions }}</textarea>
+
+            <div style="margin-top:6px;margin-bottom:14px">
+                <label style="font-size:12px;display:flex;gap:5px;align-items:center"><input type="checkbox" name="is_ca_profile" value="on" {% if cp.is_ca_profile %}checked{% endif %}> {% trans "CA profile (basicConstraints CA:TRUE)" %}</label>
+            </div>
+
+            <button type="submit" class="btn btn-primary">{% trans "Save profile" %}</button>
+        </div>
+    </form>
+</div>
+
+<div class="panel">
+    <div class="panel-header">{% trans "Preview" %}</div>
+    <div class="panel-body">
+        <pre style="font-family:monospace;font-size:11px;color:var(--fi-text);background:#f8f9fa;padding:10px;border:1px solid var(--fi-border);border-radius:3px;overflow:auto;margin:0">{% for line in preview %}{{ line }}
+{% endfor %}</pre>
+    </div>
+</div>
+
+<div class="panel" style="margin-top:20px">
+    <div class="panel-header">{% trans "Usage" %}</div>
+    <div class="panel-body">
+        <div class="detail-row"><div class="detail-label">{% trans "Certificates using this profile" %}</div><div class="detail-value">{{ certs_using }}</div></div>
+        <div class="detail-row"><div class="detail-label">{% trans "Pending requests using this profile" %}</div><div class="detail-value">{{ requests_using }}</div></div>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block scripts %}
+<script>
+$('#delete-cp-btn').click(function() {
+    showConfirm('{% trans "Delete this certificate profile?" %}', function() {
+        $('#delete-cp-form').submit();
+    }, '{% trans "Delete profile" %}');
+});
+
+// ─── OID field selector (edit form) ───────────────────────────────────
+(function() {
+    var allDefs = {{ all_oid_defs_json|safe }};
+    var assigned = {{ assigned_oids_json|safe }};
+    var $list = $('#oid-field-list');
+    var $json = $('#oid-fields-json');
+    var $addSelect = $('#oid-add-select');
+
+    function syncJson() {
+        var result = [];
+        $list.find('.oid-row').each(function() {
+            result.push({
+                id: parseInt($(this).data('oid-id')),
+                required: $(this).find('.oid-req').is(':checked'),
+            });
+        });
+        $json.val(JSON.stringify(result));
+    }
+
+    function rebuildAddSelect() {
+        var usedIds = {};
+        $list.find('.oid-row').each(function() { usedIds[$(this).data('oid-id')] = true; });
+        $addSelect.empty();
+        allDefs.forEach(function(d) {
+            if (!usedIds[d.id]) {
+                var text = d.label + (d.oid ? ' (' + d.oid + ')' : '') + ' — ' + d.placement;
+                $addSelect.append($('<option>').val(d.id).text(text));
+            }
+        });
+        $('#oid-add-btn').prop('disabled', !$addSelect.find('option').length);
+    }
+
+    function defById(id) {
+        for (var i = 0; i < allDefs.length; i++) {
+            if (allDefs[i].id === id) return allDefs[i];
+        }
+        return null;
+    }
+
+    function addRow(id, required) {
+        var d = defById(id);
+        if (!d) return;
+        var oidHint = d.oid ? '<span style="font-family:monospace;color:var(--fi-text-muted)">(' + $('<div>').text(d.oid).html() + ')</span>' : '';
+        var html = '<div class="oid-row" data-oid-id="' + d.id + '" style="display:flex;gap:10px;align-items:center;margin-bottom:6px;padding:6px 10px;border:1px solid var(--fi-border);border-radius:3px;background:var(--fi-surface-muted,#fafafa)">' +
+            '<span style="font-size:13px;font-weight:600">' + $('<div>').text(d.label).html() + '</span> ' + oidHint +
+            ' <span class="badge" style="font-size:10px">' + $('<div>').text(d.placement).html() + '</span>' +
+            '<label style="margin-left:auto;font-size:11px;display:flex;gap:4px;align-items:center;white-space:nowrap"><input type="checkbox" class="oid-req"' + (required ? ' checked' : '') + '> {% trans "required" %}</label>' +
+            '<button type="button" class="oid-del btn btn-default" style="padding:2px 8px;font-size:14px;line-height:1;color:var(--fi-error);border-color:var(--fi-error)">&times;</button>' +
+            '</div>';
+        $list.append(html);
+        rebuildAddSelect();
+        syncJson();
+    }
+
+    // Init from existing assignments
+    assigned.forEach(function(a) { addRow(a.id, a.required); });
+    rebuildAddSelect();
+
+    $('#oid-add-btn').on('click', function() {
+        var id = parseInt($addSelect.val());
+        if (id) addRow(id, false);
+    });
+    $list.on('click', '.oid-del', function() {
+        $(this).closest('.oid-row').remove();
+        rebuildAddSelect();
+        syncJson();
+    });
+    $list.on('change', '.oid-req', syncJson);
+    $('form').on('submit', syncJson);
+})();
+</script>
+{% endblock %}

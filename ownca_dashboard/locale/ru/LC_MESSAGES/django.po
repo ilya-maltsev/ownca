@@ -1,0 +1,2532 @@
+msgid ""
+msgstr ""
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-05-30 17:23+0000\n"
+"Language: ru\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Plural-Forms: nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
+"n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || "
+"(n%100>=11 && n%100<=14)? 2 : 3);\n"
+
+#: config/settings.py:101
+msgid "Russian"
+msgstr "Русский"
+
+#: config/settings.py:102
+msgid "English"
+msgstr "Английский"
+
+#
+# ── Error Pages ───────────────────────────────────────────
+#
+#: dashboard/templates/dashboard/403.html:3
+#: dashboard/templates/dashboard/403.html:4
+#: dashboard/templates/dashboard/403.html:9
+msgid "Access Denied"
+msgstr "Доступ запрещён"
+
+#: dashboard/templates/dashboard/403.html:10
+msgid ""
+"You do not have sufficient permissions to access this page. Contact your "
+"administrator if you believe this is an error."
+msgstr ""
+"У вас недостаточно прав для доступа к этой странице. Обратитесь к "
+"администратору, если считаете, что это ошибка."
+
+#: dashboard/templates/dashboard/403.html:11
+msgid "Back to Dashboard"
+msgstr "Вернуться на главную"
+
+#: dashboard/templates/dashboard/base.html:17
+msgid "Collapse menu"
+msgstr "Свернуть меню"
+
+#: dashboard/templates/dashboard/base.html:17
+msgid "Expand menu"
+msgstr "Развернуть меню"
+
+#: dashboard/templates/dashboard/base.html:19
+msgid "Monitor"
+msgstr "Мониторинг"
+
+#: dashboard/templates/dashboard/base.html:20
+#: dashboard/templates/dashboard/base.html:21
+#: dashboard/templates/dashboard/base.html:79
+#: dashboard/templates/dashboard/dashboard.html:3
+#: dashboard/templates/dashboard/dashboard.html:4
+msgid "Dashboard"
+msgstr "Сводка"
+
+#
+# ── Sidebar / Navigation ─────────────────────────────────
+#
+#: dashboard/templates/dashboard/base.html:24
+msgid "Certificate Operations"
+msgstr "Операции с сертификатами"
+
+#: dashboard/templates/dashboard/base.html:25
+#: dashboard/templates/dashboard/base.html:26
+#: dashboard/templates/dashboard/certificates.html:3
+#: dashboard/templates/dashboard/certificates.html:4
+msgid "Certificates"
+msgstr "Сертификаты"
+
+#: dashboard/templates/dashboard/base.html:28
+#: dashboard/templates/dashboard/base.html:29
+#: dashboard/templates/dashboard/custom_cert_issue.html:3
+#: dashboard/templates/dashboard/custom_cert_issue.html:4
+msgid "Cert Issue"
+msgstr "Выпуск сертификата"
+
+#: dashboard/templates/dashboard/base.html:32
+msgid "Certification Authority"
+msgstr "Удостоверяющий центр"
+
+#: dashboard/templates/dashboard/base.html:33
+#: dashboard/templates/dashboard/base.html:34
+#: dashboard/templates/dashboard/cas.html:3
+#: dashboard/templates/dashboard/dashboard.html:9
+msgid "Authorities"
+msgstr "Центры сертификации"
+
+#: dashboard/templates/dashboard/base.html:36
+#: dashboard/templates/dashboard/base.html:37
+#: dashboard/templates/dashboard/cert_profiles.html:3
+msgid "Cert Profiles"
+msgstr "Профили сертификатов"
+
+#: dashboard/templates/dashboard/base.html:39
+msgid "System"
+msgstr "Система"
+
+#: dashboard/templates/dashboard/base.html:40
+#: dashboard/templates/dashboard/base.html:41
+#: dashboard/templates/dashboard/configuration.html:3
+#: dashboard/templates/dashboard/configuration.html:4
+msgid "Configuration"
+msgstr "Конфигурация"
+
+#: dashboard/templates/dashboard/base.html:43
+#: dashboard/templates/dashboard/base.html:44
+#: dashboard/templates/dashboard/maintenance.html:3
+#: dashboard/templates/dashboard/maintenance.html:4
+msgid "Maintenance"
+msgstr "Обслуживание"
+
+#: dashboard/templates/dashboard/base.html:47
+msgid "Language"
+msgstr "Язык"
+
+#: dashboard/templates/dashboard/base.html:63
+#: dashboard/templates/dashboard/base.html:64
+#: dashboard/templates/dashboard/base.html:66
+msgid "Help"
+msgstr "Справка"
+
+#: dashboard/templates/dashboard/base.html:72
+msgid "Logout"
+msgstr "Выход"
+
+#: dashboard/templates/dashboard/base.html:98
+#: dashboard/templates/dashboard/base.html:130
+msgid "Confirmation"
+msgstr "Подтверждение"
+
+#: dashboard/templates/dashboard/base.html:104
+#: dashboard/templates/dashboard/cert_detail.html:59
+#: dashboard/templates/dashboard/cert_detail.html:77
+#: dashboard/templates/dashboard/cert_detail.html:98
+#: dashboard/templates/dashboard/custom_cert_issue.html:190
+msgid "Cancel"
+msgstr "Отмена"
+
+#: dashboard/templates/dashboard/base.html:105
+msgid "Confirm"
+msgstr "Подтвердить"
+
+#: dashboard/templates/dashboard/base.html:169
+msgid "Filter:"
+msgstr "Фильтр:"
+
+#: dashboard/templates/dashboard/base.html:170
+msgid "Show _MENU_ entries"
+msgstr "Показать _MENU_ записей"
+
+#: dashboard/templates/dashboard/base.html:171
+msgid "Showing _START_ to _END_ of _TOTAL_ entries"
+msgstr "Записи с _START_ по _END_ из _TOTAL_"
+
+#: dashboard/templates/dashboard/base.html:172
+msgid "No entries"
+msgstr "Нет записей"
+
+#: dashboard/templates/dashboard/base.html:173
+msgid "filtered from _MAX_ total"
+msgstr "отфильтровано из _MAX_"
+
+#: dashboard/templates/dashboard/base.html:174
+msgid "No matching records found"
+msgstr "Совпадений не найдено"
+
+#: dashboard/templates/dashboard/base.html:175
+msgid "No data available"
+msgstr "Нет данных"
+
+#: dashboard/templates/dashboard/base.html:177
+msgid "Previous"
+msgstr "Назад"
+
+#: dashboard/templates/dashboard/base.html:178
+#: dashboard/templates/dashboard/custom_cert_issue.html:188
+msgid "Next"
+msgstr "Вперёд"
+
+#: dashboard/templates/dashboard/ca_detail.html:4
+msgid "Authority"
+msgstr "Центр сертификации"
+
+#: dashboard/templates/dashboard/ca_detail.html:8
+msgid "Back to authorities"
+msgstr "К списку центров сертификации"
+
+#: dashboard/templates/dashboard/ca_detail.html:9
+msgid "Download CA cert"
+msgstr "Скачать сертификат УЦ"
+
+#: dashboard/templates/dashboard/ca_detail.html:10
+msgid "Download CRL"
+msgstr "Скачать CRL"
+
+#: dashboard/templates/dashboard/ca_detail.html:13
+msgid "Regenerate CRL"
+msgstr "Перегенерировать CRL"
+
+#: dashboard/templates/dashboard/ca_detail.html:17
+#: dashboard/templates/dashboard/cert_detail.html:26
+#: dashboard/templates/dashboard/cert_profile_detail.html:11
+msgid "Delete"
+msgstr "Удалить"
+
+#: dashboard/templates/dashboard/ca_detail.html:22
+msgid "Authority details"
+msgstr "Параметры центра сертификации"
+
+#: dashboard/templates/dashboard/ca_detail.html:24
+#: dashboard/templates/dashboard/cas.html:13
+#: dashboard/templates/dashboard/cas.html:113
+#: dashboard/templates/dashboard/cert_profile_detail.html:26
+#: dashboard/templates/dashboard/cert_profiles.html:15
+#: dashboard/templates/dashboard/cert_profiles.html:76
+#: dashboard/templates/dashboard/dashboard.html:36
+msgid "Name"
+msgstr "Имя"
+
+#: dashboard/templates/dashboard/ca_detail.html:25
+#: dashboard/templates/dashboard/cas.html:21
+#: dashboard/templates/dashboard/cas.html:114
+#: dashboard/templates/dashboard/dashboard.html:37
+msgid "Type"
+msgstr "Тип"
+
+#: dashboard/templates/dashboard/ca_detail.html:29
+#: dashboard/templates/dashboard/cas.html:29
+msgid "Parent CA"
+msgstr "Родительский УЦ"
+
+#: dashboard/templates/dashboard/ca_detail.html:31
+#: dashboard/templates/dashboard/cas.html:38
+#: dashboard/templates/dashboard/cas.html:116
+#: dashboard/templates/dashboard/cert_detail.html:116
+#: dashboard/templates/dashboard/certificates.html:32
+#: dashboard/templates/dashboard/custom_cert_issue.html:54
+#: dashboard/templates/dashboard/dashboard.html:38
+msgid "Algorithm"
+msgstr "Алгоритм"
+
+#: dashboard/templates/dashboard/ca_detail.html:32
+#: dashboard/templates/dashboard/cert_detail.html:117
+#: dashboard/templates/dashboard/custom_cert_issue.html:85
+msgid "Subject"
+msgstr "Субъект"
+
+#: dashboard/templates/dashboard/ca_detail.html:33
+#: dashboard/templates/dashboard/ca_detail.html:93
+#: dashboard/templates/dashboard/cert_detail.html:118
+#: dashboard/templates/dashboard/cert_detail.html:153
+#: dashboard/templates/dashboard/certificates.html:33
+msgid "Serial"
+msgstr "Серийный номер"
+
+#: dashboard/templates/dashboard/ca_detail.html:34
+#: dashboard/templates/dashboard/cert_detail.html:119
+msgid "SHA-256 Fingerprint"
+msgstr "Отпечаток SHA-256"
+
+#: dashboard/templates/dashboard/ca_detail.html:35
+#: dashboard/templates/dashboard/cert_detail.html:120
+#: dashboard/templates/dashboard/cert_detail.html:154
+msgid "Valid From"
+msgstr "Действителен с"
+
+#: dashboard/templates/dashboard/ca_detail.html:36
+#: dashboard/templates/dashboard/ca_detail.html:94
+#: dashboard/templates/dashboard/cas.html:118
+#: dashboard/templates/dashboard/cert_detail.html:121
+#: dashboard/templates/dashboard/cert_detail.html:155
+#: dashboard/templates/dashboard/certificates.html:34
+#: dashboard/templates/dashboard/dashboard.html:42
+#: dashboard/templates/dashboard/dashboard.html:70
+#: dashboard/templates/dashboard/dashboard.html:98
+msgid "Valid Until"
+msgstr "Действителен до"
+
+#: dashboard/templates/dashboard/ca_detail.html:37
+#: dashboard/templates/dashboard/ca_detail.html:87
+#: dashboard/templates/dashboard/cert_profiles.html:93
+msgid "Issued certificates"
+msgstr "Выпущенные сертификаты"
+
+#: dashboard/templates/dashboard/ca_detail.html:37
+msgid "active"
+msgstr "активных"
+
+#: dashboard/templates/dashboard/ca_detail.html:37
+msgid "revoked"
+msgstr "отозванных"
+
+#: dashboard/templates/dashboard/ca_detail.html:38
+msgid "Current CRL number"
+msgstr "Текущий номер CRL"
+
+#: dashboard/templates/dashboard/ca_detail.html:39
+msgid "CRL Distribution Point"
+msgstr "Точка распространения CRL"
+
+#: dashboard/templates/dashboard/ca_detail.html:40
+msgid "AIA caIssuers"
+msgstr "AIA caIssuers"
+
+#: dashboard/templates/dashboard/ca_detail.html:41
+msgid "OCSP responder"
+msgstr "OCSP-ответчик"
+
+#: dashboard/templates/dashboard/ca_detail.html:42
+msgid "SIA caRepository"
+msgstr "SIA caRepository"
+
+#: dashboard/templates/dashboard/ca_detail.html:43
+msgid "freshestCRL"
+msgstr "freshestCRL"
+
+#: dashboard/templates/dashboard/ca_detail.html:44
+#: dashboard/templates/dashboard/custom_cert_issue.html:456
+msgid "issuerAltName"
+msgstr "issuerAltName"
+
+#: dashboard/templates/dashboard/ca_detail.html:49
+#: dashboard/templates/dashboard/custom_cert_issue.html:450
+msgid "Distribution points"
+msgstr "Точки распространения"
+
+#: dashboard/templates/dashboard/ca_detail.html:51
+msgid ""
+"URLs embedded in every certificate issued from this CA. A profile may "
+"override individual values; an empty field omits that extension."
+msgstr ""
+"URL-адреса, встраиваемые в каждый сертификат, выпущенный этим УЦ. Профиль "
+"может переопределить отдельные значения; пустое поле исключает расширение."
+
+#: dashboard/templates/dashboard/ca_detail.html:57
+#: dashboard/templates/dashboard/cas.html:57
+msgid "CRL Distribution Point URL"
+msgstr "URL точки распространения CRL"
+
+#: dashboard/templates/dashboard/ca_detail.html:61
+msgid "AIA caIssuers URL"
+msgstr "URL сертификата издателя (AIA)"
+
+#: dashboard/templates/dashboard/ca_detail.html:65
+#: dashboard/templates/dashboard/cas.html:65
+msgid "OCSP responder URL"
+msgstr "URL OCSP-респондера"
+
+#: dashboard/templates/dashboard/ca_detail.html:69
+#: dashboard/templates/dashboard/cas.html:69
+msgid "SIA caRepository URL"
+msgstr "URL репозитория (SIA)"
+
+#: dashboard/templates/dashboard/ca_detail.html:73
+#: dashboard/templates/dashboard/cas.html:73
+msgid "Freshest CRL (delta) URL"
+msgstr "URL дельта-CRL"
+
+#: dashboard/templates/dashboard/ca_detail.html:77
+#: dashboard/templates/dashboard/cas.html:77
+msgid "issuerAltName entries (one per line)"
+msgstr "Альтернативные имена издателя (по одному на строку)"
+
+#: dashboard/templates/dashboard/ca_detail.html:81
+msgid "Save distribution points"
+msgstr "Сохранить точки распространения"
+
+#: dashboard/templates/dashboard/ca_detail.html:91
+#: dashboard/templates/dashboard/cas.html:17
+#: dashboard/templates/dashboard/cert_detail.html:108
+#: dashboard/templates/dashboard/certificates.html:29
+#: dashboard/templates/dashboard/custom_cert_issue.html:88
+#: dashboard/templates/dashboard/dashboard.html:67
+#: dashboard/templates/dashboard/dashboard.html:95
+msgid "Common Name"
+msgstr "Общее имя (CN)"
+
+#: dashboard/templates/dashboard/ca_detail.html:92
+#: dashboard/templates/dashboard/cert_detail.html:115
+#: dashboard/templates/dashboard/certificates.html:31
+#: dashboard/templates/dashboard/custom_cert_issue.html:32
+#: dashboard/templates/dashboard/dashboard.html:69
+#: dashboard/templates/dashboard/dashboard.html:97
+msgid "Profile"
+msgstr "Профиль"
+
+#: dashboard/templates/dashboard/ca_detail.html:95
+#: dashboard/templates/dashboard/cas.html:119
+#: dashboard/templates/dashboard/cert_detail.html:109
+#: dashboard/templates/dashboard/cert_detail.html:156
+#: dashboard/templates/dashboard/certificates.html:16
+#: dashboard/templates/dashboard/certificates.html:35
+#: dashboard/templates/dashboard/dashboard.html:99
+msgid "Status"
+msgstr "Статус"
+
+#: dashboard/templates/dashboard/ca_detail.html:105
+#: dashboard/templates/dashboard/cas.html:131
+#: dashboard/templates/dashboard/cert_detail.html:110
+#: dashboard/templates/dashboard/cert_detail.html:165
+#: dashboard/templates/dashboard/certificates.html:19
+#: dashboard/templates/dashboard/certificates.html:47
+#: dashboard/templates/dashboard/dashboard.html:16
+#: dashboard/templates/dashboard/dashboard.html:40
+#: dashboard/templates/dashboard/dashboard.html:110
+msgid "Active"
+msgstr "Активен"
+
+#: dashboard/templates/dashboard/ca_detail.html:106
+#: dashboard/templates/dashboard/cert_detail.html:111
+#: dashboard/templates/dashboard/cert_detail.html:166
+#: dashboard/templates/dashboard/certificates.html:20
+#: dashboard/templates/dashboard/certificates.html:48
+#: dashboard/templates/dashboard/dashboard.html:19
+#: dashboard/templates/dashboard/dashboard.html:41
+#: dashboard/templates/dashboard/dashboard.html:111
+msgid "Revoked"
+msgstr "Отозванные"
+
+#: dashboard/templates/dashboard/ca_detail.html:107
+#: dashboard/templates/dashboard/cert_detail.html:112
+#: dashboard/templates/dashboard/cert_detail.html:167
+#: dashboard/templates/dashboard/certificates.html:21
+#: dashboard/templates/dashboard/certificates.html:49
+#: dashboard/templates/dashboard/dashboard.html:24
+#: dashboard/templates/dashboard/dashboard.html:112
+msgid "Expired"
+msgstr "Просроченные"
+
+#: dashboard/templates/dashboard/ca_detail.html:111
+msgid "No certificates issued yet"
+msgstr "Сертификаты ещё не выпущены"
+
+#: dashboard/templates/dashboard/ca_detail.html:120
+#: dashboard/templates/dashboard/cert_detail.html:179
+msgid "X.509 details"
+msgstr "Детали X.509"
+
+#: dashboard/templates/dashboard/ca_detail.html:132
+msgid "Delete this CA permanently? This removes the cert and key from disk."
+msgstr "Удалить этот УЦ навсегда? Сертификат и ключ будут удалены с диска."
+
+#: dashboard/templates/dashboard/ca_detail.html:134
+msgid "Delete CA"
+msgstr "Удалить УЦ"
+
+#
+# ── Certificate Authorities ────────────────────────────────
+#
+#: dashboard/templates/dashboard/cas.html:4
+#: dashboard/templates/dashboard/dashboard.html:32
+msgid "Certificate Authorities"
+msgstr "Центры сертификации"
+
+#: dashboard/templates/dashboard/cas.html:8
+msgid "Create new authority"
+msgstr "Создать новый центр сертификации"
+
+#: dashboard/templates/dashboard/cas.html:46
+#: dashboard/templates/dashboard/custom_cert_issue.html:68
+msgid "Validity (days)"
+msgstr "Срок действия (дней)"
+
+#: dashboard/templates/dashboard/cas.html:50
+msgid "Path length"
+msgstr "Длина цепочки (pathlen)"
+
+#: dashboard/templates/dashboard/cas.html:54
+msgid "Distribution points (embedded in issued certs)"
+msgstr "Точки распространения (встраиваются в выпускаемые сертификаты)"
+
+#: dashboard/templates/dashboard/cas.html:61
+msgid "Authority Info Access (caIssuers URL)"
+msgstr "URL сертификата издателя (AIA)"
+
+#: dashboard/templates/dashboard/cas.html:81
+msgid "Subject DN (optional fields)"
+msgstr "Subject DN (необязательные поля)"
+
+#: dashboard/templates/dashboard/cas.html:84
+#: dashboard/templates/dashboard/custom_cert_issue.html:92
+msgid "Country"
+msgstr "Страна"
+
+#: dashboard/templates/dashboard/cas.html:88
+#: dashboard/templates/dashboard/custom_cert_issue.html:96
+msgid "State"
+msgstr "Регион"
+
+#: dashboard/templates/dashboard/cas.html:92
+#: dashboard/templates/dashboard/custom_cert_issue.html:100
+msgid "Locality"
+msgstr "Город"
+
+#: dashboard/templates/dashboard/cas.html:96
+#: dashboard/templates/dashboard/custom_cert_issue.html:104
+msgid "Organization"
+msgstr "Организация"
+
+#: dashboard/templates/dashboard/cas.html:100
+#: dashboard/templates/dashboard/custom_cert_issue.html:108
+msgid "Unit"
+msgstr "Подразделение"
+
+#: dashboard/templates/dashboard/cas.html:105
+msgid "Create CA"
+msgstr "Создать УЦ"
+
+#: dashboard/templates/dashboard/cas.html:115
+msgid "Parent"
+msgstr "Родитель"
+
+#: dashboard/templates/dashboard/cas.html:117
+#: dashboard/templates/dashboard/dashboard.html:39
+msgid "Issued"
+msgstr "Выпущено"
+
+#: dashboard/templates/dashboard/cas.html:132
+msgid "Disabled"
+msgstr "Отключено"
+
+#
+# ── Certificates ───────────────────────────────────────────
+#
+#: dashboard/templates/dashboard/cert_detail.html:4
+msgid "Certificate"
+msgstr "Сертификат"
+
+#: dashboard/templates/dashboard/cert_detail.html:8
+msgid "Back to certificates"
+msgstr "К списку сертификатов"
+
+#: dashboard/templates/dashboard/cert_detail.html:9
+msgid "Download cert"
+msgstr "Скачать сертификат"
+
+#: dashboard/templates/dashboard/cert_detail.html:11
+msgid "Download key"
+msgstr "Скачать ключ"
+
+#: dashboard/templates/dashboard/cert_detail.html:13
+msgid "Download CSR"
+msgstr "Скачать CSR"
+
+#: dashboard/templates/dashboard/cert_detail.html:14
+msgid "Download PEM bundle"
+msgstr "Скачать PEM-бандл"
+
+#: dashboard/templates/dashboard/cert_detail.html:16
+msgid "Export PKCS#12"
+msgstr "Экспорт PKCS#12"
+
+#: dashboard/templates/dashboard/cert_detail.html:19
+#: dashboard/templates/dashboard/cert_detail.html:76
+msgid "Renew"
+msgstr "Продлить"
+
+#: dashboard/templates/dashboard/cert_detail.html:22
+msgid "Revoke"
+msgstr "Отозвать"
+
+#: dashboard/templates/dashboard/cert_detail.html:32
+msgid "Export PKCS#12 bundle"
+msgstr "Экспорт бандла PKCS#12"
+
+#: dashboard/templates/dashboard/cert_detail.html:34
+msgid ""
+"The bundle (.p12) will contain the certificate, the private key and the full "
+"CA chain. The passphrase is required to decrypt the key in the importing "
+"system."
+msgstr ""
+"Бандл (.p12) будет содержать сертификат, закрытый ключ и полную цепочку УЦ. "
+"Парольная фраза потребуется для расшифровки ключа в импортирующей системе."
+
+#: dashboard/templates/dashboard/cert_detail.html:38
+msgid "Passphrase"
+msgstr "Парольная фраза"
+
+#: dashboard/templates/dashboard/cert_detail.html:41
+msgid "Show/hide password"
+msgstr "Показать/скрыть пароль"
+
+#: dashboard/templates/dashboard/cert_detail.html:47
+msgid "TK-26 format (RFC 9548)"
+msgstr "TK-26 формат (RFC 9548)"
+
+#: dashboard/templates/dashboard/cert_detail.html:50
+msgid "Cipher"
+msgstr "Шифр"
+
+#: dashboard/templates/dashboard/cert_detail.html:58
+msgid "Download .p12"
+msgstr "Скачать .p12"
+
+#: dashboard/templates/dashboard/cert_detail.html:68
+msgid "Renew certificate"
+msgstr "Продление сертификата"
+
+#: dashboard/templates/dashboard/cert_detail.html:70
+msgid ""
+"A new certificate will be signed reusing the same CSR (and private key, if "
+"stored) under a new serial number. The original certificate is left "
+"unchanged."
+msgstr ""
+"Будет подписан новый сертификат на основе существующего CSR (и закрытого "
+"ключа, если он хранится на сервере) с новым серийным номером. Исходный "
+"сертификат останется без изменений."
+
+#: dashboard/templates/dashboard/cert_detail.html:74
+msgid "New validity (days)"
+msgstr "Новый срок действия (дней)"
+
+#: dashboard/templates/dashboard/cert_detail.html:86
+msgid "Revoke certificate"
+msgstr "Отзыв сертификата"
+
+#: dashboard/templates/dashboard/cert_detail.html:91
+#: dashboard/templates/dashboard/cert_detail.html:138
+msgid "Reason"
+msgstr "Причина"
+
+#: dashboard/templates/dashboard/cert_detail.html:97
+msgid "Confirm revocation"
+msgstr "Подтвердить отзыв"
+
+#: dashboard/templates/dashboard/cert_detail.html:106
+msgid "Certificate details"
+msgstr "Параметры сертификата"
+
+#: dashboard/templates/dashboard/cert_detail.html:114
+#: dashboard/templates/dashboard/certificates.html:30
+#: dashboard/templates/dashboard/custom_cert_issue.html:24
+#: dashboard/templates/dashboard/dashboard.html:68
+#: dashboard/templates/dashboard/dashboard.html:96
+msgid "Issuer CA"
+msgstr "Издатель (УЦ)"
+
+#: dashboard/templates/dashboard/cert_detail.html:123
+msgid "DNS SANs"
+msgstr "DNS SAN"
+
+#: dashboard/templates/dashboard/cert_detail.html:126
+msgid "IP SANs"
+msgstr "IP SAN"
+
+#: dashboard/templates/dashboard/cert_detail.html:133
+msgid "Private key"
+msgstr "Закрытый ключ"
+
+#: dashboard/templates/dashboard/cert_detail.html:134
+msgid "Stored"
+msgstr "Хранится на сервере"
+
+#: dashboard/templates/dashboard/cert_detail.html:134
+msgid "Not stored (external CSR)"
+msgstr "Не хранится (внешний CSR)"
+
+#: dashboard/templates/dashboard/cert_detail.html:137
+msgid "Revoked at"
+msgstr "Отозван"
+
+#: dashboard/templates/dashboard/cert_detail.html:141
+msgid "Renewed from"
+msgstr "Продлён из"
+
+#: dashboard/templates/dashboard/cert_detail.html:143
+msgid "Created"
+msgstr "Создан"
+
+#: dashboard/templates/dashboard/cert_detail.html:149
+msgid "Renewals issued from this certificate"
+msgstr "Продления, выпущенные из этого сертификата"
+
+#: dashboard/templates/dashboard/cert_detail.html:211
+msgid ""
+"Delete this certificate from the index? Files will be removed from disk."
+msgstr "Удалить этот сертификат из индекса? Файлы будут удалены с диска."
+
+#: dashboard/templates/dashboard/cert_detail.html:213
+msgid "Delete certificate"
+msgstr "Удалить сертификат"
+
+#
+# ── Certificate Profiles (CertProfile) ───────────────────
+#
+#: dashboard/templates/dashboard/cert_profile_detail.html:4
+msgid "Cert Profile"
+msgstr "Профиль сертификата"
+
+#: dashboard/templates/dashboard/cert_profile_detail.html:8
+msgid "Back to cert profiles"
+msgstr "К списку профилей сертификатов"
+
+#: dashboard/templates/dashboard/cert_profile_detail.html:15
+msgid "Copy"
+msgstr "Копировать"
+
+#: dashboard/templates/dashboard/cert_profile_detail.html:20
+msgid "Edit profile"
+msgstr "Редактирование профиля"
+
+#: dashboard/templates/dashboard/cert_profile_detail.html:30
+#: dashboard/templates/dashboard/cert_profiles.html:19
+#: dashboard/templates/dashboard/cert_profiles.html:77
+msgid "Display name"
+msgstr "Отображаемое имя"
+
+#: dashboard/templates/dashboard/cert_profile_detail.html:35
+#: dashboard/templates/dashboard/cert_profiles.html:24
+#: dashboard/templates/dashboard/cert_profiles.html:78
+#: dashboard/templates/dashboard/configuration.html:104
+msgid "Description"
+msgstr "Описание"
+
+#: dashboard/templates/dashboard/cert_profile_detail.html:39
+#: dashboard/templates/dashboard/cert_profiles.html:28
+#: dashboard/templates/dashboard/cert_profiles.html:79
+#: dashboard/templates/dashboard/custom_cert_issue.html:139
+#: dashboard/templates/dashboard/custom_cert_issue.html:448
+msgid "Key Usage"
+msgstr "Использование ключа"
+
+#
+# ── Key Usage bits ────────────────────────────────────────
+#
+#: dashboard/templates/dashboard/cert_profile_detail.html:41
+#: dashboard/templates/dashboard/cert_profiles.html:30
+#: dashboard/templates/dashboard/custom_cert_issue.html:402
+#: dashboard/views.py:1028
+msgid "Digital signature"
+msgstr "Цифровая подпись"
+
+#: dashboard/templates/dashboard/cert_profile_detail.html:42
+#: dashboard/templates/dashboard/cert_profiles.html:31
+#: dashboard/templates/dashboard/custom_cert_issue.html:403
+#: dashboard/views.py:1029
+msgid "Non-repudiation"
+msgstr "Неотрекаемость"
+
+#: dashboard/templates/dashboard/cert_profile_detail.html:43
+#: dashboard/templates/dashboard/cert_profiles.html:32
+#: dashboard/templates/dashboard/custom_cert_issue.html:404
+#: dashboard/views.py:1030
+msgid "Key encipherment"
+msgstr "Шифрование ключей"
+
+#: dashboard/templates/dashboard/cert_profile_detail.html:44
+#: dashboard/templates/dashboard/cert_profiles.html:33
+#: dashboard/templates/dashboard/custom_cert_issue.html:405
+#: dashboard/views.py:1031
+msgid "Data encipherment"
+msgstr "Шифрование данных"
+
+#: dashboard/templates/dashboard/cert_profile_detail.html:45
+#: dashboard/templates/dashboard/cert_profiles.html:34
+#: dashboard/templates/dashboard/custom_cert_issue.html:406
+#: dashboard/views.py:1032
+msgid "Key agreement"
+msgstr "Согласование ключей"
+
+#: dashboard/templates/dashboard/cert_profile_detail.html:46
+#: dashboard/templates/dashboard/cert_profiles.html:35
+#: dashboard/templates/dashboard/custom_cert_issue.html:407
+#: dashboard/views.py:1033
+msgid "Certificate signing"
+msgstr "Подпись сертификатов"
+
+#: dashboard/templates/dashboard/cert_profile_detail.html:47
+#: dashboard/templates/dashboard/cert_profiles.html:36
+#: dashboard/templates/dashboard/custom_cert_issue.html:408
+#: dashboard/views.py:1034
+msgid "CRL signing"
+msgstr "Подпись CRL"
+
+#: dashboard/templates/dashboard/cert_profile_detail.html:48
+#: dashboard/templates/dashboard/cert_profiles.html:37
+#: dashboard/templates/dashboard/custom_cert_issue.html:409
+#: dashboard/views.py:1035
+msgid "Encipher only"
+msgstr "Только шифрование"
+
+#: dashboard/templates/dashboard/cert_profile_detail.html:49
+#: dashboard/templates/dashboard/cert_profiles.html:38
+#: dashboard/templates/dashboard/custom_cert_issue.html:410
+#: dashboard/views.py:1036
+msgid "Decipher only"
+msgstr "Только расшифровка"
+
+#: dashboard/templates/dashboard/cert_profile_detail.html:52
+#: dashboard/templates/dashboard/cert_profiles.html:41
+#: dashboard/templates/dashboard/custom_cert_issue.html:146
+msgid "Mark Key Usage as critical"
+msgstr "Пометить Key Usage как критическое"
+
+#: dashboard/templates/dashboard/cert_profile_detail.html:55
+#: dashboard/templates/dashboard/cert_profiles.html:44
+#: dashboard/templates/dashboard/cert_profiles.html:80
+#: dashboard/templates/dashboard/custom_cert_issue.html:149
+#: dashboard/templates/dashboard/custom_cert_issue.html:449
+msgid "Extended Key Usage"
+msgstr "Расширенное использование ключа"
+
+#: dashboard/templates/dashboard/cert_profile_detail.html:60
+#: dashboard/templates/dashboard/cert_profiles.html:49
+#: dashboard/templates/dashboard/custom_cert_issue.html:152
+msgid "Mark EKU as critical"
+msgstr "Пометить EKU как критическое"
+
+#: dashboard/templates/dashboard/cert_profile_detail.html:63
+#: dashboard/templates/dashboard/cert_profiles.html:52
+msgid "OID fields from registry"
+msgstr "OID-поля из реестра"
+
+#: dashboard/templates/dashboard/cert_profile_detail.html:64
+#: dashboard/templates/dashboard/cert_profiles.html:53
+#, fuzzy
+#| msgid ""
+#| "Select OID field definitions that operators fill in at certificate "
+#| "issuance time. Manage definitions on the"
+msgid ""
+"Select OID field definitions that operators fill in at certificate issuance "
+"time."
+msgstr ""
+"Выберите определения OID-полей, которые операторы заполняют при выпуске "
+"сертификата. Управление определениями на странице"
+
+#: dashboard/templates/dashboard/cert_profile_detail.html:68
+#: dashboard/templates/dashboard/cert_profiles.html:57
+msgid "Add"
+msgstr "Добавить"
+
+#: dashboard/templates/dashboard/cert_profile_detail.html:72
+#: dashboard/templates/dashboard/custom_cert_issue.html:457
+msgid "Name Constraints"
+msgstr "Ограничения имён"
+
+#: dashboard/templates/dashboard/cert_profile_detail.html:75
+msgid "Permitted (one per line, e.g. DNS:.example.org)"
+msgstr "Разрешённые (по одному на строку, напр. DNS:.example.org)"
+
+#: dashboard/templates/dashboard/cert_profile_detail.html:79
+msgid "Excluded (one per line)"
+msgstr "Исключённые (по одному на строку)"
+
+#: dashboard/templates/dashboard/cert_profile_detail.html:84
+msgid "nameConstraints critical"
+msgstr "nameConstraints критичное"
+
+#: dashboard/templates/dashboard/cert_profile_detail.html:87
+msgid "Policy Constraints / Inhibit Any-Policy"
+msgstr "Policy Constraints / Inhibit Any-Policy"
+
+#
+# ── Policy Constraints labels ─────────────────────────────
+#
+#: dashboard/templates/dashboard/cert_profile_detail.html:90
+msgid "Require explicit policy"
+msgstr "Требовать явную политику"
+
+#: dashboard/templates/dashboard/cert_profile_detail.html:94
+msgid "Inhibit policy mapping"
+msgstr "Запретить отображение политик"
+
+#: dashboard/templates/dashboard/cert_profile_detail.html:98
+msgid "Inhibit any-policy"
+msgstr "Запретить any-policy"
+
+#: dashboard/templates/dashboard/cert_profile_detail.html:103
+msgid "Distribution-point overrides (blank = inherit from CA)"
+msgstr "Переопределение точек распространения (пусто = наследовать от УЦ)"
+
+#
+# ── Distribution-point override labels (profile) ─────────
+#
+#: dashboard/templates/dashboard/cert_profile_detail.html:106
+#: dashboard/templates/dashboard/custom_cert_issue.html:157
+#: dashboard/templates/dashboard/custom_cert_issue.html:451
+msgid "CRL URL"
+msgstr "URL CRL"
+
+#: dashboard/templates/dashboard/cert_profile_detail.html:110
+#: dashboard/templates/dashboard/custom_cert_issue.html:159
+#: dashboard/templates/dashboard/custom_cert_issue.html:452
+msgid "AIA URL"
+msgstr "URL AIA"
+
+#: dashboard/templates/dashboard/cert_profile_detail.html:114
+#: dashboard/templates/dashboard/custom_cert_issue.html:161
+#: dashboard/templates/dashboard/custom_cert_issue.html:453
+msgid "OCSP URL"
+msgstr "URL OCSP"
+
+#: dashboard/templates/dashboard/cert_profile_detail.html:118
+#: dashboard/templates/dashboard/custom_cert_issue.html:163
+#: dashboard/templates/dashboard/custom_cert_issue.html:454
+msgid "SIA URL"
+msgstr "URL SIA"
+
+#: dashboard/templates/dashboard/cert_profile_detail.html:122
+#: dashboard/templates/dashboard/custom_cert_issue.html:165
+#: dashboard/templates/dashboard/custom_cert_issue.html:455
+msgid "Delta-CRL URL"
+msgstr "URL дельта-CRL"
+
+#: dashboard/templates/dashboard/cert_profile_detail.html:127
+#: dashboard/templates/dashboard/custom_cert_issue.html:169
+msgid "Subject / Authority Key Identifiers"
+msgstr "Идентификаторы ключа субъекта / издателя"
+
+#: dashboard/templates/dashboard/cert_profile_detail.html:129
+#: dashboard/templates/dashboard/custom_cert_issue.html:171
+msgid "Include subjectKeyIdentifier"
+msgstr "Включать subjectKeyIdentifier"
+
+#: dashboard/templates/dashboard/cert_profile_detail.html:130
+#: dashboard/templates/dashboard/custom_cert_issue.html:172
+msgid "Include authorityKeyIdentifier"
+msgstr "Включать authorityKeyIdentifier"
+
+#: dashboard/templates/dashboard/cert_profile_detail.html:131
+#: dashboard/templates/dashboard/custom_cert_issue.html:173
+msgid "AKI include issuer:always"
+msgstr "AKI с issuer:always"
+
+#: dashboard/templates/dashboard/cert_profile_detail.html:134
+#: dashboard/templates/dashboard/cert_profiles.html:61
+#: dashboard/templates/dashboard/custom_cert_issue.html:466
+msgid "Extra extensions"
+msgstr "Дополнительные расширения"
+
+#: dashboard/templates/dashboard/cert_profile_detail.html:138
+#: dashboard/templates/dashboard/cert_profiles.html:65
+msgid "CA profile (basicConstraints CA:TRUE)"
+msgstr "Профиль УЦ (basicConstraints CA:TRUE)"
+
+#: dashboard/templates/dashboard/cert_profile_detail.html:141
+msgid "Save profile"
+msgstr "Сохранить профиль"
+
+#: dashboard/templates/dashboard/cert_profile_detail.html:147
+msgid "Preview"
+msgstr "Предпросмотр"
+
+#: dashboard/templates/dashboard/cert_profile_detail.html:155
+msgid "Usage"
+msgstr "Использование"
+
+#: dashboard/templates/dashboard/cert_profile_detail.html:157
+msgid "Certificates using this profile"
+msgstr "Сертификаты с этим профилем"
+
+#: dashboard/templates/dashboard/cert_profile_detail.html:158
+msgid "Pending requests using this profile"
+msgstr "Заявки с этим профилем"
+
+#: dashboard/templates/dashboard/cert_profile_detail.html:167
+msgid "Delete this certificate profile?"
+msgstr "Удалить этот профиль сертификата?"
+
+#: dashboard/templates/dashboard/cert_profile_detail.html:169
+msgid "Delete profile"
+msgstr "Удалить профиль"
+
+#: dashboard/templates/dashboard/cert_profile_detail.html:218
+#: dashboard/templates/dashboard/cert_profiles.html:150
+#: dashboard/templates/dashboard/custom_cert_issue.html:464
+msgid "required"
+msgstr "обязательно"
+
+#: dashboard/templates/dashboard/cert_profiles.html:4
+msgid "Certificate Profiles"
+msgstr "Профили сертификатов"
+
+#: dashboard/templates/dashboard/cert_profiles.html:8
+msgid "Create certificate profile"
+msgstr "Создать профиль сертификата"
+
+#: dashboard/templates/dashboard/cert_profiles.html:9
+msgid ""
+"A certificate profile defines the Key Usage bits, Extended Key Usage OIDs, "
+"and any extra extensions that will be embedded in issued certificates."
+msgstr ""
+"Профиль сертификата определяет биты Key Usage, OID-ы Extended Key Usage и "
+"дополнительные расширения, которые будут встроены в выпускаемые сертификаты."
+
+#: dashboard/templates/dashboard/cert_profiles.html:25
+msgid "Short description shown to operators"
+msgstr "Краткое описание для операторов"
+
+#
+# ── CA Profiles ────────────────────────────────────────────
+#
+#: dashboard/templates/dashboard/cert_profiles.html:68
+msgid "Create profile"
+msgstr "Создать профиль"
+
+#: dashboard/templates/dashboard/base.html:16
+#: dashboard/templates/dashboard/cert_profiles.html:81
+#: dashboard/templates/dashboard/certificates.html:9
+msgid "CA"
+msgstr "УЦ"
+
+#: dashboard/templates/dashboard/base.html:16
+msgid "Own"
+msgstr "Свой"
+
+#: dashboard/templates/dashboard/cert_profiles.html:82
+msgid "In use"
+msgstr "Используется"
+
+#: dashboard/templates/dashboard/cert_profiles.html:93
+msgid "Pending requests"
+msgstr "Ожидающие заявки"
+
+#: dashboard/templates/dashboard/certificates.html:11
+#: dashboard/templates/dashboard/certificates.html:18
+msgid "All"
+msgstr "Все"
+
+#: dashboard/templates/dashboard/configuration.html:8
+#, fuzzy
+#| msgid "Issued"
+msgid "Issuance modes"
+msgstr "Режимы выпуска"
+
+#: dashboard/templates/dashboard/configuration.html:14
+msgid "Allow server-side key generation"
+msgstr "Разрешить генерацию ключей на сервере"
+
+#: dashboard/templates/dashboard/configuration.html:15
+msgid "If disabled, only uploaded CSRs are accepted."
+msgstr "Если выключено, принимаются только загружаемые CSR."
+
+#: dashboard/templates/dashboard/configuration.html:26
+msgid "Allow GOST keys"
+msgstr "Разрешить ГОСТ-ключи"
+
+#: dashboard/templates/dashboard/configuration.html:27
+msgid "Requires OWNCA_GOST_ENGINE=on."
+msgstr "Требует OWNCA_GOST_ENGINE=on."
+
+#: dashboard/templates/dashboard/configuration.html:37
+msgid "Allow RSA keys"
+msgstr "Разрешить RSA-ключи"
+
+#: dashboard/templates/dashboard/configuration.html:46
+msgid "Allow ECDSA / Ed25519"
+msgstr "Разрешить ECDSA / Ed25519"
+
+#: dashboard/templates/dashboard/configuration.html:56
+msgid "Offer"
+msgstr "Предлагать экспорт"
+
+#: dashboard/templates/dashboard/configuration.html:56
+msgid "export"
+msgstr ""
+
+#: dashboard/templates/dashboard/configuration.html:67
+msgid "Allow free-form certificate issuance"
+msgstr "Разрешить редактирование профилей"
+
+#: dashboard/templates/dashboard/configuration.html:68
+msgid ""
+"When enabled, cert-profile constraints (KU, EKU, extensions, OIDs) can be "
+"bypassed."
+msgstr ""
+"Если включено, ограничения профиля сертификата (KU, EKU, расширения, OID) "
+"можно обходить."
+
+#: dashboard/templates/dashboard/configuration.html:78
+msgid "Save settings"
+msgstr "Сохранить настройки"
+
+#: dashboard/templates/dashboard/configuration.html:85
+msgid "defaults"
+msgstr "— настройки по умолчанию"
+
+#: dashboard/templates/dashboard/configuration.html:88
+msgid ""
+"These defaults are read from environment variables (OWNCA_*) at startup. "
+"Edit your dev_env or demo .env files and restart the service to change them."
+msgstr ""
+"Настройки считываются из переменных окружения (OWNCA_*) при запуске. Для "
+"изменения отредактируйте .env файлы dev_env или demo и перезапустите сервис."
+
+#: dashboard/templates/dashboard/configuration.html:90
+#: dashboard/templates/dashboard/maintenance.html:21
+msgid "Storage directory"
+msgstr "Каталог хранения"
+
+#: dashboard/templates/dashboard/configuration.html:91
+msgid "Default key algorithm"
+msgstr "Алгоритм ключей по умолчанию"
+
+#: dashboard/templates/dashboard/configuration.html:92
+msgid "Default CA validity (days)"
+msgstr "Срок действия УЦ по умолчанию (дней)"
+
+#: dashboard/templates/dashboard/configuration.html:93
+msgid "Default cert validity (days)"
+msgstr "Срок действия сертификата по умолчанию (дней)"
+
+#: dashboard/templates/dashboard/configuration.html:94
+msgid "CRL distribution URL"
+msgstr "URL раздачи CRL"
+
+#: dashboard/templates/dashboard/configuration.html:99
+msgid "Environment variables"
+msgstr "Переменные окружения"
+
+#: dashboard/templates/dashboard/configuration.html:103
+msgid "Variable"
+msgstr "Переменная"
+
+#: dashboard/templates/dashboard/configuration.html:107
+msgid "Filesystem path where CA and cert material is stored"
+msgstr "Путь к каталогу хранения материалов УЦ и сертификатов"
+
+#: dashboard/templates/dashboard/configuration.html:108
+msgid "Path to the openssl binary (gost-engine loaded via OPENSSL_CONF)"
+msgstr ""
+"Путь к бинарному файлу openssl (gost-engine загружается через OPENSSL_CONF)"
+
+#: dashboard/templates/dashboard/configuration.html:109
+msgid "Default key algorithm for new CAs and certs"
+msgstr "Алгоритм ключей по умолчанию для новых УЦ и сертификатов"
+
+#: dashboard/templates/dashboard/configuration.html:110
+msgid "Default CA validity in days"
+msgstr "Срок действия УЦ по умолчанию (в днях)"
+
+#: dashboard/templates/dashboard/configuration.html:111
+msgid "Default end-entity cert validity in days"
+msgstr "Срок действия сертификатов по умолчанию (в днях)"
+
+#: dashboard/templates/dashboard/configuration.html:112
+msgid "Public URL where CRLs will be served (informational)"
+msgstr "Публичный URL для раздачи CRL (информационно)"
+
+#: dashboard/templates/dashboard/configuration.html:113
+msgid "Path to openssl.cnf that loads gost-engine"
+msgstr "Путь к openssl.cnf, загружающему gost-engine"
+
+#: dashboard/templates/dashboard/custom_cert_issue.html:8
+msgid "Issue certificate (free-form)"
+msgstr "Выпуск сертификата (свободная форма)"
+
+#: dashboard/templates/dashboard/custom_cert_issue.html:10
+msgid ""
+"Pick an issuing CA and optional profile, then fill in any combination of Key "
+"Usage bits, EKU values, distribution-point URLs, custom OIDs, and raw "
+"openssl extension lines. The certificate is issued immediately."
+msgstr ""
+"Выберите выпускающий УЦ и при необходимости профиль, затем задайте любую "
+"комбинацию битов Key Usage, значений EKU, URL точек распространения, "
+"кастомных OID и сырых строк расширений openssl. Сертификат будет выпущен "
+"сразу."
+
+#: dashboard/templates/dashboard/custom_cert_issue.html:13
+msgid "CA & profile"
+msgstr "УЦ и профиль"
+
+#: dashboard/templates/dashboard/custom_cert_issue.html:14
+msgid "Attributes"
+msgstr "Атрибуты"
+
+#: dashboard/templates/dashboard/custom_cert_issue.html:15
+msgid "Extensions & issue"
+msgstr "Расширения и выпуск"
+
+#: dashboard/templates/dashboard/custom_cert_issue.html:21
+msgid "Issuer & profile"
+msgstr "Издатель и профиль"
+
+#
+# ── CA Profiles ────────────────────────────────────────────
+#
+#: dashboard/templates/dashboard/custom_cert_issue.html:35
+#: dashboard/templates/dashboard/custom_cert_issue.html:673
+msgid "Free-form (no profile)"
+msgstr "Свободный (без профиля)"
+
+#: dashboard/templates/dashboard/custom_cert_issue.html:43
+msgid "Effective profile details"
+msgstr "Применяемые настройки профиля"
+
+#: dashboard/templates/dashboard/custom_cert_issue.html:47
+msgid "Profile-defined OID values"
+msgstr ""
+
+#: dashboard/templates/dashboard/custom_cert_issue.html:51
+msgid "Key & validity"
+msgstr "Ключ и срок действия"
+
+#: dashboard/templates/dashboard/custom_cert_issue.html:64
+msgid "GOST paramset"
+msgstr "Параметры ГОСТ"
+
+#: dashboard/templates/dashboard/custom_cert_issue.html:76
+msgid "External CSR (optional)"
+msgstr "Внешний CSR (опционально)"
+
+#: dashboard/templates/dashboard/custom_cert_issue.html:77
+msgid ""
+"Upload a CSR to use an externally generated key pair. Leave empty to "
+"generate the key server-side."
+msgstr ""
+
+#: dashboard/templates/dashboard/custom_cert_issue.html:79
+#, fuzzy
+#| msgid "External CSR (from request)"
+msgid "External CSR (required)"
+msgstr "Внешний CSR (из заявки)"
+
+#: dashboard/templates/dashboard/custom_cert_issue.html:80
+#: dashboard/templates/dashboard/custom_cert_issue.html:248
+msgid ""
+"Server-side key generation is disabled. An external CSR must be provided."
+msgstr ""
+"Генерация ключей на сервере отключена. Необходимо загрузить внешний CSR."
+
+#: dashboard/templates/dashboard/custom_cert_issue.html:113
+msgid "Subject Alternative Names"
+msgstr "Альтернативные имена субъекта"
+
+#: dashboard/templates/dashboard/custom_cert_issue.html:116
+msgid "DNS names"
+msgstr "DNS-имена"
+
+#: dashboard/templates/dashboard/custom_cert_issue.html:120
+msgid "IP addresses"
+msgstr "IP-адреса"
+
+#: dashboard/templates/dashboard/custom_cert_issue.html:124
+msgid "Email addresses"
+msgstr "E-mail адреса"
+
+#: dashboard/templates/dashboard/custom_cert_issue.html:128
+msgid "URIs"
+msgstr "URI"
+
+#: dashboard/templates/dashboard/custom_cert_issue.html:132
+msgid "otherName entries (one per line, openssl format)"
+msgstr "Записи otherName (по одной на строку, формат openssl)"
+
+#: dashboard/templates/dashboard/custom_cert_issue.html:155
+msgid "Distribution-point overrides (blank = inherit from issuing CA)"
+msgstr "Переопределение точек распространения (пусто = унаследовать от УЦ)"
+
+#: dashboard/templates/dashboard/custom_cert_issue.html:176
+msgid "Custom OID values"
+msgstr "Значения кастомных OID"
+
+#: dashboard/templates/dashboard/custom_cert_issue.html:177
+msgid ""
+"Add ad-hoc OIDs to embed as critical or non-critical extensions. Each row "
+"becomes one openssl line."
+msgstr ""
+
+#: dashboard/templates/dashboard/custom_cert_issue.html:179
+msgid "Add OID"
+msgstr "Добавить OID"
+
+#: dashboard/templates/dashboard/custom_cert_issue.html:181
+msgid "Extra openssl extension lines"
+msgstr "Дополнительные строки расширений openssl"
+
+#: dashboard/templates/dashboard/custom_cert_issue.html:182
+msgid ""
+"Raw openssl.cnf extension lines, one per line. Used verbatim in the extfile."
+msgstr ""
+
+#: dashboard/templates/dashboard/custom_cert_issue.html:187
+msgid "Back"
+msgstr "Назад"
+
+#: dashboard/templates/dashboard/custom_cert_issue.html:189
+msgid "Issue certificate"
+msgstr "Выпустить сертификат"
+
+#: dashboard/templates/dashboard/custom_cert_issue.html:413
+msgid "TLS Web Server Authentication"
+msgstr "Аутентификация TLS-сервера"
+
+#: dashboard/templates/dashboard/custom_cert_issue.html:414
+msgid "TLS Web Client Authentication"
+msgstr "Аутентификация TLS-клиента"
+
+#: dashboard/templates/dashboard/custom_cert_issue.html:415
+msgid "Code Signing"
+msgstr "Подпись кода"
+
+#: dashboard/templates/dashboard/custom_cert_issue.html:416
+msgid "E-mail Protection"
+msgstr "Защита электронной почты"
+
+#: dashboard/templates/dashboard/custom_cert_issue.html:417
+msgid "Time Stamping"
+msgstr "Метка времени"
+
+#: dashboard/templates/dashboard/custom_cert_issue.html:418
+msgid "OCSP Signing"
+msgstr "Подпись OCSP-ответов"
+
+#: dashboard/templates/dashboard/custom_cert_issue.html:419
+msgid "Any Extended Key Usage"
+msgstr "Любое расширенное использование ключа"
+
+#: dashboard/templates/dashboard/custom_cert_issue.html:425
+msgid "Extension"
+msgstr "Расширение"
+
+#: dashboard/templates/dashboard/custom_cert_issue.html:426
+msgid "SAN DNS name"
+msgstr "SAN DNS-имя"
+
+#: dashboard/templates/dashboard/custom_cert_issue.html:427
+msgid "SAN IP address"
+msgstr "SAN IP-адрес"
+
+#: dashboard/templates/dashboard/custom_cert_issue.html:428
+msgid "SAN email"
+msgstr "SAN e-mail"
+
+#: dashboard/templates/dashboard/custom_cert_issue.html:429
+msgid "SAN URI"
+msgstr "SAN URI"
+
+#: dashboard/templates/dashboard/custom_cert_issue.html:430
+msgid "SAN otherName"
+msgstr "SAN otherName"
+
+#: dashboard/templates/dashboard/custom_cert_issue.html:443
+msgid "from CA"
+msgstr "из УЦ"
+
+#
+# ── CA Profiles ────────────────────────────────────────────
+#
+#: dashboard/templates/dashboard/custom_cert_issue.html:444
+msgid "from profile"
+msgstr "из профиля"
+
+#: dashboard/templates/dashboard/custom_cert_issue.html:445
+msgid "(not set)"
+msgstr "(не задано)"
+
+#: dashboard/templates/dashboard/custom_cert_issue.html:446
+msgid "critical"
+msgstr "критическое"
+
+#: dashboard/templates/dashboard/custom_cert_issue.html:447
+msgid "non-critical"
+msgstr "некритическое"
+
+#: dashboard/templates/dashboard/custom_cert_issue.html:458
+msgid "permitted"
+msgstr "разрешённые"
+
+#: dashboard/templates/dashboard/custom_cert_issue.html:459
+msgid "excluded"
+msgstr "исключённые"
+
+#: dashboard/templates/dashboard/custom_cert_issue.html:460
+msgid "Key identifiers"
+msgstr "Идентификаторы ключа"
+
+#: dashboard/templates/dashboard/custom_cert_issue.html:461
+msgid "subjectKeyIdentifier"
+msgstr "subjectKeyIdentifier"
+
+#: dashboard/templates/dashboard/custom_cert_issue.html:462
+msgid "authorityKeyIdentifier"
+msgstr "authorityKeyIdentifier"
+
+#: dashboard/templates/dashboard/custom_cert_issue.html:463
+msgid "OID field inputs (filled below)"
+msgstr "Поля OID (заполняются ниже)"
+
+#: dashboard/templates/dashboard/custom_cert_issue.html:465
+msgid "optional"
+msgstr "опционально"
+
+#: dashboard/templates/dashboard/custom_cert_issue.html:467
+msgid "Preview (openssl extension lines)"
+msgstr "Предпросмотр (строки расширений openssl)"
+
+#: dashboard/templates/dashboard/custom_cert_issue.html:468
+msgid "This profile issues CA certificates (basicConstraints CA:TRUE)"
+msgstr "Этот профиль выпускает сертификаты УЦ (basicConstraints CA:TRUE)"
+
+#: dashboard/templates/dashboard/custom_cert_issue.html:469
+msgid "(none)"
+msgstr "(нет)"
+
+#: dashboard/templates/dashboard/custom_cert_issue.html:525
+msgid "KU set in form but not in profile (will be dropped)"
+msgstr "KU указаны в форме, но отсутствуют в профиле (будут отброшены)"
+
+#: dashboard/templates/dashboard/custom_cert_issue.html:526
+msgid "KU added by profile but not set in form"
+msgstr "KU добавлены профилем, но не указаны в форме"
+
+#: dashboard/templates/dashboard/custom_cert_issue.html:527
+msgid "EKU set in form but not in profile (will be dropped)"
+msgstr "EKU указаны в форме, но отсутствуют в профиле (будут отброшены)"
+
+#: dashboard/templates/dashboard/custom_cert_issue.html:528
+msgid "EKU added by profile but not set in form"
+msgstr "EKU добавлены профилем, но не указаны в форме"
+
+#: dashboard/templates/dashboard/custom_cert_issue.html:531
+msgid "Form Key Usage / EKU does not match the selected Certificate Profile"
+msgstr "Key Usage / EKU из формы не совпадают с выбранным профилем сертификата"
+
+#: dashboard/templates/dashboard/custom_cert_issue.html:533
+msgid ""
+"At signing, KU and EKU come from the profile — values set in the form are "
+"ignored. Pick a profile whose KU/EKU matches your inputs, or update the "
+"profile."
+msgstr ""
+"При подписании KU и EKU берутся из профиля — значения, указанные в форме, "
+"игнорируются. Выберите профиль, у которого KU/EKU соответствуют вашим "
+"значениям, либо измените профиль."
+
+#: dashboard/templates/dashboard/custom_cert_issue.html:687
+#, fuzzy
+#| msgid "Create certificate profile"
+msgid "No certificate profile available"
+msgstr "Создать профиль сертификата"
+
+#: dashboard/templates/dashboard/dashboard.html:11
+msgid "root"
+msgstr "корневой"
+
+#: dashboard/templates/dashboard/dashboard.html:11
+msgid "intermediate"
+msgstr "промежуточный"
+
+#
+# ── Dashboard ──────────────────────────────────────────────
+#
+#: dashboard/templates/dashboard/dashboard.html:14
+msgid "Active Certificates"
+msgstr "Активные сертификаты"
+
+#: dashboard/templates/dashboard/dashboard.html:16
+msgid "Total"
+msgstr "Всего"
+
+#: dashboard/templates/dashboard/dashboard.html:21
+msgid "Listed in CRL"
+msgstr "В списке отзыва"
+
+#: dashboard/templates/dashboard/dashboard.html:26
+msgid "Past validity"
+msgstr "Срок истёк"
+
+#: dashboard/templates/dashboard/dashboard.html:63
+msgid "Expiring soon (next 30 days)"
+msgstr "Истекают в ближайшие 30 дней"
+
+#: dashboard/templates/dashboard/dashboard.html:81
+msgid "No certificates expiring in the next 30 days"
+msgstr "Нет сертификатов, истекающих в ближайшие 30 дней"
+
+#: dashboard/templates/dashboard/dashboard.html:90
+msgid "Recently issued"
+msgstr "Недавно выпущенные"
+
+#: dashboard/templates/dashboard/dashboard.html:94
+msgid "Date"
+msgstr "Дата"
+
+#: dashboard/templates/dashboard/login.html:7
+#: dashboard/templates/dashboard/login.html:32
+msgid "Login"
+msgstr "Вход"
+
+#: dashboard/templates/dashboard/login.html:35
+msgid "Invalid username or password."
+msgstr "Неверное имя пользователя или пароль."
+
+#: dashboard/templates/dashboard/login.html:39
+msgid "Username"
+msgstr "Имя пользователя"
+
+#: dashboard/templates/dashboard/login.html:41
+msgid "Password"
+msgstr "Пароль"
+
+#: dashboard/templates/dashboard/login.html:43
+msgid "Sign In"
+msgstr "Войти"
+
+#: dashboard/templates/dashboard/maintenance.html:8
+msgid "Crypto backend"
+msgstr "Криптографический бэкенд"
+
+#: dashboard/templates/dashboard/maintenance.html:11
+msgid "GOST engine loaded"
+msgstr "ГОСТ-движок загружен"
+
+#: dashboard/templates/dashboard/maintenance.html:14
+msgid "Yes"
+msgstr "Да"
+
+#: dashboard/templates/dashboard/maintenance.html:16
+msgid "No"
+msgstr "Нет"
+
+#: dashboard/templates/dashboard/maintenance.html:17
+msgid "Only RSA algorithms will work until gost-engine is reachable"
+msgstr "Пока gost-engine недоступен, будут работать только алгоритмы RSA"
+
+#: dashboard/templates/dashboard/maintenance.html:22
+msgid "openssl version"
+msgstr "Версия openssl"
+
+#: dashboard/templates/dashboard/maintenance.html:27
+msgid "Operations"
+msgstr "Операции"
+
+#: dashboard/templates/dashboard/maintenance.html:30
+msgid "Refresh metadata"
+msgstr "Обновить метаданные"
+
+#: dashboard/templates/dashboard/maintenance.html:31
+msgid "Rebuild all CRLs"
+msgstr "Перестроить все CRL"
+
+#: dashboard/templates/dashboard/maintenance.html:46
+#: dashboard/templates/dashboard/maintenance.html:69
+msgid "Working..."
+msgstr "Выполняется..."
+
+#: dashboard/templates/dashboard/maintenance.html:52
+msgid "Refreshed"
+msgstr "Обновлено"
+
+#: dashboard/templates/dashboard/maintenance.html:52
+#: dashboard/templates/dashboard/maintenance.html:75
+msgid "errors"
+msgstr "ошибок"
+
+#: dashboard/templates/dashboard/maintenance.html:53
+msgid "Refresh completed"
+msgstr "Обновление завершено"
+
+#: dashboard/templates/dashboard/maintenance.html:56
+msgid "Refresh failed"
+msgstr "Ошибка обновления"
+
+#: dashboard/templates/dashboard/maintenance.html:57
+#: dashboard/templates/dashboard/maintenance.html:80
+msgid "Error"
+msgstr "Ошибка"
+
+#: dashboard/templates/dashboard/maintenance.html:75
+msgid "Rebuilt"
+msgstr "Перестроено"
+
+#: dashboard/templates/dashboard/maintenance.html:76
+msgid "CRL rebuild completed"
+msgstr "Перестроение CRL завершено"
+
+#: dashboard/templates/dashboard/maintenance.html:79
+msgid "CRL rebuild failed"
+msgstr "Ошибка перестроения CRL"
+
+#: dashboard/views.py:766
+msgid "Issuance settings saved."
+msgstr "Настройки выпуска сохранены."
+
+#
+# ── Maintenance ────────────────────────────────────────────
+#
+#~ msgid "Active certs"
+#~ msgstr "Активные сертификаты"
+
+#~ msgid "Revoked certs"
+#~ msgstr "Отозванные сертификаты"
+
+#~ msgid "Expired certs"
+#~ msgstr "Просроченные сертификаты"
+
+#~ msgid "CRL exports"
+#~ msgstr "Генерации CRL"
+
+#~ msgid ""
+#~ "Re-parse all certificates from disk and update database fields (subject, "
+#~ "dates, fingerprint). Use this after manually editing files in the storage "
+#~ "directory."
+#~ msgstr ""
+#~ "Перечитать все сертификаты с диска и обновить поля в базе данных "
+#~ "(субъект, даты, отпечаток). Используйте после ручного редактирования "
+#~ "файлов в каталоге хранения."
+
+#~ msgid ""
+#~ "Regenerate the certificate revocation list for every enabled CA and "
+#~ "record a fresh CRL export. Use this after bulk revocations or to refresh "
+#~ "the nextUpdate window."
+#~ msgstr ""
+#~ "Заново сформировать список отзыва сертификатов для каждого включённого УЦ "
+#~ "и записать новую выгрузку CRL. Используйте после массового отзыва или для "
+#~ "обновления интервала nextUpdate."
+
+#~ msgid "Refresh certificate metadata"
+#~ msgstr "Обновить метаданные сертификатов"
+
+#~ msgid "Subject & SAN"
+#~ msgstr "Субъект и SAN"
+
+#~ msgid "Key source"
+#~ msgstr "Источник ключа"
+
+#~ msgid "Extensions"
+#~ msgstr "Расширения"
+
+#
+# ── User Self-Service ─────────────────────────────────────
+#
+#~ msgid "My Certificate"
+#~ msgstr "Мой сертификат"
+
+#~ msgid "Back to my certificates"
+#~ msgstr "К моим сертификатам"
+
+#~ msgid "My Certificates"
+#~ msgstr "Мои сертификаты"
+
+#
+# ── Request Workflow ──────────────────────────────────────
+#
+#~ msgid "Request"
+#~ msgstr "Заявка"
+
+#~ msgid "Back to my requests"
+#~ msgstr "К моим заявкам"
+
+#~ msgid "View issued certificate"
+#~ msgstr "Просмотреть выпущенный сертификат"
+
+#~ msgid "Request details"
+#~ msgstr "Детали заявки"
+
+#~ msgid "Pending Review"
+#~ msgstr "На рассмотрении"
+
+#~ msgid "Approved"
+#~ msgstr "Одобрена"
+
+#~ msgid "Rejected"
+#~ msgstr "Отклонена"
+
+#~ msgid "CSR"
+#~ msgstr "CSR"
+
+#~ msgid "Uploaded"
+#~ msgstr "Загружен"
+
+#~ msgid "Your notes"
+#~ msgstr "Ваши примечания"
+
+#~ msgid "Reviewed by"
+#~ msgstr "Рассмотрена"
+
+#~ msgid "Review notes"
+#~ msgstr "Примечания рецензента"
+
+#~ msgid "My Requests"
+#~ msgstr "Мои заявки"
+
+#~ msgid "My Certificate Requests"
+#~ msgstr "Мои заявки на сертификаты"
+
+#~ msgid "New request"
+#~ msgstr "Новая заявка"
+
+#~ msgid "Pending"
+#~ msgstr "На рассмотрении"
+
+#~ msgid "Users"
+#~ msgstr "Пользователи"
+
+#~ msgid "User Management"
+#~ msgstr "Управление пользователями"
+
+#~ msgid "Create user"
+#~ msgstr "Создать пользователя"
+
+#~ msgid "Confirm password"
+#~ msgstr "Подтвердите пароль"
+
+#~ msgid "Passwords do not match"
+#~ msgstr "Пароли не совпадают"
+
+#~ msgid "Role"
+#~ msgstr "Роль"
+
+#~ msgid "Allowed CIDRs"
+#~ msgstr "Разрешённые CIDR"
+
+#~ msgid "one per line, empty = allow all"
+#~ msgstr "по одному на строку, пусто = разрешить всё"
+
+#~ msgid "Assigned CAs"
+#~ msgstr "Назначенные УЦ"
+
+#~ msgid "2FA"
+#~ msgstr "2FA"
+
+#~ msgid "Last Login"
+#~ msgstr "Последний вход"
+
+#~ msgid "Joined"
+#~ msgstr "Зарегистрирован"
+
+#~ msgid "Actions"
+#~ msgstr "Действия"
+
+#~ msgid "None"
+#~ msgstr "Нет"
+
+#~ msgid "Edit"
+#~ msgstr "Редактировать"
+
+#~ msgid "Delete user"
+#~ msgstr "Удалить пользователя"
+
+#~ msgid "Issue Certificate"
+#~ msgstr "Запрос сертификата"
+
+#~ msgid "Pending Requests"
+#~ msgstr "Заявки на рассмотрении"
+
+#~ msgid "Free Request"
+#~ msgstr "Свободная заявка"
+
+#~ msgid "Custom OIDs"
+#~ msgstr "Реестр OID"
+
+#
+# ── Certificate Policies & X.509 Extensions (cert_policies commit) ───
+#
+#~ msgid "Cert Policies"
+#~ msgstr "Политики сертификатов"
+
+#~ msgid "Password Policy"
+#~ msgstr "Парольная политика"
+
+#~ msgid "My Profile"
+#~ msgstr "Мой профиль"
+
+#~ msgid "(no profile — using legacy defaults)"
+#~ msgstr "(без профиля — настройки по умолчанию)"
+
+#~ msgid "Security"
+#~ msgstr "Безопасность"
+
+#~ msgid ""
+#~ "Require OTP confirmation from operator for every certificate issued under "
+#~ "this CA"
+#~ msgstr ""
+#~ "Требовать OTP-подтверждение от оператора при каждом выпуске сертификата в "
+#~ "этом УЦ"
+
+#~ msgid "Save"
+#~ msgstr "Сохранить"
+
+#~ msgid ""
+#~ "When enabled, operators must enter a TOTP code before issuing or "
+#~ "approving certificates. Operators without TOTP configured on their "
+#~ "profile will not be able to issue certificates."
+#~ msgstr ""
+#~ "При включении операторы должны вводить TOTP-код перед выпуском или "
+#~ "одобрением сертификатов. Операторы без настроенного TOTP не смогут "
+#~ "выпускать сертификаты."
+
+#~ msgid "Apply CA Profile"
+#~ msgstr "Применить профиль УЦ"
+
+#~ msgid ""
+#~ "Changing the profile re-renders this CA's openssl.cnf on disk "
+#~ "immediately. Already-issued certs are not affected; only future signing "
+#~ "operations will see the new defaults."
+#~ msgstr ""
+#~ "Смена профиля немедленно перезаписывает openssl.cnf этого УЦ на диске. "
+#~ "Уже выпущенные сертификаты не затрагиваются; новые настройки будут "
+#~ "применяться только к будущим операциям подписания."
+
+#~ msgid "no profile (legacy defaults)"
+#~ msgstr "без профиля (настройки по умолчанию)"
+
+#~ msgid "Apply profile"
+#~ msgstr "Применить профиль"
+
+#~ msgid "default settings"
+#~ msgstr "настройки по умолчанию"
+
+#~ msgid "View request"
+#~ msgstr "Просмотр заявки"
+
+#~ msgid "Request a Certificate"
+#~ msgstr "Запрос сертификата"
+
+#~ msgid "Back to requests"
+#~ msgstr "К списку заявок"
+
+#
+# ── Request Workflow ──────────────────────────────────────
+#
+#~ msgid "Request info"
+#~ msgstr "Информация о заявке"
+
+#~ msgid "Requested by"
+#~ msgstr "Запросил"
+
+#~ msgid "Attached"
+#~ msgstr "Прикреплён"
+
+#~ msgid "Not attached — key will be generated server-side"
+#~ msgstr "Не прикреплён — ключ будет сгенерирован на сервере"
+
+#~ msgid "User notes"
+#~ msgstr "Примечания пользователя"
+
+#~ msgid ""
+#~ "No CAs assigned to you — cannot approve requests. Ask an administrator to "
+#~ "grant CA access on your user profile."
+#~ msgstr ""
+#~ "Вам не назначены УЦ — невозможно одобрить заявки. Попросите "
+#~ "администратора предоставить доступ к УЦ в вашем профиле."
+
+#
+# ── Issue Certificate ──────────────────────────────────────
+#
+#~ msgid "No CAs available. Create an authority first."
+#~ msgstr "Нет доступных УЦ. Сначала создайте центр сертификации."
+
+#~ msgid "Create authority"
+#~ msgstr "Создать центр сертификации"
+
+#~ msgid "Review & issue certificate"
+#~ msgstr "Рассмотрение и выпуск сертификата"
+
+#~ msgid "Submit a certificate request"
+#~ msgstr "Подать заявку на сертификат"
+
+#~ msgid "Issue a new certificate"
+#~ msgstr "Выпустить новый сертификат"
+
+#~ msgid ""
+#~ "Fill in the details below. An operator will review and issue the "
+#~ "certificate."
+#~ msgstr ""
+#~ "Заполните данные ниже. Оператор рассмотрит заявку и выпустит сертификат."
+
+#~ msgid ""
+#~ "Parameter set used when generating the private key server-side. Ignored "
+#~ "if a CSR is supplied."
+#~ msgstr ""
+#~ "Набор параметров для генерации закрытого ключа на сервере. Игнорируется, "
+#~ "если предоставлен CSR."
+
+#~ msgid ""
+#~ "CSR was uploaded by the user. Subject fields are locked. SAN and Profile "
+#~ "can still be adjusted."
+#~ msgstr ""
+#~ "CSR загружен пользователем. Поля Subject заблокированы. SAN и профиль "
+#~ "можно изменить."
+
+#~ msgid "External CSR"
+#~ msgstr "Внешний CSR"
+
+#~ msgid ""
+#~ "No CSR was attached to this request. A key pair will be generated server-"
+#~ "side."
+#~ msgstr ""
+#~ "CSR не прикреплён к заявке. Ключевая пара будет сгенерирована на сервере."
+
+#~ msgid ""
+#~ "Pick a CSR file and click Import data to auto-fill the Subject and SAN "
+#~ "fields from it. Leave empty to generate a key server-side."
+#~ msgstr ""
+#~ "Выберите файл CSR и нажмите «Импорт данных» для автозаполнения полей "
+#~ "Subject и SAN. Оставьте пустым для генерации ключа на сервере."
+
+#~ msgid "Import data"
+#~ msgstr "Импорт данных"
+
+#~ msgid "Clear imported CSR"
+#~ msgstr "Очистить импортированный CSR"
+
+#~ msgid "CSR details (openssl req -text)"
+#~ msgstr "Содержимое CSR (openssl req -text)"
+
+#~ msgid "Custom OID fields"
+#~ msgstr "Дополнительные OID-поля"
+
+#~ msgid "Notes for operator"
+#~ msgstr "Примечания для оператора"
+
+#~ msgid "Review"
+#~ msgstr "Рецензия"
+
+#~ msgid "OTP code"
+#~ msgstr "OTP-код"
+
+#~ msgid "This CA requires TOTP confirmation for every certificate issuance."
+#~ msgstr "Этот УЦ требует TOTP-подтверждение при каждом выпуске сертификата."
+
+#~ msgid "Approve & Issue"
+#~ msgstr "Одобрить и выпустить"
+
+#~ msgid "Submit request"
+#~ msgstr "Отправить заявку"
+
+#~ msgid "Reject with notes (optional)"
+#~ msgstr "Отклонить с примечанием (необязательно)"
+
+#~ msgid "Reject request"
+#~ msgstr "Отклонить заявку"
+
+#~ msgid "Public key"
+#~ msgstr "Открытый ключ"
+
+#~ msgid "Paramset"
+#~ msgstr "Набор параметров"
+
+#~ msgid "Signature"
+#~ msgstr "Подпись"
+
+#~ msgid "Requested KU"
+#~ msgstr "Запрошенные KU"
+
+#~ msgid "Requested EKU"
+#~ msgstr "Запрошенные EKU"
+
+#~ msgid "CSR loaded"
+#~ msgstr "CSR загружен"
+
+#~ msgid "Priority at signing:"
+#~ msgstr "Приоритет при подписании:"
+
+#~ msgid ""
+#~ "Subject — from CSR (locked). SAN — from the form above (overrides CSR). "
+#~ "Key Usage / EKU — from the selected Certificate Profile (extensions "
+#~ "requested in the CSR are ignored)."
+#~ msgstr ""
+#~ "Subject — из CSR (заблокирован). SAN — из формы выше (перезаписывает "
+#~ "CSR). Key Usage / EKU — из выбранного профиля сертификата (расширения из "
+#~ "CSR игнорируются)."
+
+#~ msgid "Select a file first"
+#~ msgstr "Сначала выберите файл"
+
+#~ msgid "Parse failed"
+#~ msgstr "Ошибка разбора"
+
+#~ msgid "Policy Constraints"
+#~ msgstr "Ограничения политик"
+
+#
+# ── Policy Constraints labels ─────────────────────────────
+#
+#~ msgid "requireExplicitPolicy"
+#~ msgstr "requireExplicitPolicy"
+
+#~ msgid "inhibitPolicyMapping"
+#~ msgstr "inhibitPolicyMapping"
+
+#~ msgid "inhibitAnyPolicy"
+#~ msgstr "inhibitAnyPolicy"
+
+#~ msgid "Certificate Policies"
+#~ msgstr "Политики сертификата"
+
+#~ msgid "userNotice"
+#~ msgstr "userNotice"
+
+#~ msgid "no profiles assigned to this CA"
+#~ msgstr "к этому УЦ не привязаны профили"
+
+#~ msgid "from request"
+#~ msgstr "из заявки"
+
+#~ msgid "Reject this certificate request?"
+#~ msgstr "Отклонить эту заявку на сертификат?"
+
+#~ msgid "Certificate Policy Registry"
+#~ msgstr "Реестр политик сертификатов"
+
+#~ msgid "Create policy"
+#~ msgstr "Создать политику"
+
+#~ msgid ""
+#~ "Define a policy OID that profiles can assert in the certificatePolicies "
+#~ "extension (RFC 5280 §4.2.1.4)."
+#~ msgstr ""
+#~ "Определите OID политики, который профили смогут указывать в расширении "
+#~ "certificatePolicies (RFC 5280 §4.2.1.4)."
+
+#~ msgid "Policy OID"
+#~ msgstr "OID политики"
+
+#~ msgid "Label"
+#~ msgstr "Метка"
+
+#~ msgid "Short description of this policy"
+#~ msgstr "Краткое описание политики"
+
+#~ msgid "CPS URL (optional)"
+#~ msgstr "URL CPS (необязательно)"
+
+#~ msgid "User notice text (optional)"
+#~ msgstr "Текст уведомления (необязательно)"
+
+#~ msgid "Displayed to relying parties"
+#~ msgstr "Отображается для доверяющих сторон"
+
+#~ msgid "OID"
+#~ msgstr "OID"
+
+#~ msgid "CPS"
+#~ msgstr "CPS"
+
+#~ msgid "Built-in"
+#~ msgstr "Встроенный"
+
+#~ msgid "Used by profiles"
+#~ msgstr "Используется в профилях"
+
+#~ msgid "No policies defined yet"
+#~ msgstr "Политики ещё не определены"
+
+#~ msgid "Certificate Policy"
+#~ msgstr "Политика сертификата"
+
+#~ msgid "Policy"
+#~ msgstr "Политика"
+
+#~ msgid "Back to policies"
+#~ msgstr "К списку политик"
+
+#~ msgid "Edit policy"
+#~ msgstr "Редактирование политики"
+
+#~ msgid "CPS URL"
+#~ msgstr "URL CPS"
+
+#~ msgid "User notice text"
+#~ msgstr "Текст уведомления"
+
+#~ msgid "Save policy"
+#~ msgstr "Сохранить политику"
+
+#~ msgid "Not used by any profile yet"
+#~ msgstr "Пока не используется ни одним профилем"
+
+#~ msgid "Delete this policy? Profiles will lose this assertion."
+#~ msgstr "Удалить эту политику? Профили потеряют эту декларацию."
+
+#~ msgid "Delete policy"
+#~ msgstr "Удалить политику"
+
+#~ msgid "page."
+#~ msgstr "."
+
+#~ msgid "Hold Ctrl/Cmd to select multiple. Manage entries on the"
+#~ msgstr ""
+#~ "Удерживайте Ctrl/Cmd для множественного выбора. Управление записями на "
+#~ "странице"
+
+#~ msgid "Policy registry"
+#~ msgstr "Реестр политик"
+
+#~ msgid "certificatePolicies critical"
+#~ msgstr "certificatePolicies критичное"
+
+#~ msgid "System settings"
+#~ msgstr "Системные настройки"
+
+#~ msgid "Disable cert-profile protection (allow Free Requests)"
+#~ msgstr "Отключить защиту профилем (разрешить свободные заявки)"
+
+#~ msgid ""
+#~ "When enabled, any logged-in user can submit a free-form certificate "
+#~ "request bypassing the cert-profile constraints — picking arbitrary KU "
+#~ "bits, EKU, distribution-point URLs, custom OIDs, and raw extension lines."
+#~ msgstr ""
+#~ "Если включено, любой авторизованный пользователь может подать свободную "
+#~ "заявку на сертификат в обход ограничений профиля — задавая произвольные "
+#~ "биты KU, EKU, URL точек распространения, кастомные OID и сырые строки "
+#~ "расширений."
+
+#~ msgid "Custom OID"
+#~ msgstr "Определение OID"
+
+#~ msgid "Back to custom OIDs"
+#~ msgstr "К реестру OID"
+
+#~ msgid "Edit OID definition"
+#~ msgstr "Редактирование определения OID"
+
+#~ msgid "Placement"
+#~ msgstr "Размещение"
+
+#~ msgid "ASN.1 type"
+#~ msgstr "Тип ASN.1"
+
+#~ msgid "Save definition"
+#~ msgstr "Сохранить определение"
+
+#~ msgid "Delete this OID definition?"
+#~ msgstr "Удалить это определение OID?"
+
+#~ msgid "Custom OID Definitions"
+#~ msgstr "Реестр OID-определений"
+
+#
+# ── Admins ─────────────────────────────────────────────────
+#
+#~ msgid "Create OID definition"
+#~ msgstr "Создать определение OID"
+
+#~ msgid ""
+#~ "Define a custom OID or SAN field type. Profiles reference these "
+#~ "definitions to determine which fields operators fill in at issuance time."
+#~ msgstr ""
+#~ "Определите тип OID- или SAN-поля. Профили сертификатов ссылаются на эти "
+#~ "определения, чтобы задать поля, заполняемые оператором при выпуске."
+
+#~ msgid "optional for SAN types"
+#~ msgstr "необязательно для SAN-типов"
+
+#~ msgid "Short description of this OID field"
+#~ msgstr "Краткое описание OID-поля"
+
+#
+# ── Admins ─────────────────────────────────────────────────
+#
+#~ msgid "Create definition"
+#~ msgstr "Создать определение"
+
+#
+# ── Dashboard (role-dependent) ────────────────────────────
+#
+#~ msgid "Awaiting review"
+#~ msgstr "Ожидает рассмотрения"
+
+#~ msgid "My Active Certificates"
+#~ msgstr "Мои активные сертификаты"
+
+#~ msgid "Issued to you"
+#~ msgstr "Выпущены для вас"
+
+#~ msgid "New certificate request"
+#~ msgstr "Новая заявка на сертификат"
+
+#~ msgid "My recent requests"
+#~ msgstr "Мои последние заявки"
+
+#~ msgid "My certificates"
+#~ msgstr "Мои сертификаты"
+
+#~ msgid "No data yet. Submit a certificate request to get started."
+#~ msgstr "Данных пока нет. Подайте заявку на сертификат, чтобы начать."
+
+#~ msgid "Submit free request"
+#~ msgstr "Отправить свободную заявку"
+
+#
+# ── Certificates ───────────────────────────────────────────
+#
+#~ msgid "Verification"
+#~ msgstr "Подтверждение"
+
+#~ msgid "Enter the 6-digit code from your authenticator app."
+#~ msgstr "Введите 6-значный код из приложения-аутентификатора."
+
+#~ msgid "Invalid verification code."
+#~ msgstr "Неверный код подтверждения."
+
+#~ msgid "Verification code"
+#~ msgstr "Код подтверждения"
+
+#~ msgid "Verify"
+#~ msgstr "Подтвердить"
+
+#~ msgid "Back to login"
+#~ msgstr "Вернуться ко входу"
+
+#~ msgid "Two-factor authentication setup required"
+#~ msgstr "Требуется настройка двухфакторной аутентификации"
+
+#~ msgid ""
+#~ "Your administrator has enabled 2FA for your account. Please complete "
+#~ "setup below to continue."
+#~ msgstr ""
+#~ "Администратор включил 2FA для вашей учётной записи. Завершите настройку "
+#~ "ниже, чтобы продолжить."
+
+#~ msgid "Account"
+#~ msgstr "Учётная запись"
+
+#~ msgid "Last login"
+#~ msgstr "Последний вход"
+
+#~ msgid "Change Password"
+#~ msgstr "Сменить пароль"
+
+#~ msgid "Password updated."
+#~ msgstr "Пароль обновлён."
+
+#~ msgid "Current password is incorrect."
+#~ msgstr "Неверный текущий пароль."
+
+#~ msgid "New passwords do not match."
+#~ msgstr "Новые пароли не совпадают."
+
+#~ msgid "Password must be at least 8 characters."
+#~ msgstr "Пароль должен содержать не менее 8 символов."
+
+#~ msgid "Current password"
+#~ msgstr "Текущий пароль"
+
+#~ msgid "New password"
+#~ msgstr "Новый пароль"
+
+#~ msgid "Confirm new password"
+#~ msgstr "Подтвердите новый пароль"
+
+#~ msgid "Update password"
+#~ msgstr "Обновить пароль"
+
+#~ msgid "Two-Factor Authentication (TOTP)"
+#~ msgstr "Двухфакторная аутентификация (TOTP)"
+
+#~ msgid ""
+#~ "2FA is not enabled for your account. Contact an administrator to enable "
+#~ "it."
+#~ msgstr ""
+#~ "2FA не включена для вашей учётной записи. Обратитесь к администратору, "
+#~ "чтобы включить."
+
+#~ msgid "Invalid code, please try again."
+#~ msgstr "Неверный код, попробуйте снова."
+
+#~ msgid ""
+#~ "Scan the QR code below with Google Authenticator (or any TOTP app), then "
+#~ "enter the 6-digit code to activate."
+#~ msgstr ""
+#~ "Отсканируйте QR-код с помощью Google Authenticator (или любого TOTP-"
+#~ "приложения), затем введите 6-значный код для активации."
+
+#~ msgid "Or enter this secret manually:"
+#~ msgstr "Или введите секрет вручную:"
+
+#~ msgid "Activate 2FA"
+#~ msgstr "Активировать 2FA"
+
+#~ msgid "TOTP active"
+#~ msgstr "TOTP активна"
+
+#~ msgid "Confirm with current password to disable 2FA"
+#~ msgstr "Подтвердите текущим паролем, чтобы отключить 2FA"
+
+#~ msgid "Disable 2FA"
+#~ msgstr "Отключить 2FA"
+
+#
+# ── Password Policy ────────────────────────────────────────
+#
+#~ msgid "Active Django password validators"
+#~ msgstr "Активные валидаторы паролей Django"
+
+#~ msgid ""
+#~ "Configured via AUTH_PASSWORD_VALIDATORS in settings.py. Edit settings.py "
+#~ "and restart the service to change them."
+#~ msgstr ""
+#~ "Настраиваются через AUTH_PASSWORD_VALIDATORS в settings.py. Для изменения "
+#~ "отредактируйте settings.py и перезапустите сервис."
+
+#~ msgid "Validator"
+#~ msgstr "Валидатор"
+
+#~ msgid "(defaults)"
+#~ msgstr "(по умолчанию)"
+
+#~ msgid "No validators configured"
+#~ msgstr "Валидаторы не настроены"
+
+#~ msgid "Certificate Requests"
+#~ msgstr "Заявки на сертификаты"
+
+#~ msgid "Days"
+#~ msgstr "Дней"
+
+#~ msgid "Details"
+#~ msgstr "Подробности"
+
+#~ msgid "View cert"
+#~ msgstr "Просмотр сертификата"
+
+#~ msgid "Back to profiles"
+#~ msgstr "К списку профилей"
+
+#~ msgid ""
+#~ "Re-write openssl.cnf for every CA using this profile, even if no values "
+#~ "changed"
+#~ msgstr ""
+#~ "Перезаписать openssl.cnf для всех УЦ с этим профилем, даже если значения "
+#~ "не изменились"
+
+#~ msgid "Force re-export to all CAs"
+#~ msgstr "Принудительно перезаписать все УЦ"
+
+#~ msgid ""
+#~ "Saving will re-render openssl.cnf for every CA linked to this profile."
+#~ msgstr ""
+#~ "При сохранении openssl.cnf будет перезаписан для всех привязанных УЦ."
+
+#~ msgid "[CA_default] section"
+#~ msgstr "Секция [CA_default]"
+
+#~ msgid "default_days"
+#~ msgstr "default_days"
+
+#~ msgid "default_crl_days"
+#~ msgstr "default_crl_days"
+
+#~ msgid "copy_extensions"
+#~ msgstr "copy_extensions"
+
+#~ msgid "unique_subject"
+#~ msgstr "unique_subject"
+
+#~ msgid "[policy_default] — DN field handling"
+#~ msgstr "[policy_default] — обработка полей DN"
+
+#~ msgid "Save and re-export to linked CAs"
+#~ msgstr "Сохранить и перезаписать привязанные УЦ"
+
+#~ msgid "Linked CAs"
+#~ msgstr "Привязанные УЦ"
+
+#~ msgid "No CAs linked to this profile yet"
+#~ msgstr "К этому профилю ещё не привязаны УЦ"
+
+#~ msgid ""
+#~ "Delete this profile? CAs that use it will revert to the legacy hardcoded "
+#~ "defaults until reassigned."
+#~ msgstr ""
+#~ "Удалить этот профиль? УЦ, использующие его, вернутся к встроенным "
+#~ "настройкам по умолчанию, пока им не назначат другой профиль."
+
+#~ msgid ""
+#~ "A profile bundles openssl.cnf settings ([CA_default] + [policy_default]) "
+#~ "that get baked into the per-CA openssl.cnf file. Editing a profile re-"
+#~ "exports the file for every CA that uses it."
+#~ msgstr ""
+#~ "Профиль объединяет настройки openssl.cnf ([CA_default] + "
+#~ "[policy_default]), которые записываются в файл openssl.cnf каждого УЦ. "
+#~ "Редактирование профиля перезаписывает файл для всех УЦ, использующих этот "
+#~ "профиль."
+
+#~ msgid "unique_subject (refuse duplicate DNs)"
+#~ msgstr "unique_subject (запретить дублирование DN)"
+
+#~ msgid "[policy_default] — DN field handling on signing"
+#~ msgstr "[policy_default] — обработка полей DN при подписании"
+
+#~ msgid "CRL days"
+#~ msgstr "Дни CRL"
+
+#~ msgid "Unique subject"
+#~ msgstr "Уникальный субъект"
+
+#~ msgid "Free-form payload"
+#~ msgstr "Содержимое свободной заявки"
+
+#~ msgid "CSR contents"
+#~ msgstr "Содержимое CSR"
+
+#~ msgid "Failed to parse CSR"
+#~ msgstr "Не удалось разобрать CSR"
+
+#~ msgid "Raw openssl req -text"
+#~ msgstr "Вывод openssl req -text"
+
+#~ msgid "Raw PEM"
+#~ msgstr "PEM-данные"
+
+#~ msgid "Approve free-form request"
+#~ msgstr "Одобрить свободную заявку"
+
+#
+# ── RBAC / User Management ───────────────────────────────
+#
+#~ msgid "User"
+#~ msgstr "Пользователь"
+
+#
+# ── User Edit ─────────────────────────────────────────────
+#
+#~ msgid "Edit user"
+#~ msgstr "Редактирование пользователя"
+
+#~ msgid "Back to users"
+#~ msgstr "К списку пользователей"
+
+#~ msgid "This is your own account"
+#~ msgstr "Это ваша учётная запись"
+
+#~ msgid "Account & role"
+#~ msgstr "Учётная запись и роль"
+
+#~ msgid "Active (can log in)"
+#~ msgstr "Активен (может входить)"
+
+#~ msgid "Auth methods"
+#~ msgstr "Методы аутентификации"
+
+#~ msgid "Admin notes"
+#~ msgstr "Заметки администратора"
+
+#~ msgid "Save changes"
+#~ msgstr "Сохранить изменения"
+
+#
+# ── CA Assignment ─────────────────────────────────────────
+#
+#~ msgid "CA Assignment"
+#~ msgstr "Назначение УЦ"
+
+#~ msgid "Select CAs this operator can use. Empty = no access to any CA."
+#~ msgstr ""
+#~ "Выберите УЦ, доступные этому оператору. Пусто = нет доступа ни к одному "
+#~ "УЦ."
+
+#~ msgid "Save CA assignment"
+#~ msgstr "Сохранить назначение УЦ"
+
+#~ msgid "Reset password"
+#~ msgstr "Сбросить пароль"
+
+#~ msgid "User has set up an authenticator app."
+#~ msgstr "Пользователь настроил приложение-аутентификатор."
+
+#~ msgid "Setup pending"
+#~ msgstr "Ожидает настройки"
+
+#~ msgid "OTP is enabled but the user has not yet scanned the QR code."
+#~ msgstr "OTP включён, но пользователь ещё не отсканировал QR-код."
+
+#~ msgid "OTP is not enabled for this user."
+#~ msgstr "OTP не включён для этого пользователя."
+
+#~ msgid "Reset 2FA secret"
+#~ msgstr "Сбросить секрет 2FA"
+
+#~ msgid "Account info"
+#~ msgstr "Информация об учётной записи"
+
+#~ msgid "User ID"
+#~ msgstr "ID пользователя"
+
+#~ msgid "Profile created"
+#~ msgstr "Профиль создан"
+
+#~ msgid "Profile updated"
+#~ msgstr "Профиль обновлён"
+
+#~ msgid ""
+#~ "Reset the 2FA secret for this user? They will have to scan a new QR code "
+#~ "on next login."
+#~ msgstr ""
+#~ "Сбросить секрет 2FA для этого пользователя? При следующем входе ему "
+#~ "потребуется отсканировать новый QR-код."
+
+#~ msgid "Reset 2FA"
+#~ msgstr "Сбросить 2FA"
+
+#~ msgid "GostCA"
+#~ msgstr "GostCA"
+
+#~ msgid "GOST Certificate Authority"
+#~ msgstr "Удостоверяющий центр ГОСТ"
+
+#~ msgid "EKU critical"
+#~ msgstr "EKU критичное"
+
+#
+# ── Configuration ──────────────────────────────────────────
+#
+#~ msgid "GostCA defaults"
+#~ msgstr "Настройки GostCA по умолчанию"
+
+#~ msgid ""
+#~ "Upload a PEM-encoded CSR to sign instead of generating a key server-side."
+#~ msgstr ""
+#~ "Загрузите CSR в формате PEM для подписания вместо генерации ключа на "
+#~ "сервере."
+
+#~ msgid "Approve"
+#~ msgstr "Одобрить"
+
+#~ msgid "Reject"
+#~ msgstr "Отклонить"
+
+#~ msgid "Administrators"
+#~ msgstr "Администраторы"
+
+#~ msgid "No CAs yet."
+#~ msgstr "Центры сертификации ещё не созданы."
+
+#~ msgid "Create your first authority"
+#~ msgstr "Создать первый центр сертификации"
+
+#~ msgid "Superuser"
+#~ msgstr "Суперпользователь"
+
+#~ msgid "Create"
+#~ msgstr "Создать"
+
+#~ msgid "Email"
+#~ msgstr "Эл. почта"

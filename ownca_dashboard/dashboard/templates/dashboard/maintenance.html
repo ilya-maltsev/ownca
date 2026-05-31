@@ -1,0 +1,88 @@
+{% extends "dashboard/base.html" %}
+{% load i18n %}
+{% block title %}{% trans "Maintenance" %} - OwnCA{% endblock %}
+{% block page_title %}{% trans "Maintenance" %}{% endblock %}
+{% block content %}
+
+<div class="panel">
+    <div class="panel-header">{% trans "Crypto backend" %}</div>
+    <div class="panel-body">
+        <div class="detail-row">
+            <div class="detail-label">{% trans "GOST engine loaded" %}</div>
+            <div class="detail-value">
+                {% if gost_engine_loaded %}
+                <span class="badge badge-on">{% trans "Yes" %}</span>
+                {% else %}
+                <span class="badge badge-off">{% trans "No" %}</span>
+                <span style="margin-left:8px;color:var(--fi-text-muted);font-size:12px">{% trans "Only RSA algorithms will work until gost-engine is reachable" %}</span>
+                {% endif %}
+            </div>
+        </div>
+        <div class="detail-row"><div class="detail-label">{% trans "Storage directory" %}</div><div class="detail-value" style="font-family:monospace;font-size:12px">{{ storage_dir }}</div></div>
+        <div class="detail-row" style="align-items:flex-start"><div class="detail-label">{% trans "openssl version" %}</div><div class="detail-value"><pre style="margin:0;font-family:monospace;font-size:11px;background:#f8f9fa;padding:8px;border:1px solid var(--fi-border);border-radius:3px;overflow:auto">{{ openssl_version }}</pre></div></div>
+    </div>
+</div>
+
+<div class="panel">
+    <div class="panel-header">{% trans "Operations" %}</div>
+    <div class="panel-body">
+        <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center">
+            <button type="button" id="refresh-btn" class="btn btn-primary">{% trans "Refresh metadata" %}</button>
+            <button type="button" id="rebuild-crls-btn" class="btn btn-default">{% trans "Rebuild all CRLs" %}</button>
+            <span id="refresh-result" style="font-size:13px;color:var(--fi-text-muted)"></span>
+            <span id="rebuild-crls-result" style="font-size:13px;color:var(--fi-text-muted)"></span>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block scripts %}
+<script>
+$('#refresh-btn').click(function() {
+    var $btn = $(this);
+    var $res = $('#refresh-result');
+    $btn.prop('disabled', true);
+    $res.text('{% trans "Working..." %}');
+    $.ajax({
+        url: '{% url "maintenance_refresh" %}',
+        method: 'POST',
+        headers: {'X-CSRFToken': '{{ csrf_token }}'},
+        success: function(d) {
+            $res.text('{% trans "Refreshed" %}: ' + d.refreshed + ' ({% trans "errors" %}: ' + d.errors + ')');
+            showToast('{% trans "Refresh completed" %}', 'success');
+        },
+        error: function(xhr) {
+            var msg = xhr.responseJSON ? xhr.responseJSON.error : '{% trans "Refresh failed" %}';
+            showToast('{% trans "Error" %}: ' + msg, 'error');
+        },
+        complete: function() {
+            $btn.prop('disabled', false);
+        }
+    });
+});
+
+$('#rebuild-crls-btn').click(function() {
+    var $btn = $(this);
+    var $res = $('#rebuild-crls-result');
+    $btn.prop('disabled', true);
+    $res.text('{% trans "Working..." %}');
+    $.ajax({
+        url: '{% url "maintenance_rebuild_crls" %}',
+        method: 'POST',
+        headers: {'X-CSRFToken': '{{ csrf_token }}'},
+        success: function(d) {
+            $res.text('{% trans "Rebuilt" %}: ' + d.rebuilt + ' ({% trans "errors" %}: ' + d.errors + ')');
+            showToast('{% trans "CRL rebuild completed" %}', 'success');
+        },
+        error: function(xhr) {
+            var msg = xhr.responseJSON ? xhr.responseJSON.error : '{% trans "CRL rebuild failed" %}';
+            showToast('{% trans "Error" %}: ' + msg, 'error');
+        },
+        complete: function() {
+            $btn.prop('disabled', false);
+        }
+    });
+});
+</script>
+{% endblock %}

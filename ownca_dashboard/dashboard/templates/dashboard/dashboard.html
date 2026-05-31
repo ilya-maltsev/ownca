@@ -1,0 +1,122 @@
+{% extends "dashboard/base.html" %}
+{% load i18n %}
+{% block title %}{% trans "Dashboard" %} - OwnCA{% endblock %}
+{% block page_title %}{% trans "Dashboard" %}{% endblock %}
+{% block content %}
+
+<div class="cards">
+    <div class="card">
+        <div class="card-label">{% trans "Authorities" %}</div>
+        <div class="card-value">{{ cas_total }}</div>
+        <div class="card-sub">{{ cas_root }} {% trans "root" %} / {{ cas_intermediate }} {% trans "intermediate" %}</div>
+    </div>
+    <div class="card">
+        <div class="card-label">{% trans "Active Certificates" %}</div>
+        <div class="card-value">{{ certs_active }} <span style="font-size:14px;color:var(--fi-text-muted)">/ {{ certs_total }}</span></div>
+        <div class="card-sub">{% trans "Active" %} / {% trans "Total" %}</div>
+    </div>
+    <div class="card">
+        <div class="card-label">{% trans "Revoked" %}</div>
+        <div class="card-value">{{ certs_revoked }}</div>
+        <div class="card-sub">{% trans "Listed in CRL" %}</div>
+    </div>
+    <div class="card">
+        <div class="card-label">{% trans "Expired" %}</div>
+        <div class="card-value">{{ certs_expired }}</div>
+        <div class="card-sub">{% trans "Past validity" %}</div>
+    </div>
+</div>
+
+{% if cas %}
+<div class="panel">
+    <div class="panel-header">{% trans "Certificate Authorities" %}</div>
+    <div class="table-wrap">
+        <table>
+            <thead><tr>
+                <th>{% trans "Name" %}</th>
+                <th>{% trans "Type" %}</th>
+                <th>{% trans "Algorithm" %}</th>
+                <th>{% trans "Issued" %}</th>
+                <th>{% trans "Active" %}</th>
+                <th>{% trans "Revoked" %}</th>
+                <th>{% trans "Valid Until" %}</th>
+            </tr></thead>
+            <tbody>
+            {% for ca in cas %}
+            <tr>
+                <td><a href="{% url 'ca_detail' ca.uuid %}"><strong>{{ ca.name }}</strong></a></td>
+                <td><span class="badge {% if ca.ca_type == 'root' %}badge-info{% else %}badge-warn{% endif %}">{{ ca.get_ca_type_display }}</span></td>
+                <td>{{ ca.get_key_alg_display }}</td>
+                <td>{{ ca.issued_count }}</td>
+                <td>{{ ca.active_count }}</td>
+                <td>{{ ca.revoked_count }}</td>
+                <td>{{ ca.not_after|date:"Y-m-d"|default:"-" }}</td>
+            </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endif %}
+
+<div class="panel">
+    <div class="panel-header">{% trans "Expiring soon (next 30 days)" %}</div>
+    <div class="table-wrap">
+        <table>
+            <thead><tr>
+                <th>{% trans "Common Name" %}</th>
+                <th>{% trans "Issuer CA" %}</th>
+                <th>{% trans "Profile" %}</th>
+                <th>{% trans "Valid Until" %}</th>
+            </tr></thead>
+            <tbody>
+            {% for c in expiring %}
+            <tr>
+                <td><a href="{% url 'cert_detail' c.uuid %}"><strong>{{ c.common_name }}</strong></a></td>
+                <td>{{ c.issuer_ca.name }}</td>
+                <td><span class="badge badge-info">{{ c.profile_name }}</span></td>
+                <td>{{ c.not_after|date:"Y-m-d H:i" }}</td>
+            </tr>
+            {% empty %}
+            <tr><td colspan="4" style="text-align:center;padding:20px;color:var(--fi-text-muted)">{% trans "No certificates expiring in the next 30 days" %}</td></tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+{% if recent %}
+<div class="panel">
+    <div class="panel-header">{% trans "Recently issued" %}</div>
+    <div class="table-wrap">
+        <table>
+            <thead><tr>
+                <th>{% trans "Date" %}</th>
+                <th>{% trans "Common Name" %}</th>
+                <th>{% trans "Issuer CA" %}</th>
+                <th>{% trans "Profile" %}</th>
+                <th>{% trans "Valid Until" %}</th>
+                <th>{% trans "Status" %}</th>
+            </tr></thead>
+            <tbody>
+            {% for c in recent %}
+            <tr>
+                <td>{{ c.created_at|date:"Y-m-d H:i" }}</td>
+                <td><a href="{% url 'cert_detail' c.uuid %}"><strong>{{ c.common_name }}</strong></a></td>
+                <td>{{ c.issuer_ca.name }}</td>
+                <td>{{ c.profile_name }}</td>
+                <td>{{ c.not_after|date:"Y-m-d" }}</td>
+                <td>
+                    {% if c.status == 'active' %}<span class="badge badge-on">{% trans "Active" %}</span>
+                    {% elif c.status == 'revoked' %}<span class="badge badge-off">{% trans "Revoked" %}</span>
+                    {% else %}<span class="badge badge-warn">{% trans "Expired" %}</span>{% endif %}
+                </td>
+            </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endif %}
+
+{% endblock %}

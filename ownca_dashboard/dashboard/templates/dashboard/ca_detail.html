@@ -1,0 +1,137 @@
+{% extends "dashboard/base.html" %}
+{% load i18n %}
+{% block title %}{{ ca.name }} - OwnCA{% endblock %}
+{% block page_title %}{% trans "Authority" %}: {{ ca.name }}{% endblock %}
+{% block content %}
+
+<div style="margin-bottom:14px">
+    <a href="{% url 'cas' %}" class="btn btn-default">&laquo; {% trans "Back to authorities" %}</a>
+    <a href="{% url 'ca_download_cert' ca.uuid %}" class="btn btn-primary">{% trans "Download CA cert" %}</a>
+    <a href="{% url 'ca_download_crl' ca.uuid %}" class="btn btn-default">{% trans "Download CRL" %}</a>
+    <form method="post" action="{% url 'ca_generate_crl' ca.uuid %}" style="display:inline">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-default">{% trans "Regenerate CRL" %}</button>
+    </form>
+    <form method="post" action="{% url 'ca_delete' ca.uuid %}" style="display:inline" id="delete-ca-form">
+        {% csrf_token %}
+        <button type="button" class="btn btn-default" style="color:var(--fi-error);border-color:var(--fi-error)" id="delete-ca-btn">{% trans "Delete" %}</button>
+    </form>
+</div>
+
+<div class="panel">
+    <div class="panel-header">{% trans "Authority details" %}</div>
+    <div class="panel-body">
+        <div class="detail-row"><div class="detail-label">{% trans "Name" %}</div><div class="detail-value"><strong>{{ ca.name }}</strong></div></div>
+        <div class="detail-row"><div class="detail-label">{% trans "Type" %}</div><div class="detail-value">
+            <span class="badge {% if ca.ca_type == 'root' %}badge-info{% else %}badge-warn{% endif %}">{{ ca.get_ca_type_display }}</span>
+        </div></div>
+        {% if ca.parent %}
+        <div class="detail-row"><div class="detail-label">{% trans "Parent CA" %}</div><div class="detail-value"><a href="{% url 'ca_detail' ca.parent.uuid %}">{{ ca.parent.name }}</a></div></div>
+        {% endif %}
+        <div class="detail-row"><div class="detail-label">{% trans "Algorithm" %}</div><div class="detail-value">{{ ca.get_key_alg_display }}</div></div>
+        <div class="detail-row"><div class="detail-label">{% trans "Subject" %}</div><div class="detail-value" style="font-family:monospace;font-size:12px">{{ ca.subject }}</div></div>
+        <div class="detail-row"><div class="detail-label">{% trans "Serial" %}</div><div class="detail-value" style="font-family:monospace;font-size:12px">{{ ca.serial_hex|default:"-" }}</div></div>
+        <div class="detail-row"><div class="detail-label">{% trans "SHA-256 Fingerprint" %}</div><div class="detail-value" style="font-family:monospace;font-size:11px;word-break:break-all">{{ ca.fingerprint_sha256|default:"-" }}</div></div>
+        <div class="detail-row"><div class="detail-label">{% trans "Valid From" %}</div><div class="detail-value">{{ ca.not_before|date:"Y-m-d H:i T"|default:"-" }}</div></div>
+        <div class="detail-row"><div class="detail-label">{% trans "Valid Until" %}</div><div class="detail-value">{{ ca.not_after|date:"Y-m-d H:i T"|default:"-" }}</div></div>
+        <div class="detail-row"><div class="detail-label">{% trans "Issued certificates" %}</div><div class="detail-value">{{ ca.issued_count }} ({{ ca.active_count }} {% trans "active" %}, {{ ca.revoked_count }} {% trans "revoked" %})</div></div>
+        <div class="detail-row"><div class="detail-label">{% trans "Current CRL number" %}</div><div class="detail-value" style="font-family:monospace;font-size:12px">{{ crl_number|default:"-" }}</div></div>
+        <div class="detail-row"><div class="detail-label">{% trans "CRL Distribution Point" %}</div><div class="detail-value" style="font-family:monospace;font-size:12px">{{ ca.crl_url|default:"-" }}</div></div>
+        <div class="detail-row"><div class="detail-label">{% trans "AIA caIssuers" %}</div><div class="detail-value" style="font-family:monospace;font-size:12px">{{ ca.aia_url|default:"-" }}</div></div>
+        <div class="detail-row"><div class="detail-label">{% trans "OCSP responder" %}</div><div class="detail-value" style="font-family:monospace;font-size:12px">{{ ca.ocsp_url|default:"-" }}</div></div>
+        <div class="detail-row"><div class="detail-label">{% trans "SIA caRepository" %}</div><div class="detail-value" style="font-family:monospace;font-size:12px">{{ ca.sia_url|default:"-" }}</div></div>
+        <div class="detail-row"><div class="detail-label">{% trans "freshestCRL" %}</div><div class="detail-value" style="font-family:monospace;font-size:12px">{{ ca.freshest_crl_url|default:"-" }}</div></div>
+        <div class="detail-row"><div class="detail-label">{% trans "issuerAltName" %}</div><div class="detail-value" style="font-family:monospace;font-size:12px;white-space:pre-wrap">{{ ca.issuer_alt_names|default:"-" }}</div></div>
+    </div>
+</div>
+
+<div class="panel">
+    <div class="panel-header">{% trans "Distribution points" %}</div>
+    <div class="panel-body">
+        <p style="margin:0 0 10px;font-size:12px;color:var(--fi-text-muted)">{% trans "URLs embedded in every certificate issued from this CA. A profile may override individual values; an empty field omits that extension." %}</p>
+        <form method="post">
+            {% csrf_token %}
+            <input type="hidden" name="action" value="set_distribution_points">
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px 20px">
+                <div>
+                    <label style="display:block;font-size:11px;color:var(--fi-text-muted);font-weight:700;text-transform:uppercase;margin-bottom:4px">{% trans "CRL Distribution Point URL" %}</label>
+                    <input type="url" name="crl_url" value="{{ ca.crl_url }}" placeholder="http://ca.example.org/crl.pem" style="width:100%;padding:6px 10px;border:1px solid var(--fi-border);border-radius:3px;font-size:13px;font-family:monospace;box-sizing:border-box">
+                </div>
+                <div>
+                    <label style="display:block;font-size:11px;color:var(--fi-text-muted);font-weight:700;text-transform:uppercase;margin-bottom:4px">{% trans "AIA caIssuers URL" %}</label>
+                    <input type="url" name="aia_url" value="{{ ca.aia_url }}" placeholder="http://ca.example.org/ca.crt" style="width:100%;padding:6px 10px;border:1px solid var(--fi-border);border-radius:3px;font-size:13px;font-family:monospace;box-sizing:border-box">
+                </div>
+                <div>
+                    <label style="display:block;font-size:11px;color:var(--fi-text-muted);font-weight:700;text-transform:uppercase;margin-bottom:4px">{% trans "OCSP responder URL" %}</label>
+                    <input type="url" name="ocsp_url" value="{{ ca.ocsp_url }}" placeholder="http://ocsp.example.org/" style="width:100%;padding:6px 10px;border:1px solid var(--fi-border);border-radius:3px;font-size:13px;font-family:monospace;box-sizing:border-box">
+                </div>
+                <div>
+                    <label style="display:block;font-size:11px;color:var(--fi-text-muted);font-weight:700;text-transform:uppercase;margin-bottom:4px">{% trans "SIA caRepository URL" %}</label>
+                    <input type="url" name="sia_url" value="{{ ca.sia_url }}" placeholder="http://ca.example.org/repo/" style="width:100%;padding:6px 10px;border:1px solid var(--fi-border);border-radius:3px;font-size:13px;font-family:monospace;box-sizing:border-box">
+                </div>
+                <div>
+                    <label style="display:block;font-size:11px;color:var(--fi-text-muted);font-weight:700;text-transform:uppercase;margin-bottom:4px">{% trans "Freshest CRL (delta) URL" %}</label>
+                    <input type="url" name="freshest_crl_url" value="{{ ca.freshest_crl_url }}" placeholder="http://ca.example.org/delta.crl" style="width:100%;padding:6px 10px;border:1px solid var(--fi-border);border-radius:3px;font-size:13px;font-family:monospace;box-sizing:border-box">
+                </div>
+                <div>
+                    <label style="display:block;font-size:11px;color:var(--fi-text-muted);font-weight:700;text-transform:uppercase;margin-bottom:4px">{% trans "issuerAltName entries (one per line)" %}</label>
+                    <textarea name="issuer_alt_names" rows="2" placeholder="email:ca@example.org&#10;URI:http://ca.example.org/" style="width:100%;padding:6px 10px;border:1px solid var(--fi-border);border-radius:3px;font-size:12px;font-family:monospace;box-sizing:border-box;resize:vertical">{{ ca.issuer_alt_names }}</textarea>
+                </div>
+            </div>
+            <div style="margin-top:10px"><button type="submit" class="btn btn-primary">{% trans "Save distribution points" %}</button></div>
+        </form>
+    </div>
+</div>
+
+<div class="panel">
+    <div class="panel-header">{% trans "Issued certificates" %}</div>
+    <div class="table-wrap" style="margin:0;border:none;box-shadow:none">
+        <table>
+            <thead><tr>
+                <th>{% trans "Common Name" %}</th>
+                <th>{% trans "Profile" %}</th>
+                <th>{% trans "Serial" %}</th>
+                <th>{% trans "Valid Until" %}</th>
+                <th>{% trans "Status" %}</th>
+            </tr></thead>
+            <tbody>
+            {% for c in certs %}
+            <tr>
+                <td><a href="{% url 'cert_detail' c.uuid %}"><strong>{{ c.common_name }}</strong></a></td>
+                <td><span class="badge badge-info">{{ c.profile_name }}</span></td>
+                <td style="font-family:monospace;font-size:12px">{{ c.serial_hex }}</td>
+                <td>{{ c.not_after|date:"Y-m-d"|default:"-" }}</td>
+                <td>
+                    {% if c.status == 'active' %}<span class="badge badge-on">{% trans "Active" %}</span>
+                    {% elif c.status == 'revoked' %}<span class="badge badge-off">{% trans "Revoked" %}</span>
+                    {% else %}<span class="badge badge-warn">{% trans "Expired" %}</span>{% endif %}
+                </td>
+            </tr>
+            {% empty %}
+            <tr><td colspan="5" style="text-align:center;padding:20px;color:var(--fi-text-muted)">{% trans "No certificates issued yet" %}</td></tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+{% if cert_text %}
+<div class="panel">
+    <div class="panel-header">{% trans "X.509 details" %}</div>
+    <div class="panel-body">
+        <pre style="font-family:monospace;font-size:11px;color:var(--fi-text);background:#f8f9fa;padding:12px;border:1px solid var(--fi-border);border-radius:3px;overflow:auto;margin:0">{{ cert_text }}</pre>
+    </div>
+</div>
+{% endif %}
+
+{% endblock %}
+
+{% block scripts %}
+<script>
+$('#delete-ca-btn').click(function() {
+    showConfirm('{% trans "Delete this CA permanently? This removes the cert and key from disk." %}', function() {
+        $('#delete-ca-form').submit();
+    }, '{% trans "Delete CA" %}');
+});
+</script>
+{% endblock %}

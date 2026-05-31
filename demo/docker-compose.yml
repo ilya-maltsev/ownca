@@ -1,0 +1,76 @@
+# OwnCA — Demo Environment
+#
+# Uses pre-built images. All services on host network.
+# Ports: PostgreSQL 5433, Nginx 9443, Django 9000.
+#
+# Usage:
+#   docker compose up -d
+#   open https://localhost:9443  (login: admin / admin)
+#
+# First start takes ~30s: PostgreSQL init, PKI generation, Django migrations.
+
+services:
+
+  # ── PostgreSQL ─────────────────────────────────────────────────────
+  ownca-gh-demo-postgresql:
+    image: postgres:16
+    container_name: ownca-gh-demo-postgresql
+    restart: unless-stopped
+    network_mode: host
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    command: postgres -c listen_addresses=127.0.0.1 -c port=5433
+    volumes:
+      - ownca_pg_data:/var/lib/postgresql/data
+      - ./init-db.sh:/docker-entrypoint-initdb.d/init-db.sh:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ownca -d ownca -p 5433"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+  # ── Nginx with GOST TLS ───────────────────────────────────────────
+  ownca-gh-demo-nginx:
+    image: ownca-nginx:latest
+    container_name: ownca-gh-demo-nginx
+    restart: unless-stopped
+    network_mode: host
+    volumes:
+      - ownca_certs:/etc/nginx/certs
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+    depends_on:
+      ownca-gh-demo-dashboard:
+        condition: service_started
+
+  # ── OwnCA Dashboard ───────────────────────────────────────────────
+  ownca-gh-demo-dashboard:
+    image: ownca-dashboard:latest
+    container_name: ownca-gh-demo-dashboard
+    restart: unless-stopped
+    network_mode: host
+    environment:
+      DB_HOST: "127.0.0.1"
+      DB_PORT: "5433"
+      DB_NAME: "ownca"
+      DB_USER: "ownca"
+      DB_PASSWORD: "ownca"
+      BIND_ADDRESS: "127.0.0.1:9000"
+      DASHBOARD_ADMIN_USER: "${DASHBOARD_ADMIN_USER:-admin}"
+      DASHBOARD_ADMIN_PASSWORD: "${DASHBOARD_ADMIN_PASSWORD:-admin}"
+      DJANGO_DEBUG: "False"
+      DJANGO_ALLOWED_HOSTS: "*"
+      CSRF_TRUSTED_ORIGINS: "https://localhost:9443,https://127.0.0.1:9443"
+      OWNCA_PROJECT_TITLE: "${OWNCA_PROJECT_TITLE:-Own Certificate Authority}"
+      OWNCA_STORAGE_DIR: "/var/lib/ownca"
+    volumes:
+      - ownca_data:/var/lib/ownca
+      - ./crls:/var/lib/ownca/crls
+    depends_on:
+      ownca-gh-demo-postgresql:
+        condition: service_healthy
+
+volumes:
+  ownca_pg_data:
+  ownca_certs:
+  ownca_data:

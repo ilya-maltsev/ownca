@@ -1,0 +1,94 @@
+# OwnCA — Dev Environment
+#
+# Builds from source. Code mounted for live-reload.
+#
+# Usage:
+#   cd dev_env
+#   docker compose up -d --build
+#   open https://localhost:8444  (login: admin / admin)
+#
+# First start: PostgreSQL init + PKI generation + Django migrations (~60s).
+
+services:
+
+  # ── PostgreSQL ─────────────────────────────────────────────────────
+  ownca-gh-dev-postgresql:
+    image: postgres:16
+    container_name: ownca-gh-dev-postgresql
+    restart: unless-stopped
+    networks:
+      - devnet
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    command: postgres -c config_file=/etc/postgresql/postgresql.conf -c hba_file=/etc/postgresql/pg_hba.conf
+    volumes:
+      - pg_data:/var/lib/postgresql/data
+      - ./init-db.sh:/docker-entrypoint-initdb.d/init-db.sh:ro
+      - ./postgresql.conf:/etc/postgresql/postgresql.conf:ro
+      - ./pg_hba.conf:/etc/postgresql/pg_hba.conf:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ownca -d ownca"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+  # ── Nginx with GOST TLS ───────────────────────────────────────────
+  ownca-gh-dev-nginx:
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile
+    container_name: ownca-gh-dev-nginx
+    restart: unless-stopped
+    networks:
+      - devnet
+    ports:
+      - "8444:8444"
+    volumes:
+      - certs:/etc/nginx/certs
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./nginx/openssl-gost.cnf:/etc/ssl/openssl.cnf:ro
+    depends_on:
+      ownca-gh-dev-dashboard:
+        condition: service_started
+
+  # ── OwnCA Dashboard (code mounted for live-reload) ──────────────
+  ownca-gh-dev-dashboard:
+    build:
+      context: ../
+      dockerfile: dev_env/dashboard/Dockerfile
+    container_name: ownca-gh-dev-dashboard
+    networks:
+      - devnet
+    ports:
+      - "8001:8001"
+    environment:
+      DB_HOST: "ownca-gh-dev-postgresql"
+      DB_PORT: "5432"
+      DB_NAME: "ownca"
+      DB_USER: "ownca"
+      DB_PASSWORD: "ownca"
+      DASHBOARD_ADMIN_USER: "admin"
+      DASHBOARD_ADMIN_PASSWORD: "admin"
+      DJANGO_DEBUG: "True"
+      DJANGO_ALLOWED_HOSTS: "*"
+      CSRF_TRUSTED_ORIGINS: "http://127.0.0.1:8001,http://localhost:8001,https://127.0.0.1:8444,https://localhost:8444"
+      OWNCA_PROJECT_TITLE: "${OWNCA_PROJECT_TITLE:-Own Certificate Authority}"
+      OWNCA_STORAGE_DIR: "/var/lib/ownca"
+      BIND_ADDRESS: "0.0.0.0:8001"
+    volumes:
+      - ../ownca_dashboard:/opt/app
+      - ownca_data:/var/lib/ownca
+      - ./crls:/var/lib/ownca/crls
+    depends_on:
+      ownca-gh-dev-postgresql:
+        condition: service_healthy
+
+networks:
+  devnet:
+    driver: bridge
+
+volumes:
+  pg_data:
+  ownca_data:
+  certs:

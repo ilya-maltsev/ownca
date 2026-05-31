@@ -1,0 +1,718 @@
+{% extends "dashboard/base.html" %}
+{% load i18n %}
+{% block title %}{% trans "Cert Issue" %} - OwnCA{% endblock %}
+{% block page_title %}{% trans "Cert Issue" %}{% endblock %}
+{% block content %}
+
+<div class="import-form">
+    <h3 style="margin-bottom:6px">{% trans "Issue certificate (free-form)" %}</h3>
+    <p style="margin:0 0 14px;font-size:12px;color:var(--fi-text-muted)">
+        {% trans "Pick an issuing CA and optional profile, then fill in any combination of Key Usage bits, EKU values, distribution-point URLs, custom OIDs, and raw openssl extension lines. The certificate is issued immediately." %}
+    </p>
+    <div class="steps-strip" id="steps-strip">
+        <div class="step active" data-step="1"><span class="step-num">1</span>{% trans "CA & profile" %}</div>
+        <div class="step" data-step="2"><span class="step-num">2</span>{% trans "Attributes" %}</div>
+        <div class="step" data-step="3"><span class="step-num">3</span>{% trans "Extensions & issue" %}</div>
+    </div>
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+
+        <div class="wizard-step active" data-step="1">
+        <h4 style="margin:0 0 8px;font-size:12px;color:var(--fi-text-muted);text-transform:uppercase;letter-spacing:0.5px">{% trans "Issuer & profile" %}</h4>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px 20px;margin-bottom:8px">
+            <div>
+                <label style="display:block;font-size:11px;color:var(--fi-text-muted);font-weight:700;text-transform:uppercase;margin-bottom:4px">{% trans "Issuer CA" %} *</label>
+                <select name="ca" id="ca-select" required style="width:100%;padding:6px 10px;border:1px solid var(--fi-border);border-radius:3px;font-size:13px;font-family:inherit;box-sizing:border-box">
+                    {% for ca in cas %}
+                    <option value="{{ ca.uuid }}" data-key-alg="{{ ca.key_alg }}">{{ ca.name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div>
+                <label style="display:block;font-size:11px;color:var(--fi-text-muted);font-weight:700;text-transform:uppercase;margin-bottom:4px">{% trans "Profile" %}{% if not allow_free_form %} *{% endif %}</label>
+                <select name="cert_profile" id="cert-profile-select" {% if not allow_free_form %}required{% endif %} style="width:100%;padding:6px 10px;border:1px solid var(--fi-border);border-radius:3px;font-size:13px;font-family:inherit;box-sizing:border-box">
+                    {% if allow_free_form %}
+                    <option value="" selected>— {% trans "Free-form (no profile)" %} —</option>
+                    {% endif %}
+                </select>
+                <div id="cert-profile-hint" style="margin-top:4px;font-size:11px;color:var(--fi-text-muted);font-family:monospace"></div>
+            </div>
+        </div>
+        <div id="cert-profile-mismatch" style="display:none;padding:8px 12px;margin:0 0 12px;background:#fff8e1;border:1px solid #f0c674;border-radius:3px;font-size:12px;line-height:1.5"></div>
+        <details id="cert-profile-preview" style="display:none;margin:0 0 18px;border:1px solid var(--fi-border);border-radius:3px;padding:6px 12px">
+            <summary style="cursor:pointer;font-size:12px;color:var(--fi-text-muted)">{% trans "Effective profile details" %}</summary>
+            <div id="cert-profile-preview-body" style="font-size:12px;margin-top:8px;line-height:1.5"></div>
+        </details>
+        <div id="custom-oid-section" style="display:none;margin-bottom:18px">
+            <h4 style="margin:0 0 8px;font-size:12px;color:var(--fi-text-muted);text-transform:uppercase;letter-spacing:0.5px">{% trans "Profile-defined OID values" %}</h4>
+            <div id="custom-oid-inputs" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px 20px"></div>
+        </div>
+
+        <h4 style="margin:0 0 8px;font-size:12px;color:var(--fi-text-muted);text-transform:uppercase;letter-spacing:0.5px">{% trans "Key & validity" %}</h4>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px 20px">
+            <div>
+                <label style="display:block;font-size:11px;color:var(--fi-text-muted);font-weight:700;text-transform:uppercase;margin-bottom:4px">{% trans "Algorithm" %}</label>
+                <select name="key_alg" id="key-alg-select" style="width:100%;padding:6px 10px;border:1px solid var(--fi-border);border-radius:3px;font-size:13px;box-sizing:border-box"
+                        data-paramsets-256="{{ gost_paramsets_256|join:',' }}"
+                        data-paramsets-512="{{ gost_paramsets_512|join:',' }}">
+                    {% for v, label, family in key_alg_choices %}
+                    <option value="{{ v }}" data-family="{{ family }}">{{ label }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div id="paramset-wrap" style="display:none">
+                <label style="display:block;font-size:11px;color:var(--fi-text-muted);font-weight:700;text-transform:uppercase;margin-bottom:4px">{% trans "GOST paramset" %}</label>
+                <select name="paramset" id="paramset-select" style="width:100%;padding:6px 10px;border:1px solid var(--fi-border);border-radius:3px;font-size:13px;box-sizing:border-box"></select>
+            </div>
+            <div>
+                <label style="display:block;font-size:11px;color:var(--fi-text-muted);font-weight:700;text-transform:uppercase;margin-bottom:4px">{% trans "Validity (days)" %}</label>
+                <input type="number" name="days" value="365" min="1" style="width:100%;padding:6px 10px;border:1px solid var(--fi-border);border-radius:3px;font-size:13px;box-sizing:border-box">
+            </div>
+        </div>
+        </div><!-- /wizard-step 1 -->
+
+        <div class="wizard-step" data-step="2">
+        {% if allow_server_key_generation %}
+        <h4 style="margin:0 0 8px;font-size:12px;color:var(--fi-text-muted);text-transform:uppercase;letter-spacing:0.5px">{% trans "External CSR (optional)" %}</h4>
+        <p style="margin:0 0 8px;font-size:12px;color:var(--fi-text-muted)">{% trans "Upload a CSR to use an externally generated key pair. Leave empty to generate the key server-side." %}</p>
+        {% else %}
+        <h4 style="margin:0 0 8px;font-size:12px;color:var(--fi-text-muted);text-transform:uppercase;letter-spacing:0.5px">{% trans "External CSR (required)" %}</h4>
+        <p style="margin:0 0 8px;font-size:12px;color:var(--fi-error)">{% trans "Server-side key generation is disabled. An external CSR must be provided." %}</p>
+        {% endif %}
+        <input type="file" name="csr_file" accept=".csr,.pem,.req,.txt" style="font-size:13px">
+        <input type="hidden" name="csr_text" value="">
+
+        <h4 style="margin:18px 0 8px;font-size:12px;color:var(--fi-text-muted);text-transform:uppercase;letter-spacing:0.5px">{% trans "Subject" %}</h4>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px 20px">
+            <div>
+                <label style="display:block;font-size:11px;color:var(--fi-text-muted);font-weight:700;text-transform:uppercase;margin-bottom:4px">{% trans "Common Name" %} *</label>
+                <input type="text" name="common_name" required placeholder="example.org" style="width:100%;padding:6px 10px;border:1px solid var(--fi-border);border-radius:3px;font-size:13px;box-sizing:border-box">
+            </div>
+            <div>
+                <label style="display:block;font-size:11px;color:var(--fi-text-muted);font-weight:700;text-transform:uppercase;margin-bottom:4px">{% trans "Country" %} (C)</label>
+                <input type="text" name="country" maxlength="2" placeholder="RU" style="width:100%;padding:6px 10px;border:1px solid var(--fi-border);border-radius:3px;font-size:13px;box-sizing:border-box">
+            </div>
+            <div>
+                <label style="display:block;font-size:11px;color:var(--fi-text-muted);font-weight:700;text-transform:uppercase;margin-bottom:4px">{% trans "State" %} (ST)</label>
+                <input type="text" name="state" style="width:100%;padding:6px 10px;border:1px solid var(--fi-border);border-radius:3px;font-size:13px;box-sizing:border-box">
+            </div>
+            <div>
+                <label style="display:block;font-size:11px;color:var(--fi-text-muted);font-weight:700;text-transform:uppercase;margin-bottom:4px">{% trans "Locality" %} (L)</label>
+                <input type="text" name="locality" style="width:100%;padding:6px 10px;border:1px solid var(--fi-border);border-radius:3px;font-size:13px;box-sizing:border-box">
+            </div>
+            <div>
+                <label style="display:block;font-size:11px;color:var(--fi-text-muted);font-weight:700;text-transform:uppercase;margin-bottom:4px">{% trans "Organization" %} (O)</label>
+                <input type="text" name="organization" style="width:100%;padding:6px 10px;border:1px solid var(--fi-border);border-radius:3px;font-size:13px;box-sizing:border-box">
+            </div>
+            <div>
+                <label style="display:block;font-size:11px;color:var(--fi-text-muted);font-weight:700;text-transform:uppercase;margin-bottom:4px">{% trans "Unit" %} (OU)</label>
+                <input type="text" name="unit" style="width:100%;padding:6px 10px;border:1px solid var(--fi-border);border-radius:3px;font-size:13px;box-sizing:border-box">
+            </div>
+        </div>
+
+        <h4 style="margin:18px 0 8px;font-size:12px;color:var(--fi-text-muted);text-transform:uppercase;letter-spacing:0.5px">{% trans "Subject Alternative Names" %}</h4>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px 20px">
+            <div>
+                <label style="display:block;font-size:11px;color:var(--fi-text-muted);font-weight:700;text-transform:uppercase;margin-bottom:4px">{% trans "DNS names" %}</label>
+                <textarea name="san_dns" rows="2" placeholder="example.org, www.example.org" style="width:100%;padding:6px 10px;border:1px solid var(--fi-border);border-radius:3px;font-size:13px;box-sizing:border-box;resize:vertical"></textarea>
+            </div>
+            <div>
+                <label style="display:block;font-size:11px;color:var(--fi-text-muted);font-weight:700;text-transform:uppercase;margin-bottom:4px">{% trans "IP addresses" %}</label>
+                <textarea name="san_ip" rows="2" placeholder="192.0.2.10, 2001:db8::1" style="width:100%;padding:6px 10px;border:1px solid var(--fi-border);border-radius:3px;font-size:13px;box-sizing:border-box;resize:vertical"></textarea>
+            </div>
+            <div>
+                <label style="display:block;font-size:11px;color:var(--fi-text-muted);font-weight:700;text-transform:uppercase;margin-bottom:4px">{% trans "Email addresses" %}</label>
+                <textarea name="san_email" rows="2" placeholder="user@example.org" style="width:100%;padding:6px 10px;border:1px solid var(--fi-border);border-radius:3px;font-size:13px;box-sizing:border-box;resize:vertical"></textarea>
+            </div>
+            <div>
+                <label style="display:block;font-size:11px;color:var(--fi-text-muted);font-weight:700;text-transform:uppercase;margin-bottom:4px">{% trans "URIs" %}</label>
+                <textarea name="san_uri" rows="2" placeholder="https://example.org/" style="width:100%;padding:6px 10px;border:1px solid var(--fi-border);border-radius:3px;font-size:13px;box-sizing:border-box;resize:vertical"></textarea>
+            </div>
+            <div style="grid-column:1/-1">
+                <label style="display:block;font-size:11px;color:var(--fi-text-muted);font-weight:700;text-transform:uppercase;margin-bottom:4px">{% trans "otherName entries (one per line, openssl format)" %}</label>
+                <textarea name="san_other" rows="2" placeholder="1.2.643.100.3;UTF8String:value" style="width:100%;padding:6px 10px;border:1px solid var(--fi-border);border-radius:3px;font-size:12px;font-family:monospace;box-sizing:border-box;resize:vertical"></textarea>
+            </div>
+        </div>
+        </div><!-- /wizard-step 2 -->
+
+        <div class="wizard-step" data-step="3">
+        <h4 style="margin:0 0 8px;font-size:12px;color:var(--fi-text-muted);text-transform:uppercase;letter-spacing:0.5px">{% trans "Key Usage" %} (OID 2.5.29.15)</h4>
+        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:6px 16px">
+            {% for bit, label in ku_bits %}
+            <label style="font-size:12px;display:flex;gap:5px;align-items:center"><input type="checkbox" name="ku_{{ bit }}" value="on"> {{ label }}</label>
+            {% endfor %}
+        </div>
+        <div style="margin-top:8px">
+            <label style="font-size:12px;display:flex;gap:5px;align-items:center"><input type="checkbox" name="ku_critical" value="on" checked> {% trans "Mark Key Usage as critical" %}</label>
+        </div>
+
+        <h4 style="margin:18px 0 8px;font-size:12px;color:var(--fi-text-muted);text-transform:uppercase;letter-spacing:0.5px">{% trans "Extended Key Usage" %} (OID 2.5.29.37)</h4>
+        <input type="text" name="eku" placeholder="serverAuth, clientAuth, 1.3.6.1.5.5.7.3.8" style="width:100%;padding:6px 10px;border:1px solid var(--fi-border);border-radius:3px;font-size:13px;font-family:monospace;box-sizing:border-box">
+        <div style="margin-top:6px">
+            <label style="font-size:12px;display:flex;gap:5px;align-items:center"><input type="checkbox" name="eku_critical" value="on"> {% trans "Mark EKU as critical" %}</label>
+        </div>
+
+        <h4 style="margin:18px 0 8px;font-size:12px;color:var(--fi-text-muted);text-transform:uppercase;letter-spacing:0.5px">{% trans "Distribution-point overrides (blank = inherit from issuing CA)" %}</h4>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+            <div><label style="display:block;font-size:11px;color:var(--fi-text-muted);margin-bottom:4px">{% trans "CRL URL" %}</label>
+                <input type="url" name="crl_url" style="width:100%;padding:6px 10px;border:1px solid var(--fi-border);border-radius:3px;font-size:12px;font-family:monospace;box-sizing:border-box"></div>
+            <div><label style="display:block;font-size:11px;color:var(--fi-text-muted);margin-bottom:4px">{% trans "AIA URL" %}</label>
+                <input type="url" name="aia_url" style="width:100%;padding:6px 10px;border:1px solid var(--fi-border);border-radius:3px;font-size:12px;font-family:monospace;box-sizing:border-box"></div>
+            <div><label style="display:block;font-size:11px;color:var(--fi-text-muted);margin-bottom:4px">{% trans "OCSP URL" %}</label>
+                <input type="url" name="ocsp_url" style="width:100%;padding:6px 10px;border:1px solid var(--fi-border);border-radius:3px;font-size:12px;font-family:monospace;box-sizing:border-box"></div>
+            <div><label style="display:block;font-size:11px;color:var(--fi-text-muted);margin-bottom:4px">{% trans "SIA URL" %}</label>
+                <input type="url" name="sia_url" style="width:100%;padding:6px 10px;border:1px solid var(--fi-border);border-radius:3px;font-size:12px;font-family:monospace;box-sizing:border-box"></div>
+            <div style="grid-column:1/-1"><label style="display:block;font-size:11px;color:var(--fi-text-muted);margin-bottom:4px">{% trans "Delta-CRL URL" %}</label>
+                <input type="url" name="freshest_crl_url" style="width:100%;padding:6px 10px;border:1px solid var(--fi-border);border-radius:3px;font-size:12px;font-family:monospace;box-sizing:border-box"></div>
+        </div>
+
+        <h4 style="margin:18px 0 8px;font-size:12px;color:var(--fi-text-muted);text-transform:uppercase;letter-spacing:0.5px">{% trans "Subject / Authority Key Identifiers" %}</h4>
+        <div style="display:flex;gap:18px;flex-wrap:wrap">
+            <label style="font-size:12px;display:flex;gap:5px;align-items:center"><input type="checkbox" name="include_subject_key_identifier" value="on" checked> {% trans "Include subjectKeyIdentifier" %}</label>
+            <label style="font-size:12px;display:flex;gap:5px;align-items:center"><input type="checkbox" name="include_authority_key_identifier" value="on" checked> {% trans "Include authorityKeyIdentifier" %}</label>
+            <label style="font-size:12px;display:flex;gap:5px;align-items:center"><input type="checkbox" name="aki_include_issuer" value="on"> {% trans "AKI include issuer:always" %}</label>
+        </div>
+
+        <h4 style="margin:18px 0 8px;font-size:12px;color:var(--fi-text-muted);text-transform:uppercase;letter-spacing:0.5px">{% trans "Custom OID values" %}</h4>
+        <p style="margin:0 0 6px;font-size:11px;color:var(--fi-text-muted)">{% trans "Add ad-hoc OIDs to embed as critical or non-critical extensions. Each row becomes one openssl line." %}</p>
+        <div id="oid-rows"></div>
+        <button type="button" id="add-oid-btn" class="btn btn-default" style="padding:4px 10px;font-size:12px;margin-top:4px">+ {% trans "Add OID" %}</button>
+
+        <h4 style="margin:18px 0 8px;font-size:12px;color:var(--fi-text-muted);text-transform:uppercase;letter-spacing:0.5px">{% trans "Extra openssl extension lines" %}</h4>
+        <p style="margin:0 0 6px;font-size:11px;color:var(--fi-text-muted)">{% trans "Raw openssl.cnf extension lines, one per line. Used verbatim in the extfile." %}</p>
+        <textarea name="extra_extensions" rows="4" placeholder="tlsfeature = status_request" style="width:100%;padding:6px 10px;border:1px solid var(--fi-border);border-radius:3px;font-size:12px;font-family:monospace;box-sizing:border-box;resize:vertical"></textarea>
+        </div><!-- /wizard-step 3 -->
+
+        <div style="margin-top:18px;display:flex;gap:8px;align-items:center" class="wizard-nav">
+            <button type="button" class="btn btn-default" id="btn-back" style="display:none">← {% trans "Back" %}</button>
+            <button type="button" class="btn btn-primary" id="btn-next">{% trans "Next" %} →</button>
+            <button type="submit" class="btn btn-primary" id="btn-submit" style="display:none">{% trans "Issue certificate" %}</button>
+            <a href="{% url 'dashboard' %}" class="btn btn-default" style="margin-left:auto">{% trans "Cancel" %}</a>
+        </div>
+    </form>
+</div>
+
+{% endblock %}
+
+{% block scripts %}
+<script>
+$(function() {
+    // Whether free-form (no profile) issuance is permitted. When disabled,
+    // a certificate profile must always be selected.
+    var allowFreeForm = {{ allow_free_form|yesno:"true,false" }};
+
+    // ─── Wizard navigation (Next/Back over the single form) ──────────
+    // Client-side only: inactive steps stay in the DOM (display:none), so
+    // the one POST still carries every field, incl. the CSR file input.
+    var $panels = $('.wizard-step');
+    var $chips = $('#steps-strip .step');
+    var $btnBack = $('#btn-back'), $btnNext = $('#btn-next'), $btnSubmit = $('#btn-submit');
+    var totalSteps = $panels.length, curStep = 1;
+    var allowKeygen = {{ allow_server_key_generation|yesno:"true,false" }};
+
+    function showStep(n) {
+        curStep = Math.min(Math.max(n, 1), totalSteps);
+        $panels.each(function() { $(this).toggleClass('active', +$(this).data('step') === curStep); });
+        $chips.each(function() {
+            var i = +$(this).data('step');
+            $(this).toggleClass('active', i === curStep).toggleClass('done', i < curStep);
+        });
+        $btnBack.toggle(curStep > 1);
+        $btnNext.toggle(curStep < totalSteps);
+        $btnSubmit.toggle(curStep === totalSteps);
+    }
+
+    // Native HTML5 required-field gate, but only for the visible panel.
+    function stepValid() {
+        var ok = true;
+        $panels.eq(curStep - 1).find('input,select,textarea').each(function() {
+            if (this.required && !this.reportValidity()) { ok = false; return false; }
+        });
+        return ok;
+    }
+
+    $btnNext.on('click', function() { if (stepValid()) showStep(curStep + 1); });
+    $btnBack.on('click', function() { showStep(curStep - 1); });
+
+    // Let chips jump to an already-completed (or current) step.
+    $chips.on('click', function() {
+        var target = +$(this).data('step');
+        if (target <= curStep) showStep(target);
+        else if (stepValid()) showStep(curStep + 1);
+    });
+
+    // When server-side keygen is disabled, an external CSR is mandatory.
+    $btnSubmit.on('click', function(e) {
+        if (!allowKeygen && !$('input[name="csr_file"]').val()) {
+            e.preventDefault();
+            alert('{% trans "Server-side key generation is disabled. An external CSR must be provided." %}');
+        }
+    });
+
+    showStep(1);
+    // ─── end wizard nav; existing paramset/key-alg/OID/profile code below
+
+    // ─── GOST paramset selector ──────────────────────────────────────
+    var $keyAlg = $('#key-alg-select');
+    var $wrap = $('#paramset-wrap');
+    var $paramset = $('#paramset-select');
+    var defaultParamset = '{{ default_gost_paramset|escapejs }}';
+
+    function paramsetsFor(alg) {
+        var raw = '';
+        if (alg === 'gost2012_256') raw = $keyAlg.attr('data-paramsets-256') || '';
+        else if (alg === 'gost2012_512') raw = $keyAlg.attr('data-paramsets-512') || '';
+        return String(raw).split(',').map(function(s) { return s.trim(); }).filter(Boolean);
+    }
+    function refreshParamset() {
+        var choices = paramsetsFor($keyAlg.val());
+        if (!choices.length) { $wrap.hide(); return; }
+        $paramset.empty();
+        choices.forEach(function(p) { $paramset.append($('<option>').val(p).text(p)); });
+        $paramset.val(defaultParamset);
+        $wrap.show();
+    }
+    $keyAlg.on('change', refreshParamset);
+
+    // ─── CA / key-alg family compatibility ───────────────────────────
+    // A CA can only sign certs from the same key family (gost / rsa /
+    // ec / ed25519). Hide and disable key-alg options that don't match
+    // the currently selected CA's family, and default the algorithm to
+    // the CA's own key_alg whenever the issuer CA changes.
+    function familyOf(keyAlg) {
+        keyAlg = keyAlg || '';
+        if (keyAlg.indexOf('gost') === 0) return 'gost';
+        if (keyAlg.indexOf('rsa') === 0) return 'rsa';
+        if (keyAlg.indexOf('ec') === 0) return 'ec';
+        if (keyAlg.indexOf('ed25519') === 0) return 'ed25519';
+        return '';
+    }
+    function refreshKeyAlgForCA() {
+        var caKeyAlg = $('#ca-select option:selected').attr('data-key-alg') || '';
+        var family = familyOf(caKeyAlg);
+
+        var firstVisible = null;
+        var caAlgVisible = false;
+        $keyAlg.find('option').each(function() {
+            var f = $(this).attr('data-family') || '';
+            var match = !family || f === family;
+            $(this).prop('disabled', !match).toggle(match);
+            if (match && firstVisible === null) firstVisible = $(this).val();
+            if (match && $(this).val() === caKeyAlg) caAlgVisible = true;
+        });
+        // Default the algorithm to the CA's own key_alg (e.g. switching to a
+        // gost2012_512 or RSA CA selects that algorithm); fall back to the
+        // first compatible option when the CA's exact algorithm is filtered
+        // out by issuance-mode settings.
+        if (caAlgVisible) {
+            $keyAlg.val(caKeyAlg);
+        } else if (firstVisible) {
+            $keyAlg.val(firstVisible);
+        }
+        refreshParamset();
+    }
+    $('#ca-select').on('change', refreshKeyAlgForCA);
+    refreshKeyAlgForCA();
+
+    // ─── Custom OID row builder ──────────────────────────────────────
+    var oidIdx = 0;
+    var asn1Choices = [
+        {% for v, label in asn1_type_choices %}{value: '{{ v|escapejs }}', label: '{{ label|escapejs }}'},
+        {% endfor %}
+    ];
+    function addOidRow() {
+        oidIdx += 1;
+        var i = oidIdx;
+        var typeOpts = asn1Choices.map(function(o) {
+            return '<option value="' + o.value + '">' + o.label + '</option>';
+        }).join('');
+        var html = '<div class="oid-row" style="display:grid;grid-template-columns:1.5fr 1fr 2fr auto;gap:8px;margin-bottom:6px">' +
+            '<input type="text" name="oid_row_oid_' + i + '" placeholder="1.2.643.100.3" style="padding:5px 8px;border:1px solid var(--fi-border);border-radius:3px;font-size:12px;font-family:monospace">' +
+            '<select name="oid_row_type_' + i + '" style="padding:5px 8px;border:1px solid var(--fi-border);border-radius:3px;font-size:12px">' + typeOpts + '</select>' +
+            '<input type="text" name="oid_row_value_' + i + '" placeholder="value" style="padding:5px 8px;border:1px solid var(--fi-border);border-radius:3px;font-size:12px">' +
+            '<button type="button" class="btn btn-default oid-del" style="padding:2px 8px;font-size:14px;line-height:1;color:var(--fi-error);border-color:var(--fi-error)">&times;</button>' +
+            '</div>';
+        $('#oid-rows').append(html);
+    }
+    $('#add-oid-btn').on('click', addOidRow);
+    $('#oid-rows').on('click', '.oid-del', function() { $(this).closest('.oid-row').remove(); });
+
+    // ─── Cert profile dynamic loading & form-vs-profile mismatch ─────
+    var $caSelect = $('#ca-select');
+    var $profileSelect = $('#cert-profile-select');
+    var $profileHint = $('#cert-profile-hint');
+    var $profileMismatch = $('#cert-profile-mismatch');
+    var $profilePreview = $('#cert-profile-preview');
+    var $profilePreviewBody = $('#cert-profile-preview-body');
+    var $customOidSection = $('#custom-oid-section');
+    var $customOidInputs = $('#custom-oid-inputs');
+    var _profileFull = {};
+    var _profileOidFields = {};
+
+    var KU_TEXT_TO_CANONICAL = {
+        'digital signature': 'digitalSignature',
+        'non repudiation': 'nonRepudiation',
+        'content commitment': 'nonRepudiation',
+        'key encipherment': 'keyEncipherment',
+        'data encipherment': 'dataEncipherment',
+        'key agreement': 'keyAgreement',
+        'certificate sign': 'keyCertSign',
+        'key cert sign': 'keyCertSign',
+        'crl sign': 'cRLSign',
+        'encipher only': 'encipherOnly',
+        'decipher only': 'decipherOnly'
+    };
+    var EKU_TEXT_TO_CANONICAL = {
+        'tls web server authentication': 'serverAuth',
+        'tls web client authentication': 'clientAuth',
+        'code signing': 'codeSigning',
+        'e-mail protection': 'emailProtection',
+        'email protection': 'emailProtection',
+        'time stamping': 'timeStamping',
+        'ocsp signing': 'OCSPSigning',
+        'any extended key usage': 'anyExtendedKeyUsage'
+    };
+    function canonicalKu(list) {
+        return (list || []).map(function(item) {
+            var k = String(item || '').trim();
+            if (!k) return '';
+            return KU_TEXT_TO_CANONICAL[k.toLowerCase()] || k;
+        }).filter(Boolean);
+    }
+    function canonicalEku(list) {
+        return (list || []).map(function(item) {
+            var k = String(item || '').trim();
+            if (!k) return '';
+            return EKU_TEXT_TO_CANONICAL[k.toLowerCase()] || k;
+        }).filter(Boolean);
+    }
+    function splitCsv(raw) {
+        return String(raw || '').split(',').map(function(s) { return s.trim(); }).filter(Boolean);
+    }
+    function setDiff(a, b) {
+        var bSet = {};
+        b.forEach(function(x) { bSet[x] = true; });
+        return a.filter(function(x) { return !bSet[x]; });
+    }
+    function escapeHtml(s) {
+        return $('<div>').text(String(s == null ? '' : s)).html();
+    }
+
+    var KU_LABELS = {
+        'digitalSignature': '{% trans "Digital signature" %}',
+        'nonRepudiation': '{% trans "Non-repudiation" %}',
+        'keyEncipherment': '{% trans "Key encipherment" %}',
+        'dataEncipherment': '{% trans "Data encipherment" %}',
+        'keyAgreement': '{% trans "Key agreement" %}',
+        'keyCertSign': '{% trans "Certificate signing" %}',
+        'cRLSign': '{% trans "CRL signing" %}',
+        'encipherOnly': '{% trans "Encipher only" %}',
+        'decipherOnly': '{% trans "Decipher only" %}'
+    };
+    var EKU_LABELS = {
+        'serverAuth': '{% trans "TLS Web Server Authentication" %}',
+        'clientAuth': '{% trans "TLS Web Client Authentication" %}',
+        'codeSigning': '{% trans "Code Signing" %}',
+        'emailProtection': '{% trans "E-mail Protection" %}',
+        'timeStamping': '{% trans "Time Stamping" %}',
+        'OCSPSigning': '{% trans "OCSP Signing" %}',
+        'anyExtendedKeyUsage': '{% trans "Any Extended Key Usage" %}'
+    };
+    function localizeKu(name) { return KU_LABELS[name] || name; }
+    function localizeEku(name) { return EKU_LABELS[name] || name; }
+
+    var PLACEMENT_LABELS = {
+        'extension': '{% trans "Extension" %}',
+        'san_dns': '{% trans "SAN DNS name" %}',
+        'san_ip': '{% trans "SAN IP address" %}',
+        'san_email': '{% trans "SAN email" %}',
+        'san_uri': '{% trans "SAN URI" %}',
+        'san_othername': '{% trans "SAN otherName" %}'
+    };
+    var PLACEMENT_PLACEHOLDERS = {
+        'san_dns': 'example.org, www.example.org',
+        'san_ip': '192.0.2.10, 2001:db8::1',
+        'san_uri': 'https://example.org/',
+        'san_email': 'user@example.org',
+        'san_othername': '',
+        'extension': ''
+    };
+    var MULTI_VALUE_PLACEMENTS = {'san_dns': true, 'san_ip': true, 'san_uri': true};
+
+    var I18N = {
+        from_ca: '{% trans "from CA" %}',
+        from_profile: '{% trans "from profile" %}',
+        not_set: '{% trans "(not set)" %}',
+        critical: '{% trans "critical" %}',
+        not_critical: '{% trans "non-critical" %}',
+        ku: '{% trans "Key Usage" %}',
+        eku: '{% trans "Extended Key Usage" %}',
+        dp: '{% trans "Distribution points" %}',
+        crl: '{% trans "CRL URL" %}',
+        aia: '{% trans "AIA URL" %}',
+        ocsp: '{% trans "OCSP URL" %}',
+        sia: '{% trans "SIA URL" %}',
+        delta: '{% trans "Delta-CRL URL" %}',
+        issuer_alt: '{% trans "issuerAltName" %}',
+        nc: '{% trans "Name Constraints" %}',
+        permitted: '{% trans "permitted" %}',
+        excluded: '{% trans "excluded" %}',
+        ki: '{% trans "Key identifiers" %}',
+        ski: '{% trans "subjectKeyIdentifier" %}',
+        aki: '{% trans "authorityKeyIdentifier" %}',
+        oid_fields: '{% trans "OID field inputs (filled below)" %}',
+        required: '{% trans "required" %}',
+        optional: '{% trans "optional" %}',
+        extra: '{% trans "Extra extensions" %}',
+        preview_lines: '{% trans "Preview (openssl extension lines)" %}',
+        ca_profile_warn: '{% trans "This profile issues CA certificates (basicConstraints CA:TRUE)" %}',
+        none: '{% trans "(none)" %}'
+    };
+
+    function getFormKuChecked() {
+        var ku = [];
+        $('input[type=checkbox][name^="ku_"]:checked').each(function() {
+            var n = this.name.replace(/^ku_/, '');
+            if (n !== 'critical') ku.push(n);
+        });
+        return ku;
+    }
+    function getFormEku() {
+        return splitCsv($('input[name="eku"]').val() || '');
+    }
+
+    function updateProfileHint() {
+        var $opt = $profileSelect.find('option:selected');
+        if (!$opt.val()) { $profileHint.text(''); return; }
+        var ku = $opt.attr('data-ku') || '';
+        var eku = $opt.attr('data-eku') || '';
+        var parts = [];
+        if (ku) parts.push('KU: ' + ku);
+        parts.push('EKU: ' + (eku || '—'));
+        $profileHint.text(parts.join('  ·  '));
+    }
+
+    function refreshFormProfileMismatch() {
+        var $opt = $profileSelect.find('option:selected');
+        if (!$opt.length || !$opt.val()) {
+            $profileMismatch.hide().empty();
+            return;
+        }
+        var profKu = splitCsv($opt.attr('data-ku-names') || '');
+        var profEku = canonicalEku(splitCsv($opt.attr('data-eku') || ''));
+        var formKu = canonicalKu(getFormKuChecked());
+        var formEku = canonicalEku(getFormEku());
+
+        var kuExtra = setDiff(formKu, profKu);
+        var kuMissing = setDiff(profKu, formKu);
+        var ekuExtra = setDiff(formEku, profEku);
+        var ekuMissing = setDiff(profEku, formEku);
+
+        if (!kuExtra.length && !kuMissing.length && !ekuExtra.length && !ekuMissing.length) {
+            $profileMismatch.hide().empty();
+            return;
+        }
+
+        var rows = [];
+        function row(label, vals, localize) {
+            if (!vals.length) return;
+            rows.push(
+                '<div><strong>' + escapeHtml(label) + ':</strong> ' +
+                vals.map(function(v) { return escapeHtml(localize(v)); }).join(', ') +
+                '</div>'
+            );
+        }
+        row('{% trans "KU set in form but not in profile (will be dropped)" %}', kuExtra, localizeKu);
+        row('{% trans "KU added by profile but not set in form" %}', kuMissing, localizeKu);
+        row('{% trans "EKU set in form but not in profile (will be dropped)" %}', ekuExtra, localizeEku);
+        row('{% trans "EKU added by profile but not set in form" %}', ekuMissing, localizeEku);
+
+        var html =
+            '<div style="margin-bottom:4px"><strong>⚠ {% trans "Form Key Usage / EKU does not match the selected Certificate Profile" %}</strong></div>' +
+            rows.join('') +
+            '<div style="color:var(--fi-text-muted);margin-top:4px">{% trans "At signing, KU and EKU come from the profile — values set in the form are ignored. Pick a profile whose KU/EKU matches your inputs, or update the profile." %}</div>';
+        $profileMismatch.html(html).show();
+    }
+
+    function dpLine(label, dp) {
+        if (!dp) {
+            return '<div><strong>' + label + ':</strong> <span style="color:var(--fi-text-muted)">' + I18N.not_set + '</span></div>';
+        }
+        var src = dp.source === 'profile'
+            ? '<span style="background:#e3f2fd;color:#0d47a1;padding:1px 6px;border-radius:2px;font-size:10px">' + I18N.from_profile + '</span>'
+            : '<span style="background:#f0f0f0;color:#444;padding:1px 6px;border-radius:2px;font-size:10px">' + I18N.from_ca + '</span>';
+        return '<div><strong>' + label + ':</strong> <span style="font-family:monospace">' + escapeHtml(dp.value) + '</span> ' + src + '</div>';
+    }
+
+    function renderProfilePreview(p) {
+        if (!p) { $profilePreview.hide(); $profilePreviewBody.empty(); return; }
+        var html = '';
+        if (p.description) {
+            html += '<div style="color:var(--fi-text-muted);margin-bottom:4px">' + escapeHtml(p.description) + '</div>';
+        }
+        if (p.is_ca_profile) {
+            html += '<div style="background:#fff8e1;border:1px solid #f0c674;padding:6px 10px;border-radius:3px;margin-bottom:6px">⚠ ' + I18N.ca_profile_warn + '</div>';
+        }
+
+        var kuOn = (p.ku_bits || []).filter(function(b) { return b.set; }).map(function(b) { return b.name; });
+        html += '<div><strong>' + I18N.ku + '</strong> ' +
+            '<span style="color:var(--fi-text-muted)">(' + (p.ku_critical ? I18N.critical : I18N.not_critical) + ')</span>: ' +
+            '<span style="font-family:monospace">' + (kuOn.length ? escapeHtml(kuOn.join(', ')) : I18N.none) + '</span></div>';
+
+        html += '<div><strong>' + I18N.eku + '</strong> ' +
+            '<span style="color:var(--fi-text-muted)">(' + (p.eku_critical ? I18N.critical : I18N.not_critical) + ')</span>: ' +
+            '<span style="font-family:monospace">' + (p.eku ? escapeHtml(p.eku) : I18N.none) + '</span></div>';
+
+        html += '<div><strong>' + I18N.dp + '</strong></div>';
+        var dps = p.distribution_points || {};
+        html += '<div style="padding-left:18px">' +
+            dpLine(I18N.crl, dps.crl_url) +
+            dpLine(I18N.aia, dps.aia_url) +
+            dpLine(I18N.ocsp, dps.ocsp_url) +
+            dpLine(I18N.sia, dps.sia_url) +
+            dpLine(I18N.delta, dps.freshest_crl_url) +
+            '</div>';
+
+        if ((p.issuer_alt_names || []).length) {
+            html += '<div><strong>' + I18N.issuer_alt + '</strong></div><div style="padding-left:18px;font-family:monospace">' +
+                p.issuer_alt_names.map(escapeHtml).join('<br>') + '</div>';
+        }
+
+        var ncP = p.name_constraints_permitted || [];
+        var ncE = p.name_constraints_excluded || [];
+        if (ncP.length || ncE.length) {
+            html += '<div><strong>' + I18N.nc + '</strong> <span style="color:var(--fi-text-muted)">(' +
+                (p.name_constraints_critical ? I18N.critical : I18N.not_critical) + ')</span></div>';
+            if (ncP.length) html += '<div style="padding-left:18px">' + I18N.permitted + ': <span style="font-family:monospace">' + ncP.map(escapeHtml).join(', ') + '</span></div>';
+            if (ncE.length) html += '<div style="padding-left:18px">' + I18N.excluded + ': <span style="font-family:monospace">' + ncE.map(escapeHtml).join(', ') + '</span></div>';
+        }
+
+        var kiParts = [];
+        if (p.include_subject_key_identifier) kiParts.push(I18N.ski);
+        if (p.include_authority_key_identifier) {
+            kiParts.push(I18N.aki + (p.aki_include_issuer ? ' (+issuer)' : ''));
+        }
+        if (kiParts.length) html += '<div><strong>' + I18N.ki + ':</strong> ' + escapeHtml(kiParts.join(', ')) + '</div>';
+
+        if ((p.custom_oid_fields || []).length) {
+            html += '<div><strong>' + I18N.oid_fields + '</strong></div><div style="padding-left:18px">';
+            p.custom_oid_fields.forEach(function(f) {
+                var oidStr = f.oid ? ' <span style="color:var(--fi-text-muted)">(' + escapeHtml(f.oid) + ')</span>' : '';
+                var reqBadge = f.required
+                    ? '<span style="background:#fff3cd;color:#856404;padding:1px 6px;border-radius:2px;font-size:10px">' + I18N.required + '</span>'
+                    : '<span style="background:#e3f2fd;color:#0d47a1;padding:1px 6px;border-radius:2px;font-size:10px">' + I18N.optional + '</span>';
+                html += '<div>• ' + escapeHtml(f.label) + oidStr +
+                    ' <span style="color:var(--fi-text-muted)">[' + escapeHtml(f.placement) + ', ' + escapeHtml(f.asn1_type) + ']</span> ' +
+                    reqBadge + '</div>';
+            });
+            html += '</div>';
+        }
+
+        if (p.extra_extensions && p.extra_extensions.trim()) {
+            html += '<div><strong>' + I18N.extra + '</strong><pre style="background:#f7f7f7;padding:6px 10px;border-radius:3px;font-size:11px;overflow:auto">' + escapeHtml(p.extra_extensions) + '</pre></div>';
+        }
+
+        if ((p.preview_lines || []).length) {
+            html += '<div><strong>' + I18N.preview_lines + '</strong>' +
+                '<pre style="background:#f7f7f7;padding:6px 10px;border-radius:3px;font-size:11px;overflow:auto">' + p.preview_lines.map(escapeHtml).join('\n') + '</pre></div>';
+        }
+
+        $profilePreviewBody.html(html);
+        $profilePreview.show();
+    }
+
+    function refreshProfilePreview() {
+        var pid = $profileSelect.val();
+        renderProfilePreview(_profileFull[pid] || null);
+    }
+
+    function renderCustomOidInputs() {
+        var pid = $profileSelect.val();
+        var fields = _profileOidFields[pid] || [];
+        $customOidInputs.empty();
+        if (!fields.length) { $customOidSection.hide(); return; }
+        fields.forEach(function(f) {
+            var reqMark = f.required ? ' *' : '';
+            var placementLabel = PLACEMENT_LABELS[f.placement || 'extension'] || f.placement || '';
+            var oidHint = f.oid ? '<span style="color:var(--fi-text-muted)">(' + escapeHtml(f.oid) + ')</span>' : '';
+            var fieldKey = f.field_key || f.oid || f.placement;
+            var isMulti = MULTI_VALUE_PLACEMENTS[f.placement];
+            var placeholder = PLACEMENT_PLACEHOLDERS[f.placement] || placementLabel;
+            var inputStyle = 'width:100%;padding:6px 10px;border:1px solid var(--fi-border);border-radius:3px;font-size:13px;box-sizing:border-box';
+            var inputHtml;
+            if (isMulti) {
+                inputHtml = '<textarea name="custom_oid_' + escapeHtml(fieldKey) + '" rows="3"' +
+                    (f.required ? ' required' : '') +
+                    ' placeholder="' + escapeHtml(placeholder) + '"' +
+                    ' style="' + inputStyle + ';resize:vertical;font-family:monospace"></textarea>';
+            } else {
+                inputHtml = '<input type="text" name="custom_oid_' + escapeHtml(fieldKey) + '"' +
+                    (f.required ? ' required' : '') +
+                    ' placeholder="' + escapeHtml(placeholder) + '"' +
+                    ' style="' + inputStyle + '">';
+            }
+            var labelStyle = 'display:block;font-size:11px;color:var(--fi-text-muted);font-weight:700;text-transform:uppercase;margin-bottom:4px';
+            var html = '<div>' +
+                '<label style="' + labelStyle + '">' + escapeHtml(f.label || f.oid || fieldKey) + reqMark +
+                    ' ' + oidHint + ' <span style="color:var(--fi-text-muted);text-transform:none;font-weight:400">' + escapeHtml(placementLabel) + '</span>' +
+                '</label>' + inputHtml +
+                '</div>';
+            $customOidInputs.append(html);
+        });
+        $customOidSection.show();
+    }
+
+    function loadProfilesForCA() {
+        var caUuid = $caSelect.val();
+        if (!caUuid) return;
+        $.getJSON('/api/ca/' + caUuid + '/cert-profiles/all/', function(resp) {
+            var profiles = resp.profiles || [];
+            var prevVal = $profileSelect.val();
+            $profileSelect.empty();
+            if (allowFreeForm) {
+                $profileSelect.append($('<option>').val('').text('— {% trans "Free-form (no profile)" %} —'));
+            }
+            _profileFull = {};
+            _profileOidFields = {};
+            profiles.forEach(function(p) {
+                var $opt = $('<option>').val(p.id).text(p.display_name)
+                    .attr('data-ku', p.ku || '')
+                    .attr('data-ku-names', (p.ku_names || []).join(','))
+                    .attr('data-eku', p.eku || '');
+                $profileSelect.append($opt);
+                _profileFull[p.id] = p;
+                _profileOidFields[p.id] = p.custom_oid_fields || [];
+            });
+            if (!allowFreeForm && !profiles.length) {
+                $profileSelect.append($('<option>').val('').text('— {% trans "No certificate profile available" %} —'));
+            }
+            if (prevVal && $profileSelect.find('option[value="' + prevVal + '"]').length) {
+                $profileSelect.val(prevVal);
+            } else if (allowFreeForm) {
+                $profileSelect.val('');
+            } else if (profiles.length) {
+                $profileSelect.val(profiles[0].id);
+            } else {
+                $profileSelect.val('');
+            }
+            updateProfileHint();
+            refreshFormProfileMismatch();
+            refreshProfilePreview();
+            renderCustomOidInputs();
+        });
+    }
+
+    $caSelect.on('change', loadProfilesForCA);
+    $profileSelect.on('change', function() {
+        updateProfileHint();
+        refreshFormProfileMismatch();
+        refreshProfilePreview();
+        renderCustomOidInputs();
+    });
+    $(document).on('change', 'input[type=checkbox][name^="ku_"]', refreshFormProfileMismatch);
+    $(document).on('input change', 'input[name="eku"]', refreshFormProfileMismatch);
+
+    loadProfilesForCA();
+});
+</script>
+{% endblock %}

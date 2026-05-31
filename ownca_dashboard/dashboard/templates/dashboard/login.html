@@ -1,0 +1,61 @@
+{% load static i18n %}
+<!DOCTYPE html>
+<html lang="{{ LANGUAGE_CODE }}">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{% trans "Login" %} - OwnCA</title>
+    <link rel="icon" type="image/svg+xml" href="{% static 'dashboard/favicon.svg' %}">
+    <link rel="stylesheet" href="{% static 'dashboard/vendor/fonts/fonts.css' %}">
+    <link rel="stylesheet" href="{% static 'dashboard/style.css' %}">
+    <style>
+        body { display: flex; justify-content: center; align-items: center; min-height: 100vh; background: #152343; }
+        .login-box { background: #fff; border-radius: 3px; padding: 32px; width: 380px; box-shadow: 0 6px 12px rgba(0,0,0,0.25); }
+        .login-box h1 { font-size: 18px; color: var(--fi-text); margin-bottom: 4px; }
+        .login-box .sub { font-size: 12px; color: var(--fi-text-muted); margin-bottom: 24px; }
+        .login-box label { display: block; font-size: 13px; color: var(--fi-text-muted); margin-bottom: 4px; font-weight: 700; }
+        .login-box input[type="text"],
+        .login-box input[type="password"] { width: 100%; padding: 8px 12px; border: 1px solid var(--fi-border); border-radius: 3px; font-size: 14px; margin-bottom: 14px; box-sizing: border-box; font-family: inherit; }
+        .login-box input:focus { border-color: var(--fi-primary); outline: none; box-shadow: 0 0 4px rgba(36,112,188,0.3); }
+        .login-box .btn { width: 100%; padding: 9px; font-size: 14px; margin-top: 4px; }
+        .login-box .error { background: #f8d7da; color: #721c24; padding: 8px 12px; border-radius: 3px; font-size: 13px; margin-bottom: 14px; border: 1px solid #f5c6cb; }
+        .login-brand { text-align: center; margin-bottom: 20px; font-size: 17px; font-weight: 700; color: var(--fi-text); }
+        .login-brand span { color: var(--fi-primary); }
+        .lang-row { margin-top: 18px; text-align: center; padding-top: 14px; border-top: 1px solid #eee; }
+        .lang-row button { background: transparent; border: 1px solid var(--fi-border); color: var(--fi-text-muted); padding: 3px 12px; border-radius: 3px; cursor: pointer; font-size: 11px; font-weight: 700; margin: 0 2px; }
+        .lang-row button.active { background: var(--fi-primary); border-color: var(--fi-primary); color: #fff; }
+    </style>
+</head>
+<body>
+    <div class="login-box">
+        <div class="login-brand">OwnCA</div>
+        <h1>{% trans "Login" %}</h1>
+        <div class="sub">{{ project_title }}</div>
+        {% if error %}
+        <div class="error">{% trans "Invalid username or password." %}</div>
+        {% endif %}
+        <form method="post">
+            {% csrf_token %}
+            <label>{% trans "Username" %}</label>
+            <input type="text" name="username" autofocus required>
+            <label>{% trans "Password" %}</label>
+            <input type="password" name="password" required>
+            <button type="submit" class="btn btn-primary">{% trans "Sign In" %}</button>
+        </form>
+        <div class="lang-row">
+            {% get_current_language as CURRENT_LANGUAGE %}
+            <form action="{% url 'set_language' %}" method="post" style="display:inline">
+                {% csrf_token %}
+                <input type="hidden" name="next" value="{{ request.path }}">
+                {% get_available_languages as LANGUAGES %}
+                {% for lang_code, lang_name in LANGUAGES %}
+                <button type="submit" name="language" value="{{ lang_code }}"
+                    class="{% if lang_code == CURRENT_LANGUAGE %}active{% endif %}">
+                    {{ lang_code|upper }}
+                </button>
+                {% endfor %}
+            </form>
+        </div>
+    </div>
+</body>
+</html>

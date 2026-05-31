@@ -1,0 +1,1515 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-05-30 17:23+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: config/settings.py:101
+msgid "Russian"
+msgstr ""
+
+#: config/settings.py:102
+msgid "English"
+msgstr ""
+
+#: dashboard/templates/dashboard/403.html:3
+#: dashboard/templates/dashboard/403.html:4
+#: dashboard/templates/dashboard/403.html:9
+msgid "Access Denied"
+msgstr ""
+
+#: dashboard/templates/dashboard/403.html:10
+msgid ""
+"You do not have sufficient permissions to access this page. Contact your "
+"administrator if you believe this is an error."
+msgstr ""
+
+#: dashboard/templates/dashboard/403.html:11
+msgid "Back to Dashboard"
+msgstr ""
+
+#: dashboard/templates/dashboard/base.html:17
+msgid "Collapse menu"
+msgstr ""
+
+#: dashboard/templates/dashboard/base.html:17
+msgid "Expand menu"
+msgstr ""
+
+#: dashboard/templates/dashboard/base.html:19
+msgid "Monitor"
+msgstr ""
+
+#: dashboard/templates/dashboard/base.html:20
+#: dashboard/templates/dashboard/base.html:21
+#: dashboard/templates/dashboard/base.html:79
+#: dashboard/templates/dashboard/dashboard.html:3
+#: dashboard/templates/dashboard/dashboard.html:4
+msgid "Dashboard"
+msgstr ""
+
+#: dashboard/templates/dashboard/base.html:24
+msgid "Certificate Operations"
+msgstr ""
+
+#: dashboard/templates/dashboard/base.html:25
+#: dashboard/templates/dashboard/base.html:26
+#: dashboard/templates/dashboard/certificates.html:3
+#: dashboard/templates/dashboard/certificates.html:4
+msgid "Certificates"
+msgstr ""
+
+#: dashboard/templates/dashboard/base.html:28
+#: dashboard/templates/dashboard/base.html:29
+#: dashboard/templates/dashboard/custom_cert_issue.html:3
+#: dashboard/templates/dashboard/custom_cert_issue.html:4
+msgid "Cert Issue"
+msgstr ""
+
+#: dashboard/templates/dashboard/base.html:32
+msgid "Certification Authority"
+msgstr ""
+
+#: dashboard/templates/dashboard/base.html:33
+#: dashboard/templates/dashboard/base.html:34
+#: dashboard/templates/dashboard/cas.html:3
+#: dashboard/templates/dashboard/dashboard.html:9
+msgid "Authorities"
+msgstr ""
+
+#: dashboard/templates/dashboard/base.html:36
+#: dashboard/templates/dashboard/base.html:37
+#: dashboard/templates/dashboard/cert_profiles.html:3
+msgid "Cert Profiles"
+msgstr ""
+
+#: dashboard/templates/dashboard/base.html:39
+msgid "System"
+msgstr ""
+
+#: dashboard/templates/dashboard/base.html:40
+#: dashboard/templates/dashboard/base.html:41
+#: dashboard/templates/dashboard/configuration.html:3
+#: dashboard/templates/dashboard/configuration.html:4
+msgid "Configuration"
+msgstr ""
+
+#: dashboard/templates/dashboard/base.html:43
+#: dashboard/templates/dashboard/base.html:44
+#: dashboard/templates/dashboard/maintenance.html:3
+#: dashboard/templates/dashboard/maintenance.html:4
+msgid "Maintenance"
+msgstr ""
+
+#: dashboard/templates/dashboard/base.html:47
+msgid "Language"
+msgstr ""
+
+#: dashboard/templates/dashboard/base.html:63
+#: dashboard/templates/dashboard/base.html:64
+#: dashboard/templates/dashboard/base.html:66
+msgid "Help"
+msgstr ""
+
+#: dashboard/templates/dashboard/base.html:72
+msgid "Logout"
+msgstr ""
+
+#: dashboard/templates/dashboard/base.html:98
+#: dashboard/templates/dashboard/base.html:130
+msgid "Confirmation"
+msgstr ""
+
+#: dashboard/templates/dashboard/base.html:104
+#: dashboard/templates/dashboard/cert_detail.html:59
+#: dashboard/templates/dashboard/cert_detail.html:77
+#: dashboard/templates/dashboard/cert_detail.html:98
+#: dashboard/templates/dashboard/custom_cert_issue.html:190
+msgid "Cancel"
+msgstr ""
+
+#: dashboard/templates/dashboard/base.html:105
+msgid "Confirm"
+msgstr ""
+
+#: dashboard/templates/dashboard/base.html:169
+msgid "Filter:"
+msgstr ""
+
+#: dashboard/templates/dashboard/base.html:170
+msgid "Show _MENU_ entries"
+msgstr ""
+
+#: dashboard/templates/dashboard/base.html:171
+msgid "Showing _START_ to _END_ of _TOTAL_ entries"
+msgstr ""
+
+#: dashboard/templates/dashboard/base.html:172
+msgid "No entries"
+msgstr ""
+
+#: dashboard/templates/dashboard/base.html:173
+msgid "filtered from _MAX_ total"
+msgstr ""
+
+#: dashboard/templates/dashboard/base.html:174
+msgid "No matching records found"
+msgstr ""
+
+#: dashboard/templates/dashboard/base.html:175
+msgid "No data available"
+msgstr ""
+
+#: dashboard/templates/dashboard/base.html:177
+msgid "Previous"
+msgstr ""
+
+#: dashboard/templates/dashboard/base.html:178
+#: dashboard/templates/dashboard/custom_cert_issue.html:188
+msgid "Next"
+msgstr ""
+
+#: dashboard/templates/dashboard/ca_detail.html:4
+msgid "Authority"
+msgstr ""
+
+#: dashboard/templates/dashboard/ca_detail.html:8
+msgid "Back to authorities"
+msgstr ""
+
+#: dashboard/templates/dashboard/ca_detail.html:9
+msgid "Download CA cert"
+msgstr ""
+
+#: dashboard/templates/dashboard/ca_detail.html:10
+msgid "Download CRL"
+msgstr ""
+
+#: dashboard/templates/dashboard/ca_detail.html:13
+msgid "Regenerate CRL"
+msgstr ""
+
+#: dashboard/templates/dashboard/ca_detail.html:17
+#: dashboard/templates/dashboard/cert_detail.html:26
+#: dashboard/templates/dashboard/cert_profile_detail.html:11
+msgid "Delete"
+msgstr ""
+
+#: dashboard/templates/dashboard/ca_detail.html:22
+msgid "Authority details"
+msgstr ""
+
+#: dashboard/templates/dashboard/ca_detail.html:24
+#: dashboard/templates/dashboard/cas.html:13
+#: dashboard/templates/dashboard/cas.html:113
+#: dashboard/templates/dashboard/cert_profile_detail.html:26
+#: dashboard/templates/dashboard/cert_profiles.html:15
+#: dashboard/templates/dashboard/cert_profiles.html:76
+#: dashboard/templates/dashboard/dashboard.html:36
+msgid "Name"
+msgstr ""
+
+#: dashboard/templates/dashboard/ca_detail.html:25
+#: dashboard/templates/dashboard/cas.html:21
+#: dashboard/templates/dashboard/cas.html:114
+#: dashboard/templates/dashboard/dashboard.html:37
+msgid "Type"
+msgstr ""
+
+#: dashboard/templates/dashboard/ca_detail.html:29
+#: dashboard/templates/dashboard/cas.html:29
+msgid "Parent CA"
+msgstr ""
+
+#: dashboard/templates/dashboard/ca_detail.html:31
+#: dashboard/templates/dashboard/cas.html:38
+#: dashboard/templates/dashboard/cas.html:116
+#: dashboard/templates/dashboard/cert_detail.html:116
+#: dashboard/templates/dashboard/certificates.html:32
+#: dashboard/templates/dashboard/custom_cert_issue.html:54
+#: dashboard/templates/dashboard/dashboard.html:38
+msgid "Algorithm"
+msgstr ""
+
+#: dashboard/templates/dashboard/ca_detail.html:32
+#: dashboard/templates/dashboard/cert_detail.html:117
+#: dashboard/templates/dashboard/custom_cert_issue.html:85
+msgid "Subject"
+msgstr ""
+
+#: dashboard/templates/dashboard/ca_detail.html:33
+#: dashboard/templates/dashboard/ca_detail.html:93
+#: dashboard/templates/dashboard/cert_detail.html:118
+#: dashboard/templates/dashboard/cert_detail.html:153
+#: dashboard/templates/dashboard/certificates.html:33
+msgid "Serial"
+msgstr ""
+
+#: dashboard/templates/dashboard/ca_detail.html:34
+#: dashboard/templates/dashboard/cert_detail.html:119
+msgid "SHA-256 Fingerprint"
+msgstr ""
+
+#: dashboard/templates/dashboard/ca_detail.html:35
+#: dashboard/templates/dashboard/cert_detail.html:120
+#: dashboard/templates/dashboard/cert_detail.html:154
+msgid "Valid From"
+msgstr ""
+
+#: dashboard/templates/dashboard/ca_detail.html:36
+#: dashboard/templates/dashboard/ca_detail.html:94
+#: dashboard/templates/dashboard/cas.html:118
+#: dashboard/templates/dashboard/cert_detail.html:121
+#: dashboard/templates/dashboard/cert_detail.html:155
+#: dashboard/templates/dashboard/certificates.html:34
+#: dashboard/templates/dashboard/dashboard.html:42
+#: dashboard/templates/dashboard/dashboard.html:70
+#: dashboard/templates/dashboard/dashboard.html:98
+msgid "Valid Until"
+msgstr ""
+
+#: dashboard/templates/dashboard/ca_detail.html:37
+#: dashboard/templates/dashboard/ca_detail.html:87
+#: dashboard/templates/dashboard/cert_profiles.html:93
+msgid "Issued certificates"
+msgstr ""
+
+#: dashboard/templates/dashboard/ca_detail.html:37
+msgid "active"
+msgstr ""
+
+#: dashboard/templates/dashboard/ca_detail.html:37
+msgid "revoked"
+msgstr ""
+
+#: dashboard/templates/dashboard/ca_detail.html:38
+msgid "Current CRL number"
+msgstr ""
+
+#: dashboard/templates/dashboard/ca_detail.html:39
+msgid "CRL Distribution Point"
+msgstr ""
+
+#: dashboard/templates/dashboard/ca_detail.html:40
+msgid "AIA caIssuers"
+msgstr ""
+
+#: dashboard/templates/dashboard/ca_detail.html:41
+msgid "OCSP responder"
+msgstr ""
+
+#: dashboard/templates/dashboard/ca_detail.html:42
+msgid "SIA caRepository"
+msgstr ""
+
+#: dashboard/templates/dashboard/ca_detail.html:43
+msgid "freshestCRL"
+msgstr ""
+
+#: dashboard/templates/dashboard/ca_detail.html:44
+#: dashboard/templates/dashboard/custom_cert_issue.html:456
+msgid "issuerAltName"
+msgstr ""
+
+#: dashboard/templates/dashboard/ca_detail.html:49
+#: dashboard/templates/dashboard/custom_cert_issue.html:450
+msgid "Distribution points"
+msgstr ""
+
+#: dashboard/templates/dashboard/ca_detail.html:51
+msgid ""
+"URLs embedded in every certificate issued from this CA. A profile may "
+"override individual values; an empty field omits that extension."
+msgstr ""
+
+#: dashboard/templates/dashboard/ca_detail.html:57
+#: dashboard/templates/dashboard/cas.html:57
+msgid "CRL Distribution Point URL"
+msgstr ""
+
+#: dashboard/templates/dashboard/ca_detail.html:61
+msgid "AIA caIssuers URL"
+msgstr ""
+
+#: dashboard/templates/dashboard/ca_detail.html:65
+#: dashboard/templates/dashboard/cas.html:65
+msgid "OCSP responder URL"
+msgstr ""
+
+#: dashboard/templates/dashboard/ca_detail.html:69
+#: dashboard/templates/dashboard/cas.html:69
+msgid "SIA caRepository URL"
+msgstr ""
+
+#: dashboard/templates/dashboard/ca_detail.html:73
+#: dashboard/templates/dashboard/cas.html:73
+msgid "Freshest CRL (delta) URL"
+msgstr ""
+
+#: dashboard/templates/dashboard/ca_detail.html:77
+#: dashboard/templates/dashboard/cas.html:77
+msgid "issuerAltName entries (one per line)"
+msgstr ""
+
+#: dashboard/templates/dashboard/ca_detail.html:81
+msgid "Save distribution points"
+msgstr ""
+
+#: dashboard/templates/dashboard/ca_detail.html:91
+#: dashboard/templates/dashboard/cas.html:17
+#: dashboard/templates/dashboard/cert_detail.html:108
+#: dashboard/templates/dashboard/certificates.html:29
+#: dashboard/templates/dashboard/custom_cert_issue.html:88
+#: dashboard/templates/dashboard/dashboard.html:67
+#: dashboard/templates/dashboard/dashboard.html:95
+msgid "Common Name"
+msgstr ""
+
+#: dashboard/templates/dashboard/ca_detail.html:92
+#: dashboard/templates/dashboard/cert_detail.html:115
+#: dashboard/templates/dashboard/certificates.html:31
+#: dashboard/templates/dashboard/custom_cert_issue.html:32
+#: dashboard/templates/dashboard/dashboard.html:69
+#: dashboard/templates/dashboard/dashboard.html:97
+msgid "Profile"
+msgstr ""
+
+#: dashboard/templates/dashboard/ca_detail.html:95
+#: dashboard/templates/dashboard/cas.html:119
+#: dashboard/templates/dashboard/cert_detail.html:109
+#: dashboard/templates/dashboard/cert_detail.html:156
+#: dashboard/templates/dashboard/certificates.html:16
+#: dashboard/templates/dashboard/certificates.html:35
+#: dashboard/templates/dashboard/dashboard.html:99
+msgid "Status"
+msgstr ""
+
+#: dashboard/templates/dashboard/ca_detail.html:105
+#: dashboard/templates/dashboard/cas.html:131
+#: dashboard/templates/dashboard/cert_detail.html:110
+#: dashboard/templates/dashboard/cert_detail.html:165
+#: dashboard/templates/dashboard/certificates.html:19
+#: dashboard/templates/dashboard/certificates.html:47
+#: dashboard/templates/dashboard/dashboard.html:16
+#: dashboard/templates/dashboard/dashboard.html:40
+#: dashboard/templates/dashboard/dashboard.html:110
+msgid "Active"
+msgstr ""
+
+#: dashboard/templates/dashboard/ca_detail.html:106
+#: dashboard/templates/dashboard/cert_detail.html:111
+#: dashboard/templates/dashboard/cert_detail.html:166
+#: dashboard/templates/dashboard/certificates.html:20
+#: dashboard/templates/dashboard/certificates.html:48
+#: dashboard/templates/dashboard/dashboard.html:19
+#: dashboard/templates/dashboard/dashboard.html:41
+#: dashboard/templates/dashboard/dashboard.html:111
+msgid "Revoked"
+msgstr ""
+
+#: dashboard/templates/dashboard/ca_detail.html:107
+#: dashboard/templates/dashboard/cert_detail.html:112
+#: dashboard/templates/dashboard/cert_detail.html:167
+#: dashboard/templates/dashboard/certificates.html:21
+#: dashboard/templates/dashboard/certificates.html:49
+#: dashboard/templates/dashboard/dashboard.html:24
+#: dashboard/templates/dashboard/dashboard.html:112
+msgid "Expired"
+msgstr ""
+
+#: dashboard/templates/dashboard/ca_detail.html:111
+msgid "No certificates issued yet"
+msgstr ""
+
+#: dashboard/templates/dashboard/ca_detail.html:120
+#: dashboard/templates/dashboard/cert_detail.html:179
+msgid "X.509 details"
+msgstr ""
+
+#: dashboard/templates/dashboard/ca_detail.html:132
+msgid "Delete this CA permanently? This removes the cert and key from disk."
+msgstr ""
+
+#: dashboard/templates/dashboard/ca_detail.html:134
+msgid "Delete CA"
+msgstr ""
+
+#: dashboard/templates/dashboard/cas.html:4
+#: dashboard/templates/dashboard/dashboard.html:32
+msgid "Certificate Authorities"
+msgstr ""
+
+#: dashboard/templates/dashboard/cas.html:8
+msgid "Create new authority"
+msgstr ""
+
+#: dashboard/templates/dashboard/cas.html:46
+#: dashboard/templates/dashboard/custom_cert_issue.html:68
+msgid "Validity (days)"
+msgstr ""
+
+#: dashboard/templates/dashboard/cas.html:50
+msgid "Path length"
+msgstr ""
+
+#: dashboard/templates/dashboard/cas.html:54
+msgid "Distribution points (embedded in issued certs)"
+msgstr ""
+
+#: dashboard/templates/dashboard/cas.html:61
+msgid "Authority Info Access (caIssuers URL)"
+msgstr ""
+
+#: dashboard/templates/dashboard/cas.html:81
+msgid "Subject DN (optional fields)"
+msgstr ""
+
+#: dashboard/templates/dashboard/cas.html:84
+#: dashboard/templates/dashboard/custom_cert_issue.html:92
+msgid "Country"
+msgstr ""
+
+#: dashboard/templates/dashboard/cas.html:88
+#: dashboard/templates/dashboard/custom_cert_issue.html:96
+msgid "State"
+msgstr ""
+
+#: dashboard/templates/dashboard/cas.html:92
+#: dashboard/templates/dashboard/custom_cert_issue.html:100
+msgid "Locality"
+msgstr ""
+
+#: dashboard/templates/dashboard/cas.html:96
+#: dashboard/templates/dashboard/custom_cert_issue.html:104
+msgid "Organization"
+msgstr ""
+
+#: dashboard/templates/dashboard/cas.html:100
+#: dashboard/templates/dashboard/custom_cert_issue.html:108
+msgid "Unit"
+msgstr ""
+
+#: dashboard/templates/dashboard/cas.html:105
+msgid "Create CA"
+msgstr ""
+
+#: dashboard/templates/dashboard/cas.html:115
+msgid "Parent"
+msgstr ""
+
+#: dashboard/templates/dashboard/cas.html:117
+#: dashboard/templates/dashboard/dashboard.html:39
+msgid "Issued"
+msgstr ""
+
+#: dashboard/templates/dashboard/cas.html:132
+msgid "Disabled"
+msgstr ""
+
+#: dashboard/templates/dashboard/cert_detail.html:4
+msgid "Certificate"
+msgstr ""
+
+#: dashboard/templates/dashboard/cert_detail.html:8
+msgid "Back to certificates"
+msgstr ""
+
+#: dashboard/templates/dashboard/cert_detail.html:9
+msgid "Download cert"
+msgstr ""
+
+#: dashboard/templates/dashboard/cert_detail.html:11
+msgid "Download key"
+msgstr ""
+
+#: dashboard/templates/dashboard/cert_detail.html:13
+msgid "Download CSR"
+msgstr ""
+
+#: dashboard/templates/dashboard/cert_detail.html:14
+msgid "Download PEM bundle"
+msgstr ""
+
+#: dashboard/templates/dashboard/cert_detail.html:16
+msgid "Export PKCS#12"
+msgstr ""
+
+#: dashboard/templates/dashboard/cert_detail.html:19
+#: dashboard/templates/dashboard/cert_detail.html:76
+msgid "Renew"
+msgstr ""
+
+#: dashboard/templates/dashboard/cert_detail.html:22
+msgid "Revoke"
+msgstr ""
+
+#: dashboard/templates/dashboard/cert_detail.html:32
+msgid "Export PKCS#12 bundle"
+msgstr ""
+
+#: dashboard/templates/dashboard/cert_detail.html:34
+msgid ""
+"The bundle (.p12) will contain the certificate, the private key and the full "
+"CA chain. The passphrase is required to decrypt the key in the importing "
+"system."
+msgstr ""
+
+#: dashboard/templates/dashboard/cert_detail.html:38
+msgid "Passphrase"
+msgstr ""
+
+#: dashboard/templates/dashboard/cert_detail.html:41
+msgid "Show/hide password"
+msgstr ""
+
+#: dashboard/templates/dashboard/cert_detail.html:47
+msgid "TK-26 format (RFC 9548)"
+msgstr "TK-26 format (RFC 9548)"
+
+#: dashboard/templates/dashboard/cert_detail.html:50
+msgid "Cipher"
+msgstr ""
+
+#: dashboard/templates/dashboard/cert_detail.html:58
+msgid "Download .p12"
+msgstr ""
+
+#: dashboard/templates/dashboard/cert_detail.html:68
+msgid "Renew certificate"
+msgstr ""
+
+#: dashboard/templates/dashboard/cert_detail.html:70
+msgid ""
+"A new certificate will be signed reusing the same CSR (and private key, if "
+"stored) under a new serial number. The original certificate is left "
+"unchanged."
+msgstr ""
+
+#: dashboard/templates/dashboard/cert_detail.html:74
+msgid "New validity (days)"
+msgstr ""
+
+#: dashboard/templates/dashboard/cert_detail.html:86
+msgid "Revoke certificate"
+msgstr ""
+
+#: dashboard/templates/dashboard/cert_detail.html:91
+#: dashboard/templates/dashboard/cert_detail.html:138
+msgid "Reason"
+msgstr ""
+
+#: dashboard/templates/dashboard/cert_detail.html:97
+msgid "Confirm revocation"
+msgstr ""
+
+#: dashboard/templates/dashboard/cert_detail.html:106
+msgid "Certificate details"
+msgstr ""
+
+#: dashboard/templates/dashboard/cert_detail.html:114
+#: dashboard/templates/dashboard/certificates.html:30
+#: dashboard/templates/dashboard/custom_cert_issue.html:24
+#: dashboard/templates/dashboard/dashboard.html:68
+#: dashboard/templates/dashboard/dashboard.html:96
+msgid "Issuer CA"
+msgstr ""
+
+#: dashboard/templates/dashboard/cert_detail.html:123
+msgid "DNS SANs"
+msgstr ""
+
+#: dashboard/templates/dashboard/cert_detail.html:126
+msgid "IP SANs"
+msgstr ""
+
+#: dashboard/templates/dashboard/cert_detail.html:133
+msgid "Private key"
+msgstr ""
+
+#: dashboard/templates/dashboard/cert_detail.html:134
+msgid "Stored"
+msgstr ""
+
+#: dashboard/templates/dashboard/cert_detail.html:134
+msgid "Not stored (external CSR)"
+msgstr ""
+
+#: dashboard/templates/dashboard/cert_detail.html:137
+msgid "Revoked at"
+msgstr ""
+
+#: dashboard/templates/dashboard/cert_detail.html:141
+msgid "Renewed from"
+msgstr ""
+
+#: dashboard/templates/dashboard/cert_detail.html:143
+msgid "Created"
+msgstr ""
+
+#: dashboard/templates/dashboard/cert_detail.html:149
+msgid "Renewals issued from this certificate"
+msgstr ""
+
+#: dashboard/templates/dashboard/cert_detail.html:211
+msgid ""
+"Delete this certificate from the index? Files will be removed from disk."
+msgstr ""
+
+#: dashboard/templates/dashboard/cert_detail.html:213
+msgid "Delete certificate"
+msgstr ""
+
+#: dashboard/templates/dashboard/cert_profile_detail.html:4
+msgid "Cert Profile"
+msgstr ""
+
+#: dashboard/templates/dashboard/cert_profile_detail.html:8
+msgid "Back to cert profiles"
+msgstr ""
+
+#: dashboard/templates/dashboard/cert_profile_detail.html:15
+msgid "Copy"
+msgstr "Copy"
+
+#: dashboard/templates/dashboard/cert_profile_detail.html:20
+msgid "Edit profile"
+msgstr ""
+
+#: dashboard/templates/dashboard/cert_profile_detail.html:30
+#: dashboard/templates/dashboard/cert_profiles.html:19
+#: dashboard/templates/dashboard/cert_profiles.html:77
+msgid "Display name"
+msgstr ""
+
+#: dashboard/templates/dashboard/cert_profile_detail.html:35
+#: dashboard/templates/dashboard/cert_profiles.html:24
+#: dashboard/templates/dashboard/cert_profiles.html:78
+#: dashboard/templates/dashboard/configuration.html:104
+msgid "Description"
+msgstr ""
+
+#: dashboard/templates/dashboard/cert_profile_detail.html:39
+#: dashboard/templates/dashboard/cert_profiles.html:28
+#: dashboard/templates/dashboard/cert_profiles.html:79
+#: dashboard/templates/dashboard/custom_cert_issue.html:139
+#: dashboard/templates/dashboard/custom_cert_issue.html:448
+msgid "Key Usage"
+msgstr ""
+
+#: dashboard/templates/dashboard/cert_profile_detail.html:41
+#: dashboard/templates/dashboard/cert_profiles.html:30
+#: dashboard/templates/dashboard/custom_cert_issue.html:402
+#: dashboard/views.py:1028
+msgid "Digital signature"
+msgstr ""
+
+#: dashboard/templates/dashboard/cert_profile_detail.html:42
+#: dashboard/templates/dashboard/cert_profiles.html:31
+#: dashboard/templates/dashboard/custom_cert_issue.html:403
+#: dashboard/views.py:1029
+msgid "Non-repudiation"
+msgstr ""
+
+#: dashboard/templates/dashboard/cert_profile_detail.html:43
+#: dashboard/templates/dashboard/cert_profiles.html:32
+#: dashboard/templates/dashboard/custom_cert_issue.html:404
+#: dashboard/views.py:1030
+msgid "Key encipherment"
+msgstr ""
+
+#: dashboard/templates/dashboard/cert_profile_detail.html:44
+#: dashboard/templates/dashboard/cert_profiles.html:33
+#: dashboard/templates/dashboard/custom_cert_issue.html:405
+#: dashboard/views.py:1031
+msgid "Data encipherment"
+msgstr ""
+
+#: dashboard/templates/dashboard/cert_profile_detail.html:45
+#: dashboard/templates/dashboard/cert_profiles.html:34
+#: dashboard/templates/dashboard/custom_cert_issue.html:406
+#: dashboard/views.py:1032
+msgid "Key agreement"
+msgstr ""
+
+#: dashboard/templates/dashboard/cert_profile_detail.html:46
+#: dashboard/templates/dashboard/cert_profiles.html:35
+#: dashboard/templates/dashboard/custom_cert_issue.html:407
+#: dashboard/views.py:1033
+msgid "Certificate signing"
+msgstr ""
+
+#: dashboard/templates/dashboard/cert_profile_detail.html:47
+#: dashboard/templates/dashboard/cert_profiles.html:36
+#: dashboard/templates/dashboard/custom_cert_issue.html:408
+#: dashboard/views.py:1034
+msgid "CRL signing"
+msgstr ""
+
+#: dashboard/templates/dashboard/cert_profile_detail.html:48
+#: dashboard/templates/dashboard/cert_profiles.html:37
+#: dashboard/templates/dashboard/custom_cert_issue.html:409
+#: dashboard/views.py:1035
+msgid "Encipher only"
+msgstr ""
+
+#: dashboard/templates/dashboard/cert_profile_detail.html:49
+#: dashboard/templates/dashboard/cert_profiles.html:38
+#: dashboard/templates/dashboard/custom_cert_issue.html:410
+#: dashboard/views.py:1036
+msgid "Decipher only"
+msgstr ""
+
+#: dashboard/templates/dashboard/cert_profile_detail.html:52
+#: dashboard/templates/dashboard/cert_profiles.html:41
+#: dashboard/templates/dashboard/custom_cert_issue.html:146
+msgid "Mark Key Usage as critical"
+msgstr ""
+
+#: dashboard/templates/dashboard/cert_profile_detail.html:55
+#: dashboard/templates/dashboard/cert_profiles.html:44
+#: dashboard/templates/dashboard/cert_profiles.html:80
+#: dashboard/templates/dashboard/custom_cert_issue.html:149
+#: dashboard/templates/dashboard/custom_cert_issue.html:449
+msgid "Extended Key Usage"
+msgstr ""
+
+#: dashboard/templates/dashboard/cert_profile_detail.html:60
+#: dashboard/templates/dashboard/cert_profiles.html:49
+#: dashboard/templates/dashboard/custom_cert_issue.html:152
+msgid "Mark EKU as critical"
+msgstr ""
+
+#: dashboard/templates/dashboard/cert_profile_detail.html:63
+#: dashboard/templates/dashboard/cert_profiles.html:52
+msgid "OID fields from registry"
+msgstr ""
+
+#: dashboard/templates/dashboard/cert_profile_detail.html:64
+#: dashboard/templates/dashboard/cert_profiles.html:53
+msgid ""
+"Select OID field definitions that operators fill in at certificate issuance "
+"time."
+msgstr ""
+
+#: dashboard/templates/dashboard/cert_profile_detail.html:68
+#: dashboard/templates/dashboard/cert_profiles.html:57
+msgid "Add"
+msgstr ""
+
+#: dashboard/templates/dashboard/cert_profile_detail.html:72
+#: dashboard/templates/dashboard/custom_cert_issue.html:457
+msgid "Name Constraints"
+msgstr ""
+
+#: dashboard/templates/dashboard/cert_profile_detail.html:75
+msgid "Permitted (one per line, e.g. DNS:.example.org)"
+msgstr ""
+
+#: dashboard/templates/dashboard/cert_profile_detail.html:79
+msgid "Excluded (one per line)"
+msgstr ""
+
+#: dashboard/templates/dashboard/cert_profile_detail.html:84
+msgid "nameConstraints critical"
+msgstr ""
+
+#: dashboard/templates/dashboard/cert_profile_detail.html:87
+msgid "Policy Constraints / Inhibit Any-Policy"
+msgstr ""
+
+#: dashboard/templates/dashboard/cert_profile_detail.html:90
+msgid "Require explicit policy"
+msgstr ""
+
+#: dashboard/templates/dashboard/cert_profile_detail.html:94
+msgid "Inhibit policy mapping"
+msgstr ""
+
+#: dashboard/templates/dashboard/cert_profile_detail.html:98
+msgid "Inhibit any-policy"
+msgstr ""
+
+#: dashboard/templates/dashboard/cert_profile_detail.html:103
+msgid "Distribution-point overrides (blank = inherit from CA)"
+msgstr ""
+
+#: dashboard/templates/dashboard/cert_profile_detail.html:106
+#: dashboard/templates/dashboard/custom_cert_issue.html:157
+#: dashboard/templates/dashboard/custom_cert_issue.html:451
+msgid "CRL URL"
+msgstr ""
+
+#: dashboard/templates/dashboard/cert_profile_detail.html:110
+#: dashboard/templates/dashboard/custom_cert_issue.html:159
+#: dashboard/templates/dashboard/custom_cert_issue.html:452
+msgid "AIA URL"
+msgstr ""
+
+#: dashboard/templates/dashboard/cert_profile_detail.html:114
+#: dashboard/templates/dashboard/custom_cert_issue.html:161
+#: dashboard/templates/dashboard/custom_cert_issue.html:453
+msgid "OCSP URL"
+msgstr ""
+
+#: dashboard/templates/dashboard/cert_profile_detail.html:118
+#: dashboard/templates/dashboard/custom_cert_issue.html:163
+#: dashboard/templates/dashboard/custom_cert_issue.html:454
+msgid "SIA URL"
+msgstr ""
+
+#: dashboard/templates/dashboard/cert_profile_detail.html:122
+#: dashboard/templates/dashboard/custom_cert_issue.html:165
+#: dashboard/templates/dashboard/custom_cert_issue.html:455
+msgid "Delta-CRL URL"
+msgstr ""
+
+#: dashboard/templates/dashboard/cert_profile_detail.html:127
+#: dashboard/templates/dashboard/custom_cert_issue.html:169
+msgid "Subject / Authority Key Identifiers"
+msgstr ""
+
+#: dashboard/templates/dashboard/cert_profile_detail.html:129
+#: dashboard/templates/dashboard/custom_cert_issue.html:171
+msgid "Include subjectKeyIdentifier"
+msgstr ""
+
+#: dashboard/templates/dashboard/cert_profile_detail.html:130
+#: dashboard/templates/dashboard/custom_cert_issue.html:172
+msgid "Include authorityKeyIdentifier"
+msgstr ""
+
+#: dashboard/templates/dashboard/cert_profile_detail.html:131
+#: dashboard/templates/dashboard/custom_cert_issue.html:173
+msgid "AKI include issuer:always"
+msgstr ""
+
+#: dashboard/templates/dashboard/cert_profile_detail.html:134
+#: dashboard/templates/dashboard/cert_profiles.html:61
+#: dashboard/templates/dashboard/custom_cert_issue.html:466
+msgid "Extra extensions"
+msgstr ""
+
+#: dashboard/templates/dashboard/cert_profile_detail.html:138
+#: dashboard/templates/dashboard/cert_profiles.html:65
+msgid "CA profile (basicConstraints CA:TRUE)"
+msgstr ""
+
+#: dashboard/templates/dashboard/cert_profile_detail.html:141
+msgid "Save profile"
+msgstr ""
+
+#: dashboard/templates/dashboard/cert_profile_detail.html:147
+msgid "Preview"
+msgstr ""
+
+#: dashboard/templates/dashboard/cert_profile_detail.html:155
+msgid "Usage"
+msgstr ""
+
+#: dashboard/templates/dashboard/cert_profile_detail.html:157
+msgid "Certificates using this profile"
+msgstr ""
+
+#: dashboard/templates/dashboard/cert_profile_detail.html:158
+msgid "Pending requests using this profile"
+msgstr ""
+
+#: dashboard/templates/dashboard/cert_profile_detail.html:167
+msgid "Delete this certificate profile?"
+msgstr ""
+
+#: dashboard/templates/dashboard/cert_profile_detail.html:169
+msgid "Delete profile"
+msgstr ""
+
+#: dashboard/templates/dashboard/cert_profile_detail.html:218
+#: dashboard/templates/dashboard/cert_profiles.html:150
+#: dashboard/templates/dashboard/custom_cert_issue.html:464
+msgid "required"
+msgstr ""
+
+#: dashboard/templates/dashboard/cert_profiles.html:4
+msgid "Certificate Profiles"
+msgstr ""
+
+#: dashboard/templates/dashboard/cert_profiles.html:8
+msgid "Create certificate profile"
+msgstr ""
+
+#: dashboard/templates/dashboard/cert_profiles.html:9
+msgid ""
+"A certificate profile defines the Key Usage bits, Extended Key Usage OIDs, "
+"and any extra extensions that will be embedded in issued certificates."
+msgstr ""
+
+#: dashboard/templates/dashboard/cert_profiles.html:25
+msgid "Short description shown to operators"
+msgstr ""
+
+#: dashboard/templates/dashboard/cert_profiles.html:68
+msgid "Create profile"
+msgstr ""
+
+#: dashboard/templates/dashboard/base.html:16
+#: dashboard/templates/dashboard/cert_profiles.html:81
+#: dashboard/templates/dashboard/certificates.html:9
+msgid "CA"
+msgstr ""
+
+#: dashboard/templates/dashboard/base.html:16
+msgid "Own"
+msgstr ""
+
+#: dashboard/templates/dashboard/cert_profiles.html:82
+msgid "In use"
+msgstr ""
+
+#: dashboard/templates/dashboard/cert_profiles.html:93
+msgid "Pending requests"
+msgstr ""
+
+#: dashboard/templates/dashboard/certificates.html:11
+#: dashboard/templates/dashboard/certificates.html:18
+msgid "All"
+msgstr ""
+
+#: dashboard/templates/dashboard/configuration.html:8
+msgid "Issuance modes"
+msgstr ""
+
+#: dashboard/templates/dashboard/configuration.html:14
+msgid "Allow server-side key generation"
+msgstr ""
+
+#: dashboard/templates/dashboard/configuration.html:15
+msgid "If disabled, only uploaded CSRs are accepted."
+msgstr ""
+
+#: dashboard/templates/dashboard/configuration.html:26
+msgid "Allow GOST keys"
+msgstr ""
+
+#: dashboard/templates/dashboard/configuration.html:27
+msgid "Requires OWNCA_GOST_ENGINE=on."
+msgstr ""
+
+#: dashboard/templates/dashboard/configuration.html:37
+msgid "Allow RSA keys"
+msgstr ""
+
+#: dashboard/templates/dashboard/configuration.html:46
+msgid "Allow ECDSA / Ed25519"
+msgstr ""
+
+#: dashboard/templates/dashboard/configuration.html:56
+msgid "Offer"
+msgstr ""
+
+#: dashboard/templates/dashboard/configuration.html:56
+msgid "export"
+msgstr ""
+
+#: dashboard/templates/dashboard/configuration.html:67
+msgid "Allow free-form certificate issuance"
+msgstr ""
+
+#: dashboard/templates/dashboard/configuration.html:68
+msgid ""
+"When enabled, cert-profile constraints (KU, EKU, extensions, OIDs) can be "
+"bypassed."
+msgstr ""
+
+#: dashboard/templates/dashboard/configuration.html:78
+msgid "Save settings"
+msgstr ""
+
+#: dashboard/templates/dashboard/configuration.html:85
+msgid "defaults"
+msgstr ""
+
+#: dashboard/templates/dashboard/configuration.html:88
+msgid ""
+"These defaults are read from environment variables (OWNCA_*) at startup. "
+"Edit your dev_env or demo .env files and restart the service to change them."
+msgstr ""
+
+#: dashboard/templates/dashboard/configuration.html:90
+#: dashboard/templates/dashboard/maintenance.html:21
+msgid "Storage directory"
+msgstr ""
+
+#: dashboard/templates/dashboard/configuration.html:91
+msgid "Default key algorithm"
+msgstr ""
+
+#: dashboard/templates/dashboard/configuration.html:92
+msgid "Default CA validity (days)"
+msgstr ""
+
+#: dashboard/templates/dashboard/configuration.html:93
+msgid "Default cert validity (days)"
+msgstr ""
+
+#: dashboard/templates/dashboard/configuration.html:94
+msgid "CRL distribution URL"
+msgstr ""
+
+#: dashboard/templates/dashboard/configuration.html:99
+msgid "Environment variables"
+msgstr ""
+
+#: dashboard/templates/dashboard/configuration.html:103
+msgid "Variable"
+msgstr ""
+
+#: dashboard/templates/dashboard/configuration.html:107
+msgid "Filesystem path where CA and cert material is stored"
+msgstr ""
+
+#: dashboard/templates/dashboard/configuration.html:108
+msgid "Path to the openssl binary (gost-engine loaded via OPENSSL_CONF)"
+msgstr ""
+
+#: dashboard/templates/dashboard/configuration.html:109
+msgid "Default key algorithm for new CAs and certs"
+msgstr ""
+
+#: dashboard/templates/dashboard/configuration.html:110
+msgid "Default CA validity in days"
+msgstr ""
+
+#: dashboard/templates/dashboard/configuration.html:111
+msgid "Default end-entity cert validity in days"
+msgstr ""
+
+#: dashboard/templates/dashboard/configuration.html:112
+msgid "Public URL where CRLs will be served (informational)"
+msgstr ""
+
+#: dashboard/templates/dashboard/configuration.html:113
+msgid "Path to openssl.cnf that loads gost-engine"
+msgstr ""
+
+#: dashboard/templates/dashboard/custom_cert_issue.html:8
+msgid "Issue certificate (free-form)"
+msgstr ""
+
+#: dashboard/templates/dashboard/custom_cert_issue.html:10
+msgid ""
+"Pick an issuing CA and optional profile, then fill in any combination of Key "
+"Usage bits, EKU values, distribution-point URLs, custom OIDs, and raw "
+"openssl extension lines. The certificate is issued immediately."
+msgstr ""
+
+#: dashboard/templates/dashboard/custom_cert_issue.html:13
+msgid "CA & profile"
+msgstr ""
+
+#: dashboard/templates/dashboard/custom_cert_issue.html:14
+msgid "Attributes"
+msgstr ""
+
+#: dashboard/templates/dashboard/custom_cert_issue.html:15
+msgid "Extensions & issue"
+msgstr ""
+
+#: dashboard/templates/dashboard/custom_cert_issue.html:21
+msgid "Issuer & profile"
+msgstr ""
+
+#: dashboard/templates/dashboard/custom_cert_issue.html:35
+#: dashboard/templates/dashboard/custom_cert_issue.html:673
+msgid "Free-form (no profile)"
+msgstr ""
+
+#: dashboard/templates/dashboard/custom_cert_issue.html:43
+msgid "Effective profile details"
+msgstr ""
+
+#: dashboard/templates/dashboard/custom_cert_issue.html:47
+msgid "Profile-defined OID values"
+msgstr ""
+
+#: dashboard/templates/dashboard/custom_cert_issue.html:51
+msgid "Key & validity"
+msgstr ""
+
+#: dashboard/templates/dashboard/custom_cert_issue.html:64
+msgid "GOST paramset"
+msgstr ""
+
+#: dashboard/templates/dashboard/custom_cert_issue.html:76
+msgid "External CSR (optional)"
+msgstr ""
+
+#: dashboard/templates/dashboard/custom_cert_issue.html:77
+msgid ""
+"Upload a CSR to use an externally generated key pair. Leave empty to "
+"generate the key server-side."
+msgstr ""
+
+#: dashboard/templates/dashboard/custom_cert_issue.html:79
+msgid "External CSR (required)"
+msgstr ""
+
+#: dashboard/templates/dashboard/custom_cert_issue.html:80
+#: dashboard/templates/dashboard/custom_cert_issue.html:248
+msgid ""
+"Server-side key generation is disabled. An external CSR must be provided."
+msgstr ""
+
+#: dashboard/templates/dashboard/custom_cert_issue.html:113
+msgid "Subject Alternative Names"
+msgstr ""
+
+#: dashboard/templates/dashboard/custom_cert_issue.html:116
+msgid "DNS names"
+msgstr ""
+
+#: dashboard/templates/dashboard/custom_cert_issue.html:120
+msgid "IP addresses"
+msgstr ""
+
+#: dashboard/templates/dashboard/custom_cert_issue.html:124
+msgid "Email addresses"
+msgstr ""
+
+#: dashboard/templates/dashboard/custom_cert_issue.html:128
+msgid "URIs"
+msgstr ""
+
+#: dashboard/templates/dashboard/custom_cert_issue.html:132
+msgid "otherName entries (one per line, openssl format)"
+msgstr ""
+
+#: dashboard/templates/dashboard/custom_cert_issue.html:155
+msgid "Distribution-point overrides (blank = inherit from issuing CA)"
+msgstr ""
+
+#: dashboard/templates/dashboard/custom_cert_issue.html:176
+msgid "Custom OID values"
+msgstr ""
+
+#: dashboard/templates/dashboard/custom_cert_issue.html:177
+msgid ""
+"Add ad-hoc OIDs to embed as critical or non-critical extensions. Each row "
+"becomes one openssl line."
+msgstr ""
+
+#: dashboard/templates/dashboard/custom_cert_issue.html:179
+msgid "Add OID"
+msgstr ""
+
+#: dashboard/templates/dashboard/custom_cert_issue.html:181
+msgid "Extra openssl extension lines"
+msgstr ""
+
+#: dashboard/templates/dashboard/custom_cert_issue.html:182
+msgid ""
+"Raw openssl.cnf extension lines, one per line. Used verbatim in the extfile."
+msgstr ""
+
+#: dashboard/templates/dashboard/custom_cert_issue.html:187
+msgid "Back"
+msgstr ""
+
+#: dashboard/templates/dashboard/custom_cert_issue.html:189
+msgid "Issue certificate"
+msgstr ""
+
+#: dashboard/templates/dashboard/custom_cert_issue.html:413
+msgid "TLS Web Server Authentication"
+msgstr ""
+
+#: dashboard/templates/dashboard/custom_cert_issue.html:414
+msgid "TLS Web Client Authentication"
+msgstr ""
+
+#: dashboard/templates/dashboard/custom_cert_issue.html:415
+msgid "Code Signing"
+msgstr ""
+
+#: dashboard/templates/dashboard/custom_cert_issue.html:416
+msgid "E-mail Protection"
+msgstr ""
+
+#: dashboard/templates/dashboard/custom_cert_issue.html:417
+msgid "Time Stamping"
+msgstr ""
+
+#: dashboard/templates/dashboard/custom_cert_issue.html:418
+msgid "OCSP Signing"
+msgstr ""
+
+#: dashboard/templates/dashboard/custom_cert_issue.html:419
+msgid "Any Extended Key Usage"
+msgstr ""
+
+#: dashboard/templates/dashboard/custom_cert_issue.html:425
+msgid "Extension"
+msgstr ""
+
+#: dashboard/templates/dashboard/custom_cert_issue.html:426
+msgid "SAN DNS name"
+msgstr ""
+
+#: dashboard/templates/dashboard/custom_cert_issue.html:427
+msgid "SAN IP address"
+msgstr ""
+
+#: dashboard/templates/dashboard/custom_cert_issue.html:428
+msgid "SAN email"
+msgstr ""
+
+#: dashboard/templates/dashboard/custom_cert_issue.html:429
+msgid "SAN URI"
+msgstr ""
+
+#: dashboard/templates/dashboard/custom_cert_issue.html:430
+msgid "SAN otherName"
+msgstr ""
+
+#: dashboard/templates/dashboard/custom_cert_issue.html:443
+msgid "from CA"
+msgstr ""
+
+#: dashboard/templates/dashboard/custom_cert_issue.html:444
+msgid "from profile"
+msgstr ""
+
+#: dashboard/templates/dashboard/custom_cert_issue.html:445
+msgid "(not set)"
+msgstr ""
+
+#: dashboard/templates/dashboard/custom_cert_issue.html:446
+msgid "critical"
+msgstr ""
+
+#: dashboard/templates/dashboard/custom_cert_issue.html:447
+msgid "non-critical"
+msgstr ""
+
+#: dashboard/templates/dashboard/custom_cert_issue.html:458
+msgid "permitted"
+msgstr ""
+
+#: dashboard/templates/dashboard/custom_cert_issue.html:459
+msgid "excluded"
+msgstr ""
+
+#: dashboard/templates/dashboard/custom_cert_issue.html:460
+msgid "Key identifiers"
+msgstr ""
+
+#: dashboard/templates/dashboard/custom_cert_issue.html:461
+msgid "subjectKeyIdentifier"
+msgstr ""
+
+#: dashboard/templates/dashboard/custom_cert_issue.html:462
+msgid "authorityKeyIdentifier"
+msgstr ""
+
+#: dashboard/templates/dashboard/custom_cert_issue.html:463
+msgid "OID field inputs (filled below)"
+msgstr ""
+
+#: dashboard/templates/dashboard/custom_cert_issue.html:465
+msgid "optional"
+msgstr ""
+
+#: dashboard/templates/dashboard/custom_cert_issue.html:467
+msgid "Preview (openssl extension lines)"
+msgstr ""
+
+#: dashboard/templates/dashboard/custom_cert_issue.html:468
+msgid "This profile issues CA certificates (basicConstraints CA:TRUE)"
+msgstr ""
+
+#: dashboard/templates/dashboard/custom_cert_issue.html:469
+msgid "(none)"
+msgstr ""
+
+#: dashboard/templates/dashboard/custom_cert_issue.html:525
+msgid "KU set in form but not in profile (will be dropped)"
+msgstr ""
+
+#: dashboard/templates/dashboard/custom_cert_issue.html:526
+msgid "KU added by profile but not set in form"
+msgstr ""
+
+#: dashboard/templates/dashboard/custom_cert_issue.html:527
+msgid "EKU set in form but not in profile (will be dropped)"
+msgstr ""
+
+#: dashboard/templates/dashboard/custom_cert_issue.html:528
+msgid "EKU added by profile but not set in form"
+msgstr ""
+
+#: dashboard/templates/dashboard/custom_cert_issue.html:531
+msgid "Form Key Usage / EKU does not match the selected Certificate Profile"
+msgstr ""
+
+#: dashboard/templates/dashboard/custom_cert_issue.html:533
+msgid ""
+"At signing, KU and EKU come from the profile — values set in the form are "
+"ignored. Pick a profile whose KU/EKU matches your inputs, or update the "
+"profile."
+msgstr ""
+
+#: dashboard/templates/dashboard/custom_cert_issue.html:687
+msgid "No certificate profile available"
+msgstr ""
+
+#: dashboard/templates/dashboard/dashboard.html:11
+msgid "root"
+msgstr ""
+
+#: dashboard/templates/dashboard/dashboard.html:11
+msgid "intermediate"
+msgstr ""
+
+#: dashboard/templates/dashboard/dashboard.html:14
+msgid "Active Certificates"
+msgstr ""
+
+#: dashboard/templates/dashboard/dashboard.html:16
+msgid "Total"
+msgstr ""
+
+#: dashboard/templates/dashboard/dashboard.html:21
+msgid "Listed in CRL"
+msgstr ""
+
+#: dashboard/templates/dashboard/dashboard.html:26
+msgid "Past validity"
+msgstr ""
+
+#: dashboard/templates/dashboard/dashboard.html:63
+msgid "Expiring soon (next 30 days)"
+msgstr ""
+
+#: dashboard/templates/dashboard/dashboard.html:81
+msgid "No certificates expiring in the next 30 days"
+msgstr ""
+
+#: dashboard/templates/dashboard/dashboard.html:90
+msgid "Recently issued"
+msgstr ""
+
+#: dashboard/templates/dashboard/dashboard.html:94
+msgid "Date"
+msgstr ""
+
+#: dashboard/templates/dashboard/login.html:7
+#: dashboard/templates/dashboard/login.html:32
+msgid "Login"
+msgstr ""
+
+#: dashboard/templates/dashboard/login.html:35
+msgid "Invalid username or password."
+msgstr ""
+
+#: dashboard/templates/dashboard/login.html:39
+msgid "Username"
+msgstr ""
+
+#: dashboard/templates/dashboard/login.html:41
+msgid "Password"
+msgstr ""
+
+#: dashboard/templates/dashboard/login.html:43
+msgid "Sign In"
+msgstr ""
+
+#: dashboard/templates/dashboard/maintenance.html:8
+msgid "Crypto backend"
+msgstr ""
+
+#: dashboard/templates/dashboard/maintenance.html:11
+msgid "GOST engine loaded"
+msgstr ""
+
+#: dashboard/templates/dashboard/maintenance.html:14
+msgid "Yes"
+msgstr ""
+
+#: dashboard/templates/dashboard/maintenance.html:16
+msgid "No"
+msgstr ""
+
+#: dashboard/templates/dashboard/maintenance.html:17
+msgid "Only RSA algorithms will work until gost-engine is reachable"
+msgstr ""
+
+#: dashboard/templates/dashboard/maintenance.html:22
+msgid "openssl version"
+msgstr ""
+
+#: dashboard/templates/dashboard/maintenance.html:27
+msgid "Operations"
+msgstr ""
+
+#: dashboard/templates/dashboard/maintenance.html:30
+msgid "Refresh metadata"
+msgstr ""
+
+#: dashboard/templates/dashboard/maintenance.html:31
+msgid "Rebuild all CRLs"
+msgstr ""
+
+#: dashboard/templates/dashboard/maintenance.html:46
+#: dashboard/templates/dashboard/maintenance.html:69
+msgid "Working..."
+msgstr ""
+
+#: dashboard/templates/dashboard/maintenance.html:52
+msgid "Refreshed"
+msgstr ""
+
+#: dashboard/templates/dashboard/maintenance.html:52
+#: dashboard/templates/dashboard/maintenance.html:75
+msgid "errors"
+msgstr ""
+
+#: dashboard/templates/dashboard/maintenance.html:53
+msgid "Refresh completed"
+msgstr ""
+
+#: dashboard/templates/dashboard/maintenance.html:56
+msgid "Refresh failed"
+msgstr ""
+
+#: dashboard/templates/dashboard/maintenance.html:57
+#: dashboard/templates/dashboard/maintenance.html:80
+msgid "Error"
+msgstr ""
+
+#: dashboard/templates/dashboard/maintenance.html:75
+msgid "Rebuilt"
+msgstr ""
+
+#: dashboard/templates/dashboard/maintenance.html:76
+msgid "CRL rebuild completed"
+msgstr ""
+
+#: dashboard/templates/dashboard/maintenance.html:79
+msgid "CRL rebuild failed"
+msgstr ""
+
+#: dashboard/views.py:766
+msgid "Issuance settings saved."
+msgstr ""

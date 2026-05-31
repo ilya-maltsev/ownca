@@ -1,0 +1,4 @@
+django>=4.2,<6
+psycopg2-binary
+whitenoise
+mistune>=3.0,<4

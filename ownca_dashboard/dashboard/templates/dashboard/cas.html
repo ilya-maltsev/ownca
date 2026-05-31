@@ -1,0 +1,152 @@
+{% extends "dashboard/base.html" %}
+{% load i18n %}
+{% block title %}{% trans "Authorities" %} - OwnCA{% endblock %}
+{% block page_title %}{% trans "Certificate Authorities" %}{% endblock %}
+{% block content %}
+
+<div class="import-form">
+    <h3 style="margin-bottom:12px">{% trans "Create new authority" %}</h3>
+    <form method="post" action="{% url 'ca_create' %}">
+        {% csrf_token %}
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px 20px">
+            <div>
+                <label style="display:block;font-size:11px;color:var(--fi-text-muted);font-weight:700;text-transform:uppercase;margin-bottom:4px">{% trans "Name" %} *</label>
+                <input type="text" name="name" required style="width:100%;padding:6px 10px;border:1px solid var(--fi-border);border-radius:3px;font-size:13px;font-family:inherit;box-sizing:border-box">
+            </div>
+            <div>
+                <label style="display:block;font-size:11px;color:var(--fi-text-muted);font-weight:700;text-transform:uppercase;margin-bottom:4px">{% trans "Common Name" %} *</label>
+                <input type="text" name="common_name" required placeholder="OwnCA Root" style="width:100%;padding:6px 10px;border:1px solid var(--fi-border);border-radius:3px;font-size:13px;font-family:inherit;box-sizing:border-box">
+            </div>
+            <div>
+                <label style="display:block;font-size:11px;color:var(--fi-text-muted);font-weight:700;text-transform:uppercase;margin-bottom:4px">{% trans "Type" %}</label>
+                <select name="ca_type" id="ca-type" style="width:100%;padding:6px 10px;border:1px solid var(--fi-border);border-radius:3px;font-size:13px;font-family:inherit;box-sizing:border-box">
+                    {% for v, label in ca_type_choices %}
+                    <option value="{{ v }}">{{ label }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div id="parent-row" style="display:none">
+                <label style="display:block;font-size:11px;color:var(--fi-text-muted);font-weight:700;text-transform:uppercase;margin-bottom:4px">{% trans "Parent CA" %}</label>
+                <select name="parent" style="width:100%;padding:6px 10px;border:1px solid var(--fi-border);border-radius:3px;font-size:13px;font-family:inherit;box-sizing:border-box">
+                    <option value="">—</option>
+                    {% for p in parents %}
+                    <option value="{{ p.uuid }}">{{ p.name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div>
+                <label style="display:block;font-size:11px;color:var(--fi-text-muted);font-weight:700;text-transform:uppercase;margin-bottom:4px">{% trans "Algorithm" %}</label>
+                <select name="key_alg" style="width:100%;padding:6px 10px;border:1px solid var(--fi-border);border-radius:3px;font-size:13px;font-family:inherit;box-sizing:border-box">
+                    {% for v, label in key_alg_choices %}
+                    <option value="{{ v }}">{{ label }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div>
+                <label style="display:block;font-size:11px;color:var(--fi-text-muted);font-weight:700;text-transform:uppercase;margin-bottom:4px">{% trans "Validity (days)" %}</label>
+                <input type="number" name="days" value="3650" min="1" style="width:100%;padding:6px 10px;border:1px solid var(--fi-border);border-radius:3px;font-size:13px;font-family:inherit;box-sizing:border-box">
+            </div>
+            <div>
+                <label style="display:block;font-size:11px;color:var(--fi-text-muted);font-weight:700;text-transform:uppercase;margin-bottom:4px">{% trans "Path length" %}</label>
+                <input type="number" name="pathlen" placeholder="(none)" min="0" style="width:100%;padding:6px 10px;border:1px solid var(--fi-border);border-radius:3px;font-size:13px;font-family:inherit;box-sizing:border-box">
+            </div>
+        </div>
+        <h4 style="margin:18px 0 8px;font-size:12px;color:var(--fi-text-muted);text-transform:uppercase;letter-spacing:0.5px">{% trans "Distribution points (embedded in issued certs)" %}</h4>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px 20px">
+            <div>
+                <label style="display:block;font-size:11px;color:var(--fi-text-muted);font-weight:700;text-transform:uppercase;margin-bottom:4px">{% trans "CRL Distribution Point URL" %}</label>
+                <input type="url" name="crl_url" placeholder="http://ca.example.org/crl.pem" style="width:100%;padding:6px 10px;border:1px solid var(--fi-border);border-radius:3px;font-size:13px;font-family:inherit;box-sizing:border-box">
+            </div>
+            <div>
+                <label style="display:block;font-size:11px;color:var(--fi-text-muted);font-weight:700;text-transform:uppercase;margin-bottom:4px">{% trans "Authority Info Access (caIssuers URL)" %}</label>
+                <input type="url" name="aia_url" placeholder="http://ca.example.org/ca.crt" style="width:100%;padding:6px 10px;border:1px solid var(--fi-border);border-radius:3px;font-size:13px;font-family:inherit;box-sizing:border-box">
+            </div>
+            <div>
+                <label style="display:block;font-size:11px;color:var(--fi-text-muted);font-weight:700;text-transform:uppercase;margin-bottom:4px">{% trans "OCSP responder URL" %}</label>
+                <input type="url" name="ocsp_url" placeholder="http://ocsp.example.org/" style="width:100%;padding:6px 10px;border:1px solid var(--fi-border);border-radius:3px;font-size:13px;font-family:inherit;box-sizing:border-box">
+            </div>
+            <div>
+                <label style="display:block;font-size:11px;color:var(--fi-text-muted);font-weight:700;text-transform:uppercase;margin-bottom:4px">{% trans "SIA caRepository URL" %}</label>
+                <input type="url" name="sia_url" placeholder="http://ca.example.org/repo/" style="width:100%;padding:6px 10px;border:1px solid var(--fi-border);border-radius:3px;font-size:13px;font-family:inherit;box-sizing:border-box">
+            </div>
+            <div>
+                <label style="display:block;font-size:11px;color:var(--fi-text-muted);font-weight:700;text-transform:uppercase;margin-bottom:4px">{% trans "Freshest CRL (delta) URL" %}</label>
+                <input type="url" name="freshest_crl_url" placeholder="http://ca.example.org/delta.crl" style="width:100%;padding:6px 10px;border:1px solid var(--fi-border);border-radius:3px;font-size:13px;font-family:inherit;box-sizing:border-box">
+            </div>
+            <div style="grid-column:1/-1">
+                <label style="display:block;font-size:11px;color:var(--fi-text-muted);font-weight:700;text-transform:uppercase;margin-bottom:4px">{% trans "issuerAltName entries (one per line)" %}</label>
+                <textarea name="issuer_alt_names" rows="2" placeholder="email:ca@example.org&#10;URI:http://ca.example.org/" style="width:100%;padding:6px 10px;border:1px solid var(--fi-border);border-radius:3px;font-size:12px;font-family:monospace;box-sizing:border-box;resize:vertical"></textarea>
+            </div>
+        </div>
+        <h4 style="margin:18px 0 8px;font-size:12px;color:var(--fi-text-muted);text-transform:uppercase;letter-spacing:0.5px">{% trans "Subject DN (optional fields)" %}</h4>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px 20px">
+            <div>
+                <label style="display:block;font-size:11px;color:var(--fi-text-muted);font-weight:700;text-transform:uppercase;margin-bottom:4px">{% trans "Country" %} (C)</label>
+                <input type="text" name="country" maxlength="2" placeholder="RU" style="width:100%;padding:6px 10px;border:1px solid var(--fi-border);border-radius:3px;font-size:13px;font-family:inherit;box-sizing:border-box">
+            </div>
+            <div>
+                <label style="display:block;font-size:11px;color:var(--fi-text-muted);font-weight:700;text-transform:uppercase;margin-bottom:4px">{% trans "State" %} (ST)</label>
+                <input type="text" name="state" style="width:100%;padding:6px 10px;border:1px solid var(--fi-border);border-radius:3px;font-size:13px;font-family:inherit;box-sizing:border-box">
+            </div>
+            <div>
+                <label style="display:block;font-size:11px;color:var(--fi-text-muted);font-weight:700;text-transform:uppercase;margin-bottom:4px">{% trans "Locality" %} (L)</label>
+                <input type="text" name="locality" style="width:100%;padding:6px 10px;border:1px solid var(--fi-border);border-radius:3px;font-size:13px;font-family:inherit;box-sizing:border-box">
+            </div>
+            <div>
+                <label style="display:block;font-size:11px;color:var(--fi-text-muted);font-weight:700;text-transform:uppercase;margin-bottom:4px">{% trans "Organization" %} (O)</label>
+                <input type="text" name="organization" style="width:100%;padding:6px 10px;border:1px solid var(--fi-border);border-radius:3px;font-size:13px;font-family:inherit;box-sizing:border-box">
+            </div>
+            <div>
+                <label style="display:block;font-size:11px;color:var(--fi-text-muted);font-weight:700;text-transform:uppercase;margin-bottom:4px">{% trans "Unit" %} (OU)</label>
+                <input type="text" name="unit" style="width:100%;padding:6px 10px;border:1px solid var(--fi-border);border-radius:3px;font-size:13px;font-family:inherit;box-sizing:border-box">
+            </div>
+        </div>
+        <div style="margin-top:16px">
+            <button type="submit" class="btn btn-primary">{% trans "Create CA" %}</button>
+        </div>
+    </form>
+</div>
+
+<div class="table-wrap">
+    <table class="datatable">
+        <thead><tr>
+            <th>{% trans "Name" %}</th>
+            <th>{% trans "Type" %}</th>
+            <th>{% trans "Parent" %}</th>
+            <th>{% trans "Algorithm" %}</th>
+            <th>{% trans "Issued" %}</th>
+            <th>{% trans "Valid Until" %}</th>
+            <th>{% trans "Status" %}</th>
+        </tr></thead>
+        <tbody>
+        {% for ca in cas %}
+        <tr>
+            <td><a href="{% url 'ca_detail' ca.uuid %}"><strong>{{ ca.name }}</strong></a></td>
+            <td><span class="badge {% if ca.ca_type == 'root' %}badge-info{% else %}badge-warn{% endif %}">{{ ca.get_ca_type_display }}</span></td>
+            <td>{{ ca.parent.name|default:"-" }}</td>
+            <td>{{ ca.get_key_alg_display }}</td>
+            <td>{{ ca.issued_count }}</td>
+            <td>{{ ca.not_after|date:"Y-m-d"|default:"-" }}</td>
+            <td>
+                {% if ca.is_enabled %}<span class="badge badge-on">{% trans "Active" %}</span>
+                {% else %}<span class="badge badge-off">{% trans "Disabled" %}</span>{% endif %}
+            </td>
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+{% endblock %}
+
+{% block scripts %}
+<script>
+$('#ca-type').on('change', function() {
+    if (this.value === 'intermediate') {
+        $('#parent-row').show();
+    } else {
+        $('#parent-row').hide();
+    }
+}).trigger('change');
+</script>
+{% endblock %}
