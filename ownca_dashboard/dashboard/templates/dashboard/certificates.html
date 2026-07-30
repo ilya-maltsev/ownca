@@ -1,0 +1,57 @@
+{% extends "dashboard/base.html" %}
+{% load i18n %}
+{% block title %}{% trans "Certificates" %} - OwnCA{% endblock %}
+{% block page_title %}{% trans "Certificates" %}{% endblock %}
+{% block content %}
+
+<div style="margin-bottom:14px;display:flex;gap:10px;align-items:center;flex-wrap:wrap">
+    <form method="get" style="display:flex;gap:8px;align-items:center;margin-left:auto">
+        <label class="toolbar-label">{% trans "CA" %}:</label>
+        <select name="ca" class="toolbar-select" onchange="this.form.submit()">
+            <option value="">{% trans "All" %}</option>
+            {% for ca in cas %}
+            <option value="{{ ca.uuid }}" {% if ca_filter == ca.uuid|stringformat:'s' %}selected{% endif %}>{{ ca.name }}</option>
+            {% endfor %}
+        </select>
+        <label class="toolbar-label">{% trans "Status" %}:</label>
+        <select name="status" class="toolbar-select" onchange="this.form.submit()">
+            <option value="">{% trans "All" %}</option>
+            <option value="active" {% if status == 'active' %}selected{% endif %}>{% trans "Active" %}</option>
+            <option value="revoked" {% if status == 'revoked' %}selected{% endif %}>{% trans "Revoked" %}</option>
+            <option value="expired" {% if status == 'expired' %}selected{% endif %}>{% trans "Expired" %}</option>
+        </select>
+    </form>
+</div>
+
+<div class="table-wrap">
+    <table class="datatable">
+        <thead><tr>
+            <th>{% trans "Common Name" %}</th>
+            <th>{% trans "Issuer CA" %}</th>
+            <th>{% trans "Profile" %}</th>
+            <th>{% trans "Algorithm" %}</th>
+            <th>{% trans "Serial" %}</th>
+            <th>{% trans "Valid Until" %}</th>
+            <th>{% trans "Status" %}</th>
+        </tr></thead>
+        <tbody>
+        {% for cert in certs %}
+        <tr>
+            <td><a href="{% url 'cert_detail' cert.uuid %}"><strong>{{ cert.common_name }}</strong></a></td>
+            <td><a href="{% url 'ca_detail' cert.issuer_ca.uuid %}">{{ cert.issuer_ca.name }}</a></td>
+            <td><span class="badge badge-info">{{ cert.profile_name }}</span></td>
+            <td>{{ cert.get_key_alg_display }}</td>
+            <td style="font-family:monospace;font-size:12px">{{ cert.serial_hex }}</td>
+            <td>{{ cert.not_after|date:"Y-m-d"|default:"-" }}</td>
+            <td>
+                {% if cert.status == 'active' %}<span class="badge badge-on">{% trans "Active" %}</span>
+                {% elif cert.status == 'revoked' %}<span class="badge badge-off">{% trans "Revoked" %}</span>
+                {% else %}<span class="badge badge-warn">{% trans "Expired" %}</span>{% endif %}
+            </td>
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+{% endblock %}

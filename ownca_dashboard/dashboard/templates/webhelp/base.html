@@ -1,0 +1,114 @@
+{% load static i18n %}<!DOCTYPE html>
+<html lang="{{ lang }}">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{{ page_title }} — OwnCA {% if lang == 'ru' %}Справка{% else %}Help{% endif %}</title>
+    <link rel="icon" type="image/svg+xml" href="{% static 'dashboard/favicon.svg' %}">
+    <link rel="stylesheet" href="{% static 'dashboard/vendor/fonts/fonts.css' %}">
+    <link rel="stylesheet" href="{% static 'dashboard/vendor/font-awesome/css/font-awesome.min.css' %}">
+    <link rel="stylesheet" href="{% static 'dashboard/webhelp.css' %}">
+</head>
+<body class="webhelp">
+    <header class="wh-header">
+        <div class="wh-brand">
+            <a href="{% url 'webhelp_index' lang=lang %}">
+                <span class="wh-brand-name">OwnCA</span>
+                <span class="wh-brand-sub">{% if lang == 'ru' %}Справка{% else %}Help{% endif %}</span>
+            </a>
+        </div>
+        <div class="wh-search">
+            <input type="search" id="wh-search-input"
+                   placeholder="{% if lang == 'ru' %}Поиск по справке…{% else %}Search the help…{% endif %}"
+                   autocomplete="off">
+            <ul id="wh-search-results"></ul>
+        </div>
+        <div class="wh-actions">
+            <div class="wh-lang">
+                {% if lang == 'ru' %}
+                    {% if active_slug %}
+                        <a href="{% url 'webhelp_page' lang='en' slug=active_slug %}" class="wh-lang-btn">EN</a>
+                    {% else %}
+                        <a href="{% url 'webhelp_index' lang='en' %}" class="wh-lang-btn">EN</a>
+                    {% endif %}
+                    <span class="wh-lang-btn wh-lang-active">RU</span>
+                {% else %}
+                    <span class="wh-lang-btn wh-lang-active">EN</span>
+                    {% if active_slug %}
+                        <a href="{% url 'webhelp_page' lang='ru' slug=active_slug %}" class="wh-lang-btn">RU</a>
+                    {% else %}
+                        <a href="{% url 'webhelp_index' lang='ru' %}" class="wh-lang-btn">RU</a>
+                    {% endif %}
+                {% endif %}
+            </div>
+            <a href="javascript:window.print()" class="wh-print-btn"
+               title="{% if lang == 'ru' %}Печать{% else %}Print{% endif %}">
+                <i class="fa fa-print"></i>
+            </a>
+            <a href="{% url 'dashboard' %}" class="wh-back-btn"
+               title="{% if lang == 'ru' %}Вернуться в интерфейс{% else %}Back to dashboard{% endif %}">
+                <i class="fa fa-arrow-left"></i>
+                <span>{% if lang == 'ru' %}В интерфейс{% else %}Dashboard{% endif %}</span>
+            </a>
+        </div>
+        <button class="wh-sidebar-toggle" id="wh-sidebar-toggle"
+                title="{% if lang == 'ru' %}Меню{% else %}Menu{% endif %}">
+            <i class="fa fa-bars"></i>
+        </button>
+    </header>
+
+    <div class="wh-layout">
+        <nav class="wh-sidebar" id="wh-sidebar">
+            <ul class="wh-tree">
+                {% for section in tree %}
+                <li class="wh-section{% if section.id == active_section_id %} wh-open{% endif %}">
+                    <button class="wh-section-toggle" type="button">
+                        <i class="fa fa-caret-right wh-caret"></i>
+                        <span>{{ section.title }}</span>
+                    </button>
+                    <ul class="wh-pages">
+                        {% for page in section.pages %}
+                        <li>
+                            <a href="{% url 'webhelp_page' lang=lang slug=page.slug %}"
+                               class="{% if page.slug == active_slug %}wh-active{% endif %}">
+                                {{ page.title }}
+                            </a>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                </li>
+                {% endfor %}
+            </ul>
+        </nav>
+
+        <main class="wh-main">
+            {% if breadcrumbs %}
+            <nav class="wh-breadcrumbs" aria-label="breadcrumb">
+                <a href="{% url 'webhelp_index' lang=lang %}">
+                    {% if lang == 'ru' %}Содержание{% else %}Contents{% endif %}
+                </a>
+                {% for crumb in breadcrumbs %}
+                    <span class="wh-sep">›</span>
+                    {% if crumb.slug %}
+                        <a href="{% url 'webhelp_page' lang=lang slug=crumb.slug %}">{{ crumb.title }}</a>
+                    {% else %}
+                        <span>{{ crumb.title }}</span>
+                    {% endif %}
+                {% endfor %}
+            </nav>
+            {% endif %}
+
+            <article class="wh-content">
+                {% block content %}{% endblock %}
+            </article>
+        </main>
+    </div>
+
+    <script id="wh-i18n" type="application/json">
+        {"empty": {% if lang == 'ru' %}"Ничего не найдено"{% else %}"No results"{% endif %},
+         "indexUrl": "{% url 'webhelp_search_index' lang=lang %}",
+         "pageBase": "{% url 'webhelp_index' lang=lang %}"}
+    </script>
+    <script src="{% static 'dashboard/webhelp.js' %}"></script>
+</body>
+</html>

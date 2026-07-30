@@ -1,0 +1,284 @@
+{% extends "dashboard/base.html" %}
+{% load i18n %}
+{% block title %}{{ cert.common_name }} - OwnCA{% endblock %}
+{% block page_title %}{% trans "Certificate" %}: {{ cert.common_name }}{% endblock %}
+{% block content %}
+
+<div class="panel">
+    <div class="panel-header">
+        {% trans "Certificate" %}
+        <span class="badge {% if cert.status == 'active' %}badge-on{% elif cert.status == 'revoked' %}badge-off{% else %}badge-warn{% endif %}" style="margin-left:auto">
+            {% if cert.status == 'active' %}{% trans "Active" %}{% elif cert.status == 'revoked' %}{% trans "Revoked" %}{% else %}{% trans "Expired" %}{% endif %}
+        </span>
+    </div>
+    <div class="panel-body">
+        <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:18px;flex-wrap:wrap">
+            <div>
+                <div style="font-size:11px;color:var(--fi-text-muted);text-transform:uppercase;letter-spacing:0.6px;font-weight:700">{% trans "Common Name" %}</div>
+                <div style="font-size:18px;font-weight:800;margin:2px 0 6px">{{ cert.common_name }}</div>
+                <div style="font-size:12px;color:var(--fi-text-muted)">{% trans "Issued by" %} <a href="{% url 'ca_detail' cert.issuer_ca.uuid %}" style="color:var(--fi-text)"><strong>{{ cert.issuer_ca.name }}</strong></a> {% if ca_backend == 'capilite' %}<span class="badge badge-info">{% trans "CryptoPro CSP" %}</span>{% endif %} {{ cert.created_at|date:"Y-m-d H:i T" }}</div>
+            </div>
+            <div class="btn-row">
+                <a href="{% url 'cert_download' cert.uuid 'cert' %}" class="btn btn-default"><i class="fa fa-download"></i> {% trans "Download cert" %}</a>
+                {% if has_csr_file %}
+                <a href="{% url 'cert_download' cert.uuid 'csr' %}" class="btn btn-default"><i class="fa fa-file-text-o"></i> {% trans "Download CSR" %}</a>
+                {% endif %}
+                {% comment %}
+                On the CryptoPro backend the private key is sealed in a CSP container: it
+                can neither be written out as PEM (key / bundle) nor, for a server-generated
+                key, be traced back to a PKCS#10. Those exports belong to the openssl path
+                only — see cert_download_view for the matching server-side refusals.
+                {% endcomment %}
+                {% if cert.has_private_key and ca_backend != 'capilite' %}
+                <a href="{% url 'cert_download' cert.uuid 'key' %}" class="btn btn-default">{% trans "Download key" %}</a>
+                {% endif %}
+                {% if ca_backend != 'capilite' %}
+                <a href="{% url 'cert_download' cert.uuid 'bundle' %}" class="btn btn-default">{% trans "Download PEM bundle" %}</a>
+                {% endif %}
+                {% if cert.has_private_key %}
+                <button type="button" class="btn btn-primary" id="show-p12"><i class="fa fa-shield"></i> {% if ca_backend == 'capilite' %}{% trans "Export pfx" %}{% else %}{% trans "Export PKCS#12" %}{% endif %}</button>
+                {% endif %}
+                {% if cert.status != 'revoked' %}
+                <button type="button" class="btn btn-default" id="show-renew">{% trans "Renew" %}</button>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+
+{% if cert.has_private_key %}
+<div id="p12-panel" class="panel" style="display:none">
+    <div class="panel-header">{% trans "Export PKCS#12 bundle" %}</div>
+    <div class="panel-body">
+        <p style="margin:0 0 10px;font-size:12px;color:var(--fi-text-muted)">{% if ca_backend == 'capilite' %}{% trans "The bundle (.pfx) will contain the certificate, the private key and the full CA chain. The passphrase is required to decrypt the key in the importing system." %}{% else %}{% trans "The bundle (.p12) will contain the certificate, the private key and the full CA chain. The passphrase is required to decrypt the key in the importing system." %}{% endif %}</p>
+        <form method="post" action="{% url 'cert_download' cert.uuid 'p12' %}">
+            {% csrf_token %}
+            <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap">
+                <label class="toolbar-label">{% trans "Passphrase" %}:</label>
+                <div style="position:relative;display:inline-block">
+                    <input type="password" name="password" id="p12-pw" required minlength="4" style="padding:5px 10px;padding-right:32px;border:1px solid var(--fi-border);border-radius:3px;font-size:13px;font-family:inherit">
+                    <button type="button" class="pw-toggle" data-target="p12-pw" style="position:absolute;right:6px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;padding:2px 4px;color:var(--fi-text-muted);font-size:14px" title="{% trans 'Show/hide password' %}"><i class="fa fa-eye"></i></button>
+                </div>
+                {% comment %}
+                TK-26 (.gost.p12) is produced by openssl+gost-engine. A
+                CryptoPro-backed cert is packaged by PFXExportCertStoreEx with
+                the CSP's own PBE, so the format cannot be selected — offering
+                the checkbox (checked!) would make the default export fail.
+                {% endcomment %}
+                {% if cert.key_alg == 'gost2012_256' or cert.key_alg == 'gost2012_512' %}
+                {% if system_settings.offer_gost_p12_export and ca_backend != 'capilite' %}
+                <label style="display:inline-flex;align-items:center;gap:6px;font-size:13px;cursor:pointer">
+                    <input type="checkbox" name="gostkeybag" value="1" id="p12-tk26" checked>
+                    {% trans "TK-26 format (RFC 9548)" %}
+                </label>
+                <span id="p12-tk26-opts" style="display:inline-flex;gap:8px;align-items:center;flex-wrap:wrap">
+                    <label class="toolbar-label" style="font-size:12px">{% trans "Cipher" %}:</label>
+                    <select name="cipher" class="toolbar-select">
+                        <option value="kuznyechik-ctr-acpkm" selected>kuznyechik-ctr-acpkm</option>
+                        <option value="magma-ctr-acpkm">magma-ctr-acpkm</option>
+                    </select>
+                </span>
+                {% endif %}
+                {% endif %}
+                <button type="submit" class="btn btn-primary">{% if ca_backend == 'capilite' %}{% trans "Download pfx" %}{% else %}{% trans "Download .p12" %}{% endif %}</button>
+                <button type="button" class="btn btn-default" id="hide-p12">{% trans "Cancel" %}</button>
+            </div>
+        </form>
+    </div>
+</div>
+{% endif %}
+
+{% if cert.status != 'revoked' %}
+<div id="renew-panel" class="panel" style="display:none">
+    <div class="panel-header">{% trans "Renew certificate" %}</div>
+    <div class="panel-body">
+        <p style="margin:0 0 10px;font-size:12px;color:var(--fi-text-muted)">{% trans "A new certificate will be signed reusing the same CSR (and private key, if stored) under a new serial number. The original certificate is left unchanged." %}</p>
+        <form method="post" action="{% url 'cert_renew' cert.uuid %}">
+            {% csrf_token %}
+            <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap">
+                <label class="toolbar-label">{% trans "New validity (days)" %}:</label>
+                <input type="number" name="days" value="365" min="1" style="padding:5px 10px;border:1px solid var(--fi-border);border-radius:3px;font-size:13px;width:90px">
+                <button type="submit" class="btn btn-primary">{% trans "Renew" %}</button>
+                <button type="button" class="btn btn-default" id="hide-renew">{% trans "Cancel" %}</button>
+            </div>
+        </form>
+    </div>
+</div>
+{% endif %}
+
+<div class="panel">
+    <div class="panel-header">{% trans "X.509: subject / issuer / validity" %}</div>
+    <div class="panel-body">
+        <div class="detail-row"><div class="detail-label">{% trans "Subject" %}</div><div class="detail-value" style="font-family:monospace;font-size:12px">{{ cert.subject }}</div></div>
+        <div class="detail-row"><div class="detail-label">{% trans "Issuer CA" %}</div><div class="detail-value"><a href="{% url 'ca_detail' cert.issuer_ca.uuid %}">{{ cert.issuer_ca.name }}</a></div></div>
+        <div class="detail-row"><div class="detail-label">{% trans "Serial" %}</div><div class="detail-value" style="font-family:monospace;font-size:12px">{{ cert.serial_hex|default:"-" }}</div></div>
+        <div class="detail-row"><div class="detail-label">{% trans "Algorithm" %}</div><div class="detail-value">{{ cert.get_key_alg_display }}</div></div>
+        <div class="detail-row"><div class="detail-label">{% trans "Valid From" %}</div><div class="detail-value">{{ cert.not_before|date:"Y-m-d H:i T"|default:"-" }}</div></div>
+        <div class="detail-row"><div class="detail-label">{% trans "Valid Until" %}</div><div class="detail-value">{{ cert.not_after|date:"Y-m-d H:i T"|default:"-" }}</div></div>
+        <div class="detail-row"><div class="detail-label">{% trans "SHA-256 Fingerprint" %}</div><div class="detail-value" style="font-family:monospace;font-size:11px;word-break:break-all">{{ cert.fingerprint_sha256|default:"-" }}</div></div>
+        <div class="detail-row"><div class="detail-label">{% trans "Private key" %}</div><div class="detail-value">
+            {% if cert.has_private_key %}
+                {% if ca_backend == 'capilite' %}<span class="badge badge-on">{% trans "In a CryptoPro container" %}</span> <span style="font-size:11px;color:var(--fi-text-muted)">{% trans "non-exportable as PEM" %}</span>
+                {% else %}<span class="badge badge-on">{% trans "Stored" %}</span>{% endif %}
+            {% else %}<span class="badge badge-warn">{% trans "Not stored (external CSR)" %}</span>{% endif %}
+        </div></div>
+        {% if cert.revoked_at %}
+        <div class="detail-row"><div class="detail-label">{% trans "Revoked at" %}</div><div class="detail-value">{{ cert.revoked_at|date:"Y-m-d H:i T" }}</div></div>
+        <div class="detail-row"><div class="detail-label">{% trans "Reason" %}</div><div class="detail-value">{{ cert.get_revocation_reason_display }}</div></div>
+        {% endif %}
+        {% if cert.renewed_from %}
+        <div class="detail-row"><div class="detail-label">{% trans "Renewed from" %}</div><div class="detail-value"><a href="{% url 'cert_detail' cert.renewed_from.uuid %}">{{ cert.renewed_from.common_name }} ({{ cert.renewed_from.serial_hex }})</a></div></div>
+        {% endif %}
+        <div class="detail-row"><div class="detail-label">{% trans "Created" %}</div><div class="detail-value">{{ cert.created_at|date:"Y-m-d H:i T" }}</div></div>
+    </div>
+</div>
+
+<div class="panel">
+    <div class="panel-header">{% trans "Extensions" %}</div>
+    <div class="panel-body">
+        <div class="detail-row"><div class="detail-label">{% trans "Profile" %}</div><div class="detail-value"><span class="badge badge-info">{{ cert.profile_name }}</span></div></div>
+        {% if cert.san_dns %}
+        <div class="detail-row"><div class="detail-label">{% trans "DNS SANs" %}</div><div class="detail-value">{{ cert.san_dns }}</div></div>
+        {% endif %}
+        {% if cert.san_ip %}
+        <div class="detail-row"><div class="detail-label">{% trans "IP SANs" %}</div><div class="detail-value">{{ cert.san_ip }}</div></div>
+        {% endif %}
+        {% if custom_oid_display %}
+        {% for item in custom_oid_display %}
+        <div class="detail-row"><div class="detail-label">{{ item.label }} <span style="font-family:monospace;color:var(--fi-text-muted);font-size:11px">({{ item.oid }})</span></div><div class="detail-value" style="font-family:monospace;font-size:12px">{{ item.value }}</div></div>
+        {% endfor %}
+        {% endif %}
+    </div>
+</div>
+
+{% if renewals %}
+<div class="panel">
+    <div class="panel-header">{% trans "Renewals issued from this certificate" %}</div>
+    <div class="table-wrap" style="margin:0;border:none;box-shadow:none">
+        <table>
+            <thead><tr>
+                <th>{% trans "Serial" %}</th>
+                <th>{% trans "Valid From" %}</th>
+                <th>{% trans "Valid Until" %}</th>
+                <th>{% trans "Status" %}</th>
+            </tr></thead>
+            <tbody>
+            {% for r in renewals %}
+            <tr>
+                <td><a href="{% url 'cert_detail' r.uuid %}" style="font-family:monospace;font-size:12px"><strong>{{ r.serial_hex }}</strong></a></td>
+                <td>{{ r.not_before|date:"Y-m-d H:i" }}</td>
+                <td>{{ r.not_after|date:"Y-m-d H:i" }}</td>
+                <td>
+                    {% if r.status == 'active' %}<span class="badge badge-on">{% trans "Active" %}</span>
+                    {% elif r.status == 'revoked' %}<span class="badge badge-off">{% trans "Revoked" %}</span>
+                    {% else %}<span class="badge badge-warn">{% trans "Expired" %}</span>{% endif %}
+                </td>
+            </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endif %}
+
+{% if cert_text %}
+<div class="panel">
+    <div class="panel-header">{% trans "X.509 details" %}</div>
+    <div class="panel-body">
+        <pre style="font-family:monospace;font-size:11px;color:var(--fi-text);background:#f8f9fa;padding:12px;border:1px solid var(--fi-border);border-radius:3px;overflow:auto;margin:0">{{ cert_text }}</pre>
+    </div>
+</div>
+{% endif %}
+
+{% if cert_pem %}
+<div class="panel">
+    <div class="panel-header">
+        {% trans "Raw PEM" %}
+        <button class="btn btn-default btn-sm" id="copy-pem">{% trans "Copy" %}</button>
+    </div>
+    <div class="panel-body">
+        <pre id="cert-pem-block" class="pem-block">{{ cert_pem }}</pre>
+    </div>
+</div>
+{% endif %}
+
+<div class="panel">
+    <div class="panel-header" style="background:#fff7e0;color:#6b4f00;border-bottom-color:#ffd887">{% trans "Danger zone" %}</div>
+    <div class="panel-body">
+        {% if cert.status == 'active' %}
+        <form method="post" action="{% url 'cert_revoke' cert.uuid %}" style="margin-bottom:14px">
+            {% csrf_token %}
+            <div style="display:flex;gap:14px;align-items:center;flex-wrap:wrap">
+                <div style="flex:1;min-width:280px;font-size:13px">
+                    <strong>{% trans "Revoke this certificate." %}</strong>
+                    <div style="color:var(--fi-text-muted);margin-top:4px">{% blocktrans with ca_name=cert.issuer_ca.name %}It will be added to the next CRL issued by {{ ca_name }}. This action cannot be undone.{% endblocktrans %}</div>
+                </div>
+                <select name="reason" class="toolbar-select">
+                    {% for v, label in reasons %}
+                    <option value="{{ v }}">{{ label }}</option>
+                    {% endfor %}
+                </select>
+                <button type="submit" class="btn btn-danger">{% trans "Confirm revocation" %}</button>
+            </div>
+        </form>
+        {% endif %}
+        <div style="display:flex;gap:14px;align-items:center;flex-wrap:wrap">
+            <div style="flex:1;min-width:280px;font-size:13px">
+                <strong>{% trans "Delete this certificate." %}</strong>
+                {% if has_capi_container %}
+                <div style="color:var(--fi-text-muted);margin-top:4px;font-size:11px">{% trans "Without it the CryptoPro container stays in the provider's keystore with nothing pointing at it. With it the key is gone for good — it is non-exportable, so no backup of the storage directory brings it back." %}</div>
+                {% endif %}
+            </div>
+            <form method="post" action="{% url 'cert_delete' cert.uuid %}" style="display:inline" id="delete-form">
+                {% csrf_token %}
+                {% if has_capi_container %}
+                <label style="display:inline-flex;align-items:center;gap:6px;font-size:12px;margin-right:12px">
+                    <input type="checkbox" name="drop_container" value="1" id="drop-container-cert">
+                    {% trans "Delete the key container too" %}
+                </label>
+                {% endif %}
+                <button type="button" class="btn btn-danger" id="delete-btn">{% trans "Delete" %}</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block scripts %}
+<script>
+$('#show-renew').click(function() { $('#renew-panel').show(); });
+$('#hide-renew').click(function() { $('#renew-panel').hide(); });
+$('#show-p12').click(function() { $('#p12-panel').show(); });
+$('#hide-p12').click(function() { $('#p12-panel').hide(); });
+(function() {
+    var $cb = $('#p12-tk26');
+    if (!$cb.length) return;
+    var $opts = $('#p12-tk26-opts');
+    function sync() { $opts.css('display', $cb.is(':checked') ? 'inline-flex' : 'none'); }
+    $cb.on('change', sync);
+    sync();
+})();
+$('.pw-toggle').click(function() {
+    var $inp = $('#' + $(this).data('target'));
+    var isPassword = $inp.attr('type') === 'password';
+    $inp.attr('type', isPassword ? 'text' : 'password');
+    $(this).find('i').toggleClass('fa-eye fa-eye-slash');
+});
+$('#copy-pem').click(function() {
+    var text = $('#cert-pem-block').text();
+    navigator.clipboard.writeText(text).then(function() {
+        showToast('{% trans "Copied to clipboard." %}');
+    });
+});
+$('#delete-btn').click(function() {
+    var msg = '{% trans "Delete this certificate from the index? Files will be removed from disk." %}';
+    if ($('#drop-container-cert').is(':checked')) {
+        msg += ' ' + '{% trans "Its CryptoPro key container will be destroyed as well. The key is non-exportable and cannot be recovered." %}';
+    }
+    showConfirm(msg, function() {
+        $('#delete-form').submit();
+    }, '{% trans "Delete certificate" %}');
+});
+</script>
+{% endblock %}

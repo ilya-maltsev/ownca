@@ -1,0 +1,207 @@
+{% load static i18n %}
+<!DOCTYPE html>
+<html lang="{{ LANGUAGE_CODE }}">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{% block title %}OwnCA{% endblock %}</title>
+    <link rel="icon" type="image/svg+xml" href="{% static 'dashboard/favicon.svg' %}">
+    <link rel="stylesheet" href="{% static 'dashboard/vendor/fonts/fonts.css' %}">
+    <link rel="stylesheet" href="{% static 'dashboard/style.css' %}">
+    <link rel="stylesheet" href="{% static 'dashboard/vendor/datatables/jquery.dataTables.min.css' %}">
+    <link rel="stylesheet" href="{% static 'dashboard/vendor/font-awesome/css/font-awesome.min.css' %}">
+</head>
+<body>
+    <nav class="sidebar">
+        <div class="sidebar-brand"><span class="brand-text">{% trans "Own" %}</span><span class="seal">{% trans "CA" %}</span></div>
+        <button class="sidebar-toggle" id="sidebar-toggle" title="{% trans 'Collapse menu' %}" data-title-collapse="{% trans 'Collapse menu' %}" data-title-expand="{% trans 'Expand menu' %}"><span class="toggle-collapse">&#8656;</span><span class="toggle-expand">&#8658;</span></button>
+
+        <div class="sidebar-section">{% trans "Monitor" %}</div>
+        <a href="{% url 'dashboard' %}" class="{% if page == 'dashboard' %}active{% endif %}" data-tooltip="{% trans 'Dashboard' %}">
+            <span class="icon"><i class="fa fa-tachometer"></i></span> {% trans "Dashboard" %}
+        </a>
+
+        <div class="sidebar-section">{% trans "Certificate Operations" %}</div>
+        <a href="{% url 'certificates' %}" class="{% if page == 'certificates' %}active{% endif %}" data-tooltip="{% trans 'Certificates' %}">
+            <span class="icon"><i class="fa fa-id-card"></i></span> {% trans "Certificates" %}
+        </a>
+        <a href="{% url 'custom_cert_issue' %}" class="{% if page == 'custom_cert_issue' %}active{% endif %}" data-tooltip="{% trans 'Cert Issue' %}">
+            <span class="icon"><i class="fa fa-magic"></i></span> {% trans "Cert Issue" %}
+        </a>
+
+        <div class="sidebar-section">{% trans "Certification Authority" %}</div>
+        <a href="{% url 'cas' %}" class="{% if page == 'cas' %}active{% endif %}" data-tooltip="{% trans 'Authorities' %}">
+            <span class="icon"><i class="fa fa-university"></i></span> {% trans "Authorities" %}
+        </a>
+        <a href="{% url 'cert_profiles' %}" class="{% if page == 'cert_profiles' %}active{% endif %}" data-tooltip="{% trans 'Cert Profiles' %}">
+            <span class="icon"><i class="fa fa-id-card-o"></i></span> {% trans "Cert Profiles" %}
+        </a>
+        <div class="sidebar-section">{% trans "System" %}</div>
+        <a href="{% url 'configuration' %}" class="{% if page == 'configuration' %}active{% endif %}" data-tooltip="{% trans 'Configuration' %}">
+            <span class="icon">&#9881;</span> {% trans "Configuration" %}
+        </a>
+        <a href="{% url 'maintenance' %}" class="{% if page == 'maintenance' %}active{% endif %}" data-tooltip="{% trans 'Maintenance' %}">
+            <span class="icon">&#9874;</span> {% trans "Maintenance" %}
+        </a>
+
+        <div class="sidebar-section">{% trans "Language" %}</div>
+        <div class="lang-switch">
+            {% get_current_language as CURRENT_LANGUAGE %}
+            <form action="{% url 'set_language' %}" method="post">
+                {% csrf_token %}
+                <input type="hidden" name="next" value="{{ request.path }}">
+                {% get_available_languages as LANGUAGES %}
+                {% for lang_code, lang_name in LANGUAGES %}
+                <button type="submit" name="language" value="{{ lang_code }}"
+                    class="lang-btn {% if lang_code == CURRENT_LANGUAGE %}lang-active{% endif %}">
+                    {{ lang_code|upper }}
+                </button>
+                {% endfor %}
+            </form>
+        </div>
+
+        <div class="sidebar-section">{% trans "Help" %}</div>
+        <a href="{{ webhelp_url }}" target="_blank" rel="noopener" data-tooltip="{% trans 'Help' %}">
+            <span class="icon"><i class="fa fa-question-circle"></i></span>
+            <span class="sidebar-text">{% trans "Help" %}</span>
+        </a>
+
+        <div style="flex:1"></div>
+        <div style="border-top:1px solid var(--fi-border);padding:8px 16px" class="sidebar-logout">
+            <a href="{% url 'logout' %}" style="color:var(--fi-error);font-size:12px;text-decoration:none;display:flex;align-items:center;gap:6px">
+                <span>&#10140;</span> <span class="sidebar-text">{% trans "Logout" %} ({{ request.user.username }})</span>
+            </a>
+        </div>
+    </nav>
+
+    <div class="main">
+        <div class="topbar">
+            <h1>{% block page_title %}{% trans "Dashboard" %}{% endblock %}</h1>
+            <div class="meta">{{ project_title }}</div>
+        </div>
+        <div class="content">
+            {% if messages %}
+            <div class="messages">
+                {% for msg in messages %}
+                <div class="msg msg-{{ msg.tags }}">{{ msg }}</div>
+                {% endfor %}
+            </div>
+            {% endif %}
+            {% block content %}{% endblock %}
+        </div>
+    </div>
+
+    <!-- Confirm modal -->
+    <div id="confirm-modal" style="display:none;position:fixed;top:0;left:0;right:0;bottom:0;z-index:10000;background:rgba(0,0,0,0.5)">
+        <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);background:#fff;border-radius:4px;box-shadow:0 8px 30px rgba(0,0,0,0.3);width:420px;max-width:90%">
+            <div style="padding:20px 24px;border-bottom:1px solid var(--fi-border)">
+                <h3 id="confirm-title" style="font-size:16px;color:var(--fi-text);margin:0">{% trans "Confirmation" %}</h3>
+            </div>
+            <div style="padding:20px 24px">
+                <p id="confirm-message" style="font-size:14px;color:var(--fi-text);margin:0"></p>
+            </div>
+            <div style="padding:14px 24px;border-top:1px solid var(--fi-border);display:flex;justify-content:flex-end;gap:8px;background:#f8f9fa;border-radius:0 0 4px 4px">
+                <button id="confirm-cancel" class="btn btn-default">{% trans "Cancel" %}</button>
+                <button id="confirm-ok" class="btn btn-primary" style="background:var(--fi-error);border-color:var(--fi-error)">{% trans "Confirm" %}</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Restore sidebar state before render to avoid flash
+        if (localStorage.getItem('sidebarCollapsed') === '1') {
+            document.body.classList.add('sidebar-collapsed');
+            var btn = document.getElementById('sidebar-toggle');
+            if (btn) btn.title = btn.dataset.titleExpand;
+        }
+    </script>
+    <script src="{% static 'dashboard/vendor/jquery/jquery-3.7.1.min.js' %}"></script>
+    <script src="{% static 'dashboard/vendor/datatables/jquery.dataTables.min.js' %}"></script>
+    <script>
+        // Sidebar toggle
+        $('#sidebar-toggle').click(function() {
+            document.body.classList.toggle('sidebar-collapsed');
+            var collapsed = document.body.classList.contains('sidebar-collapsed');
+            localStorage.setItem('sidebarCollapsed', collapsed ? '1' : '0');
+            this.title = collapsed ? this.dataset.titleExpand : this.dataset.titleCollapse;
+        });
+        function showConfirm(message, callback, title) {
+            var $modal = $('#confirm-modal');
+            $('#confirm-title').text(title || '{% trans "Confirmation" %}');
+            $('#confirm-message').text(message);
+            $modal.fadeIn(150);
+            $('#confirm-cancel').off('click').on('click', function() { $modal.fadeOut(150); });
+            $('#confirm-ok').off('click').on('click', function() { $modal.fadeOut(150); callback(); });
+            $modal.off('click').on('click', function(e) { if (e.target === this) $modal.fadeOut(150); });
+        }
+
+        function showToast(msg, type) {
+            var bg = type === 'error' ? '#f8d7da' : '#d4edda';
+            var color = type === 'error' ? '#721c24' : '#155724';
+            var border = type === 'error' ? '#f5c6cb' : '#c3e6cb';
+            var icon = type === 'error' ? '&#10006;' : '&#10004;';
+            var $toast = $('<div style="position:fixed;top:20px;right:20px;z-index:9999;min-width:350px;max-width:500px;padding:14px 20px;font-size:14px;font-weight:600;background:' + bg + ';color:' + color + ';border:2px solid ' + border + ';border-radius:4px;box-shadow:0 6px 20px rgba(0,0,0,0.25);cursor:pointer">' + icon + '&nbsp;&nbsp;' + msg + '</div>');
+            $('body').append($toast);
+            $toast.click(function() { $(this).remove(); });
+            setTimeout(function() { $toast.fadeOut(800, function() { $toast.remove(); }); }, 30000);
+        }
+
+        $(document).ready(function() {
+            $('.datatable').each(function() {
+                var $table = $(this);
+                // Add filter row to thead
+                var $headerRow = $table.find('thead tr');
+                var $filterRow = $('<tr class="col-filter-row"></tr>');
+                $headerRow.find('th').each(function() {
+                    $filterRow.append(
+                        '<th><div class="col-filter-wrap">' +
+                        '<input type="text" class="col-filter-input" placeholder="&#9660;">' +
+                        '</div></th>'
+                    );
+                });
+                $headerRow.after($filterRow);
+
+                var dt = $table.DataTable({
+                    pageLength: 25,
+                    order: [],
+                    orderCellsTop: true,
+                    language: {
+                        search: "{% trans 'Filter:' %}",
+                        lengthMenu: "{% trans 'Show _MENU_ entries' %}",
+                        info: "{% trans 'Showing _START_ to _END_ of _TOTAL_ entries' %}",
+                        infoEmpty: "{% trans 'No entries' %}",
+                        infoFiltered: "({% trans 'filtered from _MAX_ total' %})",
+                        zeroRecords: "{% trans 'No matching records found' %}",
+                        emptyTable: "{% trans 'No data available' %}",
+                        paginate: {
+                            previous: "{% trans 'Previous' %}",
+                            next: "{% trans 'Next' %}"
+                        }
+                    }
+                });
+
+                // Per-column filter (supports comma-separated OR: "server,client")
+                $filterRow.find('.col-filter-input').each(function(i) {
+                    $(this).on('keyup change', function() {
+                        var val = this.value.trim();
+                        var regex = '';
+                        if (val.indexOf(',') >= 0) {
+                            var parts = val.split(',').map(function(s) {
+                                return s.trim().replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+                            }).filter(function(s) { return s.length > 0; });
+                            regex = parts.join('|');
+                        } else {
+                            regex = val.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+                        }
+                        var col = dt.column(i);
+                        if (col.search() !== regex) {
+                            col.search(regex, true, false).draw();
+                        }
+                    });
+                });
+            });
+        });
+    </script>
+    {% block scripts %}{% endblock %}
+</body>
+</html>

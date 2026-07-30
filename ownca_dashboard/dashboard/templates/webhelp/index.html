@@ -1,0 +1,35 @@
+{% extends 'webhelp/base.html' %}
+
+{% block content %}
+<h1 class="wh-page-title">
+    {% if lang == 'ru' %}Содержание справки{% else %}Help contents{% endif %}
+</h1>
+<p class="wh-lead">
+    {% if lang == 'ru' %}
+        Документация по администрированию и эксплуатации удостоверяющего центра
+        OwnCA — выпуск, отзыв и обслуживание сертификатов X.509
+        с поддержкой ГОСТ-алгоритмов.
+    {% else %}
+        Administration and operations documentation for the OwnCA
+        certification authority — issuing, revoking and maintaining X.509
+        certificates with GOST algorithm support.
+    {% endif %}
+</p>
+
+<div class="wh-toc">
+    {% for section in tree %}
+    <section class="wh-toc-section">
+        <h2>{{ section.title }}</h2>
+        <ul>
+            {% for page in section.pages %}
+            <li>
+                <a href="{% url 'webhelp_page' lang=lang slug=page.slug %}">
+                    {{ page.title }}
+                </a>
+            </li>
+            {% endfor %}
+        </ul>
+    </section>
+    {% endfor %}
+</div>
+{% endblock %}

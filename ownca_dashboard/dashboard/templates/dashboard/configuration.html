@@ -1,0 +1,149 @@
+{% extends "dashboard/base.html" %}
+{% load i18n %}
+{% block title %}{% trans "Configuration" %} - OwnCA{% endblock %}
+{% block page_title %}{% trans "Configuration" %}{% endblock %}
+{% block content %}
+
+<div class="panel">
+    <div class="panel-header">{% trans "Issuance modes" %}</div>
+    <div class="panel-body">
+        <form method="post" action="{% url 'configuration' %}">
+            {% csrf_token %}
+            <div class="detail-row" style="align-items:center">
+                <div class="detail-label">
+                    {% trans "Allow server-side key generation" %}
+                    <div class="oid-hint">{% trans "If disabled, only uploaded CSRs are accepted." %}</div>
+                </div>
+                <div class="detail-value">
+                    <label class="toggle">
+                        <input type="checkbox" name="allow_server_key_generation" {% if sys_settings.allow_server_key_generation %}checked{% endif %}>
+                        <span class="slider"></span>
+                    </label>
+                </div>
+            </div>
+            <div class="detail-row" style="align-items:center">
+                <div class="detail-label">
+                    {% trans "Allow GOST keys" %}
+                    <div class="oid-hint">{% trans "Requires OWNCA_GOST_ENGINE=on." %}</div>
+                </div>
+                <div class="detail-value">
+                    <label class="toggle">
+                        <input type="checkbox" name="allow_gost_keys" {% if sys_settings.allow_gost_keys %}checked{% endif %}>
+                        <span class="slider"></span>
+                    </label>
+                </div>
+            </div>
+            <div class="detail-row" style="align-items:center">
+                <div class="detail-label">{% trans "Allow RSA keys" %}</div>
+                <div class="detail-value">
+                    <label class="toggle">
+                        <input type="checkbox" name="allow_rsa_keys" {% if sys_settings.allow_rsa_keys %}checked{% endif %}>
+                        <span class="slider"></span>
+                    </label>
+                </div>
+            </div>
+            <div class="detail-row" style="align-items:center">
+                <div class="detail-label">{% trans "Allow ECDSA / Ed25519" %}</div>
+                <div class="detail-value">
+                    <label class="toggle">
+                        <input type="checkbox" name="allow_ecdsa_keys" {% if sys_settings.allow_ecdsa_keys %}checked{% endif %}>
+                        <span class="slider"></span>
+                    </label>
+                </div>
+            </div>
+            {% comment %}
+            TK-26 is an openssl+gost-engine wire format. With CryptoPro CSP on,
+            GOST certificates are packaged by the provider itself and this
+            setting has nothing left to govern, so the row is not shown.
+            configuration_view must skip the field in the same case — a hidden
+            checkbox posts nothing, which would otherwise clear the flag on
+            every save.
+            {% endcomment %}
+            {% if not cryptopro_enabled %}
+            <div class="detail-row" style="align-items:center">
+                <div class="detail-label">
+                    {% comment %}
+                    One string, not "Offer" + <code> + "export": a sentence split
+                    across {% trans %} fragments cannot be translated — word
+                    order differs between languages, which is how the Russian
+                    label ended up saying "экспорт" twice.
+                    {% endcomment %}
+                    {% trans "Offer .gost.p12 export" %} <span class="oid-hint">(TK-26 / RFC 9337+9548)</span>
+                </div>
+                <div class="detail-value">
+                    <label class="toggle">
+                        <input type="checkbox" name="offer_gost_p12_export" {% if sys_settings.offer_gost_p12_export %}checked{% endif %}>
+                        <span class="slider"></span>
+                    </label>
+                </div>
+            </div>
+            {% endif %}
+            <div class="detail-row" style="align-items:center">
+                <div class="detail-label">
+                    {% trans "Allow free-form certificate issuance" %}
+                    <div class="oid-hint">{% trans "When enabled, cert-profile constraints (KU, EKU, extensions, OIDs) can be bypassed." %}</div>
+                </div>
+                <div class="detail-value">
+                    <label class="toggle">
+                        <input type="checkbox" name="disable_cert_profile_protection" {% if sys_settings.disable_cert_profile_protection %}checked{% endif %}>
+                        <span class="slider"></span>
+                    </label>
+                </div>
+            </div>
+            <div style="margin-top:12px">
+                <button class="btn btn-primary" type="submit">{% trans "Save settings" %}</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="panel">
+    <div class="panel-header">OwnCA {% trans "defaults" %}</div>
+    <div class="panel-body">
+        <p style="margin:0 0 14px;font-size:13px;color:var(--fi-text-muted)">
+            {% trans "These defaults are read from environment variables (OWNCA_*) at startup. Edit your dev_env or demo .env files and restart the service to change them." %}
+        </p>
+        <div class="detail-row"><div class="detail-label">{% trans "Storage directory" %}</div><div class="detail-value" style="font-family:monospace;font-size:12px">{{ storage_dir }}</div></div>
+        <div class="detail-row"><div class="detail-label">{% trans "Default key algorithm" %}</div><div class="detail-value" style="font-family:monospace;font-size:12px">{{ default_key_alg }}</div></div>
+        <div class="detail-row"><div class="detail-label">{% trans "Default CA validity (days)" %}</div><div class="detail-value">{{ default_ca_days }}</div></div>
+        <div class="detail-row"><div class="detail-label">{% trans "Default cert validity (days)" %}</div><div class="detail-value">{{ default_cert_days }}</div></div>
+        <div class="detail-row"><div class="detail-label">{% trans "CRL distribution URL" %}</div><div class="detail-value" style="font-family:monospace;font-size:12px">{{ crl_distribution|default:"-" }}</div></div>
+    </div>
+</div>
+
+<div class="panel">
+    <div class="panel-header">{% trans "Environment variables" %}</div>
+    <div class="panel-body">
+        <table style="width:100%;font-size:12px">
+            <thead><tr>
+                <th style="text-align:left;padding:6px 8px;border-bottom:1px solid var(--fi-border)">{% trans "Variable" %}</th>
+                <th style="text-align:left;padding:6px 8px;border-bottom:1px solid var(--fi-border)">{% trans "Description" %}</th>
+                <th style="text-align:left;padding:6px 8px;border-bottom:1px solid var(--fi-border)">{% trans "Current value" %}</th>
+            </tr></thead>
+            <tbody>
+                {% comment %}
+                Rows are built in the view: the value is the setting Django
+                actually resolved, not raw os.environ, and the badge says
+                whether it came from the environment or from the built-in
+                default.
+                {% endcomment %}
+                {% for r in env_rows %}
+                <tr>
+                    <td style="padding:6px 8px;font-family:monospace;vertical-align:top"><code>{{ r.name }}</code></td>
+                    <td style="padding:6px 8px;vertical-align:top">{{ r.description }}</td>
+                    <td style="padding:6px 8px;vertical-align:top">
+                        <span style="font-family:monospace;word-break:break-all">{{ r.value|default:"—" }}</span>
+                        {% if r.source == 'env' %}
+                        <span class="badge badge-info" style="font-size:10px;margin-left:6px" title="{% trans 'Set in the environment' %}">env</span>
+                        {% else %}
+                        <span class="badge" style="font-size:10px;margin-left:6px;color:var(--fi-text-muted)" title="{% trans 'Built-in default — not set in the environment' %}">{% trans "default" %}</span>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+{% endblock %}
