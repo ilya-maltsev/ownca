@@ -3,8 +3,8 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>OwnCA — удостоверяющий центр с ГОСТ Р 34.10-2012 и RSA</title>
-    <meta name="description" content="OwnCA — удостоверяющий центр в виде веб-панели, который вы разворачиваете у себя. Выпуск и отзыв сертификатов X.509 на ГОСТ Р 34.10-2012, RSA, ECDSA и Ed25519; экспорт PFX в формате TK-26 (RFC 9337+9548); опциональный сертифицированный бэкенд КриптоПро CSP.">
+    <title>OwnCA — веб-панель удостоверяющего центра: ГОСТ Р 34.10-2012, RSA, ECDSA, Ed25519</title>
+    <meta name="description" content="OwnCA — веб-панель удостоверяющего центра, замена самописным обвязкам вокруг EasyRSA и openssl ca. Поднимает корневые и промежуточные УЦ, выпускает и отзывает сертификаты X.509, поддерживает CRL в актуальном состоянии, отдаёт ключи и сертификаты в PEM и PKCS#12. Работает на штатном OpenSSL с RSA, ECDSA и Ed25519; поддержка ГОСТ Р 34.10-2012 включается по желанию, а российскую криптографию можно перевести на сертифицированный КриптоПро CSP.">
     <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
     <link rel="stylesheet" href="assets/vendor/fonts/fonts.css">
     <link rel="stylesheet" href="assets/vendor/font-awesome/css/font-awesome.min.css">
@@ -44,16 +44,22 @@
                     <span class="strike-oid">// GOST R 34.10‑2012 · GOST R 34.11‑2012 · GOST R 34.12‑2015</span>
                 </h1>
                 <p class="lead">
-                    OwnCA — это веб-панель удостоверяющего центра, которую вы
-                    разворачиваете у себя. Все как в EasyRSA, но в виде
-                    веб-приложения. Она выпускает и отзывает сертификаты
-                    X.509, подписывает их на ГОСТ Р 34.10-2012, RSA, ECDSA и
-                    Ed25519, формирует списки отзыва (CRL) и выгружает PFX в
-                    обычной схеме PBES2/AES/SHA, в формате, разработанном
-                    ТК-26 (RFC 9337/9548) — том самом, который реально понимают
-                    КриптоПро и другие российские криптопровайдеры.
-                    Там, где нужна сертифицированная криптография, подпись по алгоритмам
-                    ГОСТ переводится на <a href="#cryptopro" style="color:var(--fi-link)">КриптоПро CSP</a>
+                    OwnCA — веб-панель удостоверяющего центра, замена самописным
+                    обвязкам вокруг EasyRSA и <code>openssl ca</code>. Делает то же
+                    самое: поднимает корневые и промежуточные УЦ, выпускает и
+                    отзывает сертификаты X.509, поддерживает CRL в актуальном
+                    состоянии, отдаёт ключи и сертификаты в PEM и PKCS#12 — только
+                    из браузера, а не из терминала.
+                </p>
+                <p class="lead">
+                    Работает на штатном OpenSSL с RSA, ECDSA и Ed25519. Поддержка
+                    ГОСТ Р 34.10-2012 включается по желанию: с выключенным ГОСТ это
+                    обычный УЦ на неизменённом OpenSSL, без каких-либо engine'ов. Для
+                    ГОСТ-ключей доступен формат ТК-26 (<code>.gost.p12</code>) — PFX по
+                    RFC 9337 и RFC 9548, тот самый, который читают КриптоПро и другие
+                    российские криптопровайдеры. Если нужна сертифицированная
+                    реализация, российскую криптографию можно перевести на
+                    <a href="#cryptopro" style="color:var(--fi-link)">КриптоПро CSP</a>
                     — отдельно по каждому УЦ.
                 </p>
                 <div class="hero-cta">
@@ -62,13 +68,6 @@
                     </a>
                     <a class="cta-ghost" href="#quickstart"><i class="fa fa-terminal"></i> Запустить у себя</a>
                     <a class="cta-ghost" href="full.html"><i class="fa fa-rocket"></i> Расширенная версия</a>
-                </div>
-                <div class="hero-meta">
-                    <div><b>10</b>встроенных профилей</div>
-                    <div><b>4</b>семейства ключей</div>
-                    <div><b>2</b>формата PFX</div>
-                    <div><b>2</b>криптопровайдера</div>
-                    <div><b>RU&nbsp;/&nbsp;EN</b>интерфейс и справка</div>
                 </div>
             </div>
 
@@ -151,51 +150,107 @@
 
         <section class="section" id="features">
             <div class="section-title">// что внутри</div>
-            <h2 style="max-width:28ch">Небольшое приложение, которое позволяет создать УЦ для собственных нужд. </h2>
+            <h2 style="max-width:28ch">Небольшое приложение, которое позволяет создать УЦ для собственных нужд.</h2>
             <div class="feat-grid">
-                <div class="feat">
-                    <div class="feat-num">ВЫПУСК</div>
-                    <div class="feat-icon"><i class="fa fa-magic"></i></div>
-                    <h3>Единая форма выпуска</h3>
-                    <p>Выберите УЦ, при желании — профиль, заполните субъектное имя (DN) и SAN. Загрузите свой CSR или позвольте панели сгенерировать ключ. Для ГОСТ-ключей выбор набора параметров доступен прямо в форме.</p>
-                </div>
-                <div class="feat">
-                    <div class="feat-num">ЭКСПОРТ</div>
-                    <div class="feat-icon"><i class="fa fa-download"></i></div>
-                    <h3>Два формата PFX</h3>
-                    <p>Обычный <code>.p12</code> (PBES2 / AES / SHA-256) — для всего остального, и <code>.gost.p12</code>, собранный штатным <code>openssl pkcs12 -export</code> на доработанном gost-engine — это схема RFC 9337 + 9548, которую читает КриптоПро.</p>
-                </div>
-                <div class="feat">
-                    <div class="feat-num">ПРОФИЛИ</div>
-                    <div class="feat-icon"><i class="fa fa-id-card-o"></i></div>
-                    <h3>10 готовых профилей</h3>
-                    <p>server, client, server_client, vpn, user, user_login, smartcard_logon, smime_sign, code_signing, timestamping — у каждого свои наборы KU/EKU и привязки OID-полей, которые можно отредактировать или скопировать.</p>
-                </div>
                 <div class="feat">
                     <div class="feat-num">УЦ</div>
                     <div class="feat-icon"><i class="fa fa-university"></i></div>
                     <h3>Корневые и промежуточные</h3>
-                    <p>Создавайте корневые и промежуточные УЦ на любом из поддерживаемых семейств ключей — или импортируйте существующий УЦ (сертификат + ключ либо контейнер PKCS#12/PFX) и подписывайте им. Готовый УЦ можно выгрузить в PKCS#12 — стандартный AES или ГОСТ-набор (Кузнечик/Магма TK-26). У каждого УЦ свои точки распространения — CRL, AIA, OCSP, SIA, freshestCRL, issuerAltName — они встраиваются в каждый подписанный им сертификат.</p>
+                    <p>Генерация ключа и самоподписанного сертификата, подпись промежуточного УЦ родителем, импорт уже существующего УЦ (сертификат с закрытым ключом либо контейнер PKCS#12/PFX), чтобы продолжить подписывать им. Задаются алгоритм ключа, Subject DN, срок действия и длина пути (<code>pathlen</code>). Промежуточный УЦ создаётся в семействе ключей родителя — ГОСТ и RSA в одной цепочке не смешиваются.</p>
+                </div>
+                <div class="feat">
+                    <div class="feat-num">ВЫПУСК</div>
+                    <div class="feat-icon"><i class="fa fa-magic"></i></div>
+                    <h3>Единая форма выпуска</h3>
+                    <p>Ключ либо генерируется на сервере, либо приходит с внешним запросом PKCS#10 — во втором случае содержимое сертификата и семейство ключа берутся из самого запроса, а не из полей формы. УЦ подписывает только сертификаты своего семейства ключей (<code>gost</code> / <code>rsa</code> / <code>ec</code> / <code>ed25519</code>), несовместимые сочетания отклоняются до выпуска. Для ГОСТ выбирается набор параметров.</p>
+                </div>
+                <div class="feat">
+                    <div class="feat-num">ПРОФИЛИ</div>
+                    <div class="feat-icon"><i class="fa fa-id-card-o"></i></div>
+                    <h3>Профили расширений</h3>
+                    <p>Десять предустановленных (server, client, server_client, vpn, user, user_login, smartcard_logon, smime_sign, code_signing, timestamping) плюс любые свои: KU и EKU, basicConstraints, ограничения имён и политик, переопределение точек распространения, привязка OID-полей из реестра (DNS, IP, Email, URI, UPN, СНИЛС, ИНН, ОГРН, ОГРНИП и прочие). Без профиля доступен свободный режим с произвольными расширениями.</p>
+                </div>
+                <div class="feat">
+                    <div class="feat-num">ТОЧКИ РАСПРОСТРАНЕНИЯ</div>
+                    <div class="feat-icon"><i class="fa fa-sitemap"></i></div>
+                    <h3>CRL, AIA, SIA — на уровне УЦ</h3>
+                    <p>CRL, AIA (caIssuers и OCSP), SIA, freshestCRL и issuerAltName задаются на уровне УЦ и переопределяются профилем — и встраиваются в каждый подписанный сертификат.</p>
+                </div>
+                <div class="feat">
+                    <div class="feat-num">ОТЗЫВ</div>
+                    <div class="feat-icon"><i class="fa fa-ban"></i></div>
+                    <h3>Отзыв и CRL</h3>
+                    <p>Причина отзыва попадает в CRL как <code>reasonCode</code>. Список перевыпускается автоматически при каждом отзыве, вручную — по требованию, и разом для всех включённых УЦ в каталог раздачи.</p>
+                </div>
+                <div class="feat">
+                    <div class="feat-num">ПЕРЕВЫПУСК</div>
+                    <div class="feat-icon"><i class="fa fa-refresh"></i></div>
+                    <h3>Тот же ключ, новый срок</h3>
+                    <p>Перевыпуск сертификата с новым сроком и серийным номером из того же запроса и того же ключа; исходный сертификат остаётся неизменным, а связь «перевыпущен из» видна в карточке.</p>
+                </div>
+                <div class="feat">
+                    <div class="feat-num">ВЫГРУЗКА</div>
+                    <div class="feat-icon"><i class="fa fa-download"></i></div>
+                    <h3>Два формата PFX и всё остальное</h3>
+                    <p>Сертификат (<code>.crt</code>), закрытый ключ, запрос (<code>.csr</code>), PEM-файл «сертификат + ключ + цепочка», PKCS#12, а также сертификат УЦ и его CRL. Контейнер УЦ шифруется стандартным AES или набором ГОСТ (Кузнечик и Магма по ТК-26 либо устаревший ГОСТ 28147-89). Для ГОСТ-ключей доступен формат ТК-26 (<code>.gost.p12</code>) — PFX по RFC 9337 и RFC 9548 с выбором шифра Кузнечик или Магма.</p>
+                </div>
+                <div class="feat">
+                    <div class="feat-num">РЕЖИМЫ ВЫПУСКА</div>
+                    <div class="feat-icon"><i class="fa fa-toggle-on"></i></div>
+                    <h3>Лишнее можно выключить</h3>
+                    <p>Серверную генерацию ключа, отдельные семейства алгоритмов, выгрузку <code>.gost.p12</code> и свободный режим выпуска можно запретить — тогда соответствующие варианты исчезают из форм и отклоняются на сервере.</p>
                 </div>
                 <div class="feat">
                     <div class="feat-num">NGINX TLS</div>
                     <div class="feat-icon"><i class="fa fa-shield"></i></div>
-                    <h3>ГОСТ и RSA на одном порту</h3>
-                    <p>Входящий в комплект nginx обслуживает и <code>GOST2012-KUZNYECHIK-KUZNYECHIKOMAC</code>, и обычные наборы RSA/ECDHE на одном сокете — поэтому работают и браузеры с поддержкой ГОСТ, и без неё.</p>
+                    <h3>Обычный TLS, ГОСТ — по желанию</h3>
+                    <p>Входящий в комплект nginx обслуживает обычные наборы RSA/ECDHE, а при включённом ГОСТ терминирует на том же сокете и <code>GOST2012-KUZNYECHIK-KUZNYECHIKOMAC</code> — поэтому работают и браузеры с поддержкой ГОСТ, и без неё.</p>
                 </div>
                 <div class="feat">
                     <div class="feat-num">ЭКСПЛУАТАЦИЯ</div>
                     <div class="feat-icon"><i class="fa fa-database"></i></div>
                     <h3>Состояние хранится в файлах</h3>
-                    <p>Материалы УЦ, выпущенные сертификаты и CRL — это обычные файлы в каталоге <code>OWNCA_STORAGE_DIR/</code>. Postgres хранит лишь индекс метаданных. Каталог хранения можно упаковать в tar и перенести УЦ на другой сервер.</p>
+                    <p>Материалы УЦ, выпущенные сертификаты и CRL — это обычные файлы в каталоге <code>OWNCA_STORAGE_DIR/</code>. PostgreSQL хранит только индекс метаданных, первоисточник — файлы на диске. Каталог хранения можно упаковать в tar и перенести УЦ на другой сервер.</p>
+                </div>
+                <div class="feat">
+                    <div class="feat-num">ОБСЛУЖИВАНИЕ</div>
+                    <div class="feat-icon"><i class="fa fa-wrench"></i></div>
+                    <h3>Версии, индекс, все CRL разом</h3>
+                    <p>Версия openssl, состояние gost-engine, пересбор индекса метаданных с диска, перевыпуск всех CRL; на сборке с КриптоПро — состояние провайдера, лицензия и гамма ДСЧ.</p>
+                </div>
+                <div class="feat">
+                    <div class="feat-num">СПРАВКА</div>
+                    <div class="feat-icon"><i class="fa fa-book"></i></div>
+                    <h3>Контекстная и встроенная</h3>
+                    <p>Работу с интерфейсом описывает встроенная контекстная справка: она открывается прямо из панели и всегда соответствует текущей странице. Два языка — русский (по умолчанию) и английский, и интерфейс, и справка.</p>
                 </div>
             </div>
         </section>
 
         <section class="section" id="algorithms">
             <div class="section-title">// поддерживаемые алгоритмы</div>
-            <h2 style="max-width:32ch">Российская криптография и RSA на базе OpenSSL</h2>
+            <h2 style="max-width:32ch">Штатный OpenSSL из коробки, ГОСТ — по желанию</h2>
             <div class="algo-strip">
+                <div class="algo-cell">
+                    <div class="algo-name">RSA 2048 / 4096</div>
+                    <div class="algo-rfc">PKCS #1 v2.2 · PSS и PKCS1-v1_5</div>
+                    <span class="algo-tag std">Стандартные</span>
+                </div>
+                <div class="algo-cell">
+                    <div class="algo-name">ECDSA P-256 / P-384</div>
+                    <div class="algo-rfc">FIPS 186-4 · X9.62</div>
+                    <span class="algo-tag std">Стандартные</span>
+                </div>
+                <div class="algo-cell">
+                    <div class="algo-name">Ed25519</div>
+                    <div class="algo-rfc">RFC 8410 · EdDSA</div>
+                    <span class="algo-tag std">Стандартные</span>
+                </div>
+                <div class="algo-cell">
+                    <div class="algo-name">SHA-256</div>
+                    <div class="algo-rfc">FIPS 180-4 · хеш подписи по умолчанию</div>
+                    <span class="algo-tag std">Стандартные</span>
+                </div>
                 <div class="algo-cell">
                     <div class="algo-name">ГОСТ Р 34.10-2012 / 256</div>
                     <div class="algo-rfc">RFC 7836 · наборы параметров ТК-26 A / B / C / D</div>
@@ -207,28 +262,13 @@
                     <span class="algo-tag gost">ГОСТ</span>
                 </div>
                 <div class="algo-cell">
-                    <div class="algo-name">RSA 2048 / 4096</div>
-                    <div class="algo-rfc">PKCS #1 v2.2 · PSS и PKCS1-v1_5</div>
-                    <span class="algo-tag std">RSA</span>
-                </div>
-                <div class="algo-cell">
-                    <div class="algo-name">ECDSA P-256 / P-384</div>
-                    <div class="algo-rfc">FIPS 186-4 · X9.62</div>
-                    <span class="algo-tag std">ECDSA</span>
-                </div>
-                <div class="algo-cell">
-                    <div class="algo-name">Ed25519</div>
-                    <div class="algo-rfc">RFC 8410 · EdDSA</div>
-                    <span class="algo-tag std">EdDSA</span>
-                </div>
-                <div class="algo-cell">
                     <div class="algo-name">Стрибог-256 / 512</div>
                     <div class="algo-rfc">RFC 6986 · ГОСТ Р 34.11-2012</div>
                     <span class="algo-tag gost">ГОСТ</span>
                 </div>
                 <div class="algo-cell">
                     <div class="algo-name">Кузнечик-CTR-ACPKM</div>
-                    <div class="algo-rfc">RFC 8645 · используется при экспорте PFX</div>
+                    <div class="algo-rfc">RFC 8645 · используется при выгрузке PFX</div>
                     <span class="algo-tag gost">ГОСТ</span>
                 </div>
                 <div class="algo-cell">
@@ -238,9 +278,12 @@
                 </div>
             </div>
             <p style="font-size:13px;color:var(--fi-text-muted);margin-top:16px;max-width:64ch;line-height:1.6">
-                RSA-шифрование работает на штатном OpenSSL без доработок. ГОСТ требует
-                gost-engine и полностью отключается — остаётся чистый УЦ на RSA / ECDSA / Ed25519.
-                Там, где нужна сертифицированная реализация, ГОСТ переводится
+                Стандартные алгоритмы работают на штатном OpenSSL из коробки. ГОСТ требует
+                gost-engine и может быть выключен — тогда остаётся чистый УЦ на
+                RSA / ECDSA / Ed25519. TLS фронтенда — обычные RSA/ECDHE-наборы, а при
+                включённом ГОСТ ещё и GOST2012-KUZNYECHIK-KUZNYECHIKOMAC и
+                GOST2012-MAGMA-MAGMAOMAC. Там, где нужна сертифицированная реализация,
+                российская криптография переводится
                 на <a href="#cryptopro" style="color:var(--fi-link)">КриптоПро CSP</a>.
             </p>
         </section>
@@ -249,38 +292,39 @@
             <div class="section-title">// сертифицированный ГОСТ</div>
             <h2 style="max-width:34ch">Те же экраны — но ключ рождается и остаётся внутри КриптоПро CSP.</h2>
             <p style="font-size:14px;color:var(--fi-text-muted);max-width:64ch;margin-bottom:28px;line-height:1.6">
-                Операции УЦ по алгоритмам ГОСТ можно перевести с бесплатного <code>openssl + gost-engine</code>
-                на сертифицированный <strong>КриптоПро CSP</strong>. Через провайдер идёт всё:
-                генерация ключа, самоподпись корня, подпись промежуточного УЦ, выпуск конечных
-                сертификатов (и при серверной генерации, и по внешнему CSR), перевыпуск,
-                формирование CRL, экспорт PKCS#12 и импорт готового ГОСТ-УЦ из PFX.
-                Алгоритмы, отличные от ГОСТ, всегда остаются на openssl.
+                Российскую криптографию можно обеспечивать сертифицированным
+                <strong>КриптоПро CSP</strong> вместо свободного <code>openssl + gost-engine</code>.
+                Тогда закрытый ключ рождается и живёт в контейнере провайдера: через КриптоПро
+                идут генерация ключей, самоподпись корня, подпись промежуточных УЦ, выпуск
+                конечных сертификатов (и при серверной генерации ключа, и по внешнему запросу
+                PKCS#10), перевыпуск, выпуск CRL, экспорт PKCS#12 и импорт существующего
+                ГОСТ-УЦ из PKCS#12/PFX. Остальные алгоритмы всегда остаются на openssl.
             </p>
             <div class="feat-grid" style="margin-bottom:28px">
                 <div class="feat alt">
                     <div class="feat-num">КЛЮЧ</div>
                     <div class="feat-icon"><i class="fa fa-lock"></i></div>
-                    <h3>Не покидает контейнер</h3>
-                    <p>В этом весь смысл сертифицированного криптопровайдера: закрытый ключ создаётся и живёт в контейнере провайдера. Поэтому у такого УЦ нет выгрузки ключа в PEM и нет PEM-связки — экспорт PKCS#12 остаётся.</p>
+                    <h3>Закрытый ключ неизвлекаем</h3>
+                    <p>В этом и смысл сертифицированного криптопровайдера: закрытый ключ создаётся и живёт в контейнере провайдера. Поэтому у такого УЦ недоступны выгрузка ключа в PEM, PEM-файл «сертификат + ключ + цепочка» и импорт ГОСТ-УЦ парой PEM-файлов — экспорт в PKCS#12 при этом работает.</p>
                 </div>
                 <div class="feat alt">
                     <div class="feat-num">ВЫБОР</div>
                     <div class="feat-icon"><i class="fa fa-code-fork"></i></div>
-                    <h3>По каждому УЦ, а не по установке</h3>
-                    <p>Криптопровайдер фиксируется при создании УЦ и потом не меняется. УЦ на openssl и на КриптоПро спокойно живут в одной инсталляции, ранее созданные остаются на openssl, промежуточный наследует провайдера родителя.</p>
+                    <h3>На уровне отдельного УЦ, а не всей установки</h3>
+                    <p>Криптопровайдер фиксируется при создании УЦ и больше не меняется. Поэтому в одной установке спокойно соседствуют УЦ на openssl и УЦ на КриптоПро; ранее созданные УЦ остаются на openssl, а промежуточный УЦ наследует провайдера родителя.</p>
                 </div>
                 <div class="feat alt">
                     <div class="feat-num">СТЕНД</div>
                     <div class="feat-icon"><i class="fa fa-random"></i></div>
                     <h3>Гамма ДСЧ и лицензия — в панели</h3>
-                    <p>На сервере без физического ДСЧ провайдеру нужна внешняя гамма: она расходуется на каждую генерацию ключа. Загрузка, остаток и лицензия — на странице «Обслуживание». Тестовую гамму можно сгенерировать там же, но только для стенда.</p>
+                    <p>На сервере без графического интерфейса провайдеру нужна гамма ДСЧ — внешняя энтропия, которая расходуется при каждой генерации ключа. Её загружают через панель обслуживания; там же виден остаток и управляется лицензия (без своего серийного номера КриптоПро работает на встроенной демонстрационной лицензии сроком 90 дней). Сгенерировать тестовую гамму можно там же, но только для стенда — сертифицированная эксплуатация требует аппаратного источника.</p>
                 </div>
             </div>
-            <h3 style="font-size:15px;font-weight:800;color:#1a2436;margin:0 0 12px">Чего КриптоПро CSP не умеет</h3>
+            <h3 style="font-size:15px;font-weight:800;color:#1a2436;margin:0 0 12px">Ограничения криптопровайдера КриптоПро</h3>
             <p style="font-size:13px;color:var(--fi-text-muted);max-width:64ch;margin-bottom:14px;line-height:1.6">
-                Ограничения касаются только ГОСТ-УЦ, созданных при включённом КриптоПро, и ни одно
-                из них не срабатывает молча: неподдерживаемое либо скрыто в интерфейсе, либо
-                помечено заранее, либо отклоняется с внятной ошибкой ещё до начала операции.
+                Ограничения действуют только на ГОСТ-УЦ, созданные при включённом КриптоПро.
+                Ни одно из них не срабатывает молча: несовместимое либо скрыто в интерфейсе,
+                либо помечено заранее, либо даёт явную ошибку до начала операции.
             </p>
             <div class="cmp-wrap">
                 <table class="cmp-table">
@@ -288,29 +332,29 @@
                     <tbody>
                         <tr>
                             <td>Закрытый ключ</td>
-                            <td><span class="cmp-yes">PEM на диске</span> — выгрузка ключа и связки «сертификат + ключ + цепочка»</td>
-                            <td><span class="cmp-no">В контейнере</span> — выгрузки в PEM нет; импорт ГОСТ-УЦ только через PKCS#12/PFX</td>
+                            <td><span class="cmp-yes">PEM на диске</span> — выгрузка ключа и PEM-файла «сертификат + ключ + цепочка»</td>
+                            <td><span class="cmp-no">Неизвлекаем</span> — выгрузки в PEM и PEM-файла нет; импорт ГОСТ-УЦ только через PKCS#12/PFX. Экспорт в PKCS#12 работает</td>
                         </tr>
                         <tr>
                             <td>Формат PKCS#12</td>
-                            <td><span class="cmp-yes">На выбор</span> — стандартный AES или ТК-26 (RFC 9337 + 9548), Кузнечик / Магма / ГОСТ 28147-89</td>
-                            <td><span class="cmp-no">Собственный</span> — контейнер собирает <code>PFXExportCertStoreEx</code>; выбора формата платформа не даёт</td>
+                            <td><span class="cmp-yes">На выбор</span> — стандартный AES или ТК-26 (RFC 9337 + 9548): Кузнечик, Магма либо устаревший ГОСТ 28147-89</td>
+                            <td><span class="cmp-no">Только нативный КриптоПро</span> — такой PFX корректно импортируется самим КриптоПро, но выбрать ТК-26 или ГОСТ-наборы шифрования контейнера нельзя: платформа не даёт управлять этим параметром. В панели такие варианты не предлагаются, подмена формата не выполняется</td>
                         </tr>
                         <tr>
                             <td>Расширения X.509</td>
                             <td><span class="cmp-yes">Произвольные</span> — включая nameConstraints, политики и свободные строки</td>
-                            <td>basicConstraints, KU, EKU, SKI/AKI, SAN (DNS/IP/email/URI), CRL DP, AIA, SIA, freshestCRL, issuerAltName<br><span class="cmp-no">Нет:</span> nameConstraints, certificatePolicies, policyConstraints, inhibitAnyPolicy, otherName в SAN, свободные строки расширений</td>
+                            <td><code>basicConstraints</code> (+ pathlen), <code>keyUsage</code>, <code>extendedKeyUsage</code> (имена и сырые OID), флаги critical, <code>subjectKeyIdentifier</code>, <code>authorityKeyIdentifier</code> (в т. ч. <code>issuer:always</code>), <code>subjectAltName</code> и <code>issuerAltName</code> (DNS, IP, email, URI), <code>crlDistributionPoints</code>, <code>authorityInfoAccess</code> (caIssuers + OCSP), <code>subjectInfoAccess</code> (caRepository), <code>freshestCRL</code><br><span class="cmp-no">Отказ при выпуске:</span> <code>nameConstraints</code>, <code>policyConstraints</code>, <code>inhibitAnyPolicy</code>, <code>certificatePolicies</code>, <code>otherName</code> в SAN, <code>issuerAltName</code> типов <code>dirName</code> / <code>otherName</code> / <code>RID</code>, произвольные строки из «Дополнительных расширений», OID-поля реестра с размещением «Extension»</td>
                         </tr>
                         <tr>
                             <td>Всё остальное</td>
-                            <td colspan="2" style="font-weight:400;color:var(--fi-text-muted)">Наравне: наборы параметров ГОСТ, <code>csr.pem</code> при серверной генерации, <code>reasonCode</code> в CRL, срок действия CRL, переключатели SKI/AKI в профиле.</td>
+                            <td colspan="2" style="font-weight:400;color:var(--fi-text-muted)">Наравне с openssl: наборы параметров ГОСТ, <code>csr.pem</code> при серверной генерации ключа, <code>reasonCode</code> в CRL, срок действия CRL, флаги SKI/AKI из профиля.</td>
                         </tr>
                     </tbody>
                 </table>
             </div>
             <p style="font-size:13px;color:var(--fi-text-muted);margin-top:14px;line-height:1.6">
-                Профиль, в котором есть что-то из неподдерживаемого, помечается прямо в редакторе
-                профиля и в форме выпуска — несовместимость видна до заполнения формы, а не при отправке.
+                Профиль с чем-либо из неподдерживаемого помечается в редакторе профилей и в форме
+                выпуска — оператор видит несовместимость до заполнения формы, а не после отправки.
             </p>
         </section>
 
@@ -322,6 +366,9 @@
                 демонстрационными данными. Боковое меню, панели, таблицы,
                 переключатель языка — всё работает. Формы не отправляются
                 (это статичная копия), но каждая ссылка куда-нибудь ведёт.
+                В самой панели работу с интерфейсом описывает встроенная контекстная
+                справка: она открывается прямо из панели и всегда соответствует
+                текущей странице.
             </p>
             <p style="font-size:13px;color:var(--fi-text-muted);max-width:60ch;margin:-16px 0 28px;border-left:3px solid var(--fi-primary);padding-left:12px;line-height:1.6">
                 Демонстрация показывает панель с <strong>включённым криптопровайдером КриптоПро CSP</strong>:
@@ -466,7 +513,7 @@
                     </div>
                     <div class="tour-card-body">
                         <h3>Мастер выпуска</h3>
-                        <p>Выберите УЦ → профиль → заполните субъектное имя (DN) и SAN → выпустите или импортируйте CSR.</p>
+                        <p>Выберите УЦ → профиль → заполните Subject DN и SAN → выпустите с серверной генерацией ключа или по внешнему запросу PKCS#10.</p>
                         <span class="arrow">Открыть мастер →</span>
                     </div>
                 </a>
@@ -525,7 +572,7 @@
                     </div>
                     <div class="tour-card-body">
                         <h3>Карточка сертификата</h3>
-                        <p>X.509: субъект, издатель, расширения, исходный PEM, скачивание — включая <code>.gost.p12</code>.</p>
+                        <p>X.509: субъект, издатель, расширения, исходный PEM, отзыв и перевыпуск, выгрузка — включая <code>.gost.p12</code>.</p>
                         <span class="arrow">Открыть сертификат →</span>
                     </div>
                 </a>
@@ -592,15 +639,15 @@
                 Проще узнать про ограничения здесь, чем на третий день эксплуатации.
             </p>
             <div class="limit-list">
-                <div><b>Одна учётная запись администратора</b> задаётся переменными окружения. Ролей, разделения прав и журнала действий по пользователям нет.</div>
-                <div><b>Только веб-интерфейс.</b> Ни протоколов автоматизации (ACME, SCEP, EST, CMP), ни внешнего API выпуска.</div>
-                <div><b>Нет OCSP-ответчика.</b> Поля AIA/OCSP лишь записывают URL в сертификат — отвечать по нему должно что-то другое. Проверка отзыва — по CRL.</div>
-                <div><b>CRL обновляются по событию, а не по расписанию</b> — при отзыве и по кнопке. Планировщика и уведомлений об истечении нет; сводка лишь показывает, что скоро истекает.</div>
-                <div><b>Нет аппаратных токенов и HSM (PKCS#11).</b> Единственное сертифицированное хранилище ключа — программный контейнер КриптоПро CSP.</div>
-                <div><b>Хранилище — локальный каталог</b> одного экземпляра. Кластеризация и репликация вне задачи; Postgres хранит только индекс метаданных, первоисточник — файлы на диске.</div>
-                <div><b>Поставляемые окружения — стенды.</b> Панель работает на отладочном сервере Django с самоподписанным TLS и паролем <code>admin</code> по умолчанию. Для эксплуатации нужны нормальный WSGI-сервер, свой <code>DJANGO_SECRET_KEY</code>, настоящие сертификаты фронтенда и другие учётные данные.</div>
-                <div><b>Резервных копий нужно две.</b> У УЦ на openssl ключи лежат в каталоге хранения рядом с сертификатами, у УЦ на КриптоПро — отдельно, в контейнерах провайдера. Оба тома надо копировать согласованно.</div>
-                <div><b>ГОСТ на gost-engine — свободная несертифицированная реализация.</b> Если нужна сертифицированная криптография — это бэкенд КриптоПро CSP с описанными выше ограничениями.</div>
+                <div><b>Одна учётная запись администратора</b>, задаваемая переменными окружения. Ролей, разграничения прав и журнала действий по пользователям нет.</div>
+                <div><b>Только веб-интерфейс.</b> Протоколов автоматизации (ACME, SCEP, EST, CMP) и внешнего API выпуска нет.</div>
+                <div><b>OCSP-респондера нет.</b> Поля AIA/OCSP лишь записывают URL в сертификат; отвечать по нему должен внешний сервис. Штатная проверка отзыва — по CRL.</div>
+                <div><b>CRL обновляется по событию, а не по расписанию</b> — при отзыве и по кнопке. Планировщика и уведомлений об истечении сертификатов нет; на дашборде показывается лишь список тех, у кого срок подходит к концу.</div>
+                <div><b>Аппаратные носители и HSM (PKCS#11) не поддерживаются.</b> Сертифицированный вариант хранения ключа — только программный контейнер КриптоПро CSP.</div>
+                <div><b>Хранилище — локальный каталог</b> одного экземпляра. Кластеризация и репликация не предусмотрены; PostgreSQL хранит только индекс метаданных, а первоисточник — файлы на диске.</div>
+                <div><b>Готовые окружения в репозитории — стендовые.</b> Панель в них запускается dev-сервером Django с самоподписанным TLS и паролем <code>admin</code> по умолчанию. Для эксплуатации нужны свой WSGI-сервер, собственный <code>DJANGO_SECRET_KEY</code>, настоящие сертификаты фронтенда и смена учётных данных.</div>
+                <div><b>Резервное копирование — двух томов.</b> У openssl-УЦ ключи лежат в каталоге хранилища вместе с сертификатами, а у КриптоПро-УЦ — в контейнерах провайдера, отдельно. Копировать нужно оба тома и согласованно: восстановленный из одного лишь хранилища КриптоПро-УЦ не сможет ничего подписать.</div>
+                <div><b>ГОСТ на gost-engine — свободная, не сертифицированная реализация.</b> Если требуется сертифицированная криптография, нужен криптопровайдер КриптоПро CSP с описанными выше ограничениями.</div>
             </div>
         </section>
 
@@ -610,16 +657,17 @@
                     <div class="section-title">// запуск за 90 секунд</div>
                     <h2>Два compose-файла. Выбирайте по вкусу.</h2>
                     <p style="font-size:14px;color:var(--fi-text-muted);line-height:1.6;max-width:50ch">
-                        <strong>dev_env</strong> монтирует исходный код в контейнер
-                        панели с автоматической перезагрузкой — удобно для доработки.
-                        <strong>demo</strong> поставляется с готовыми образами; его
-                        можно перенести на изолированный от сети сервер одним архивом.
+                        <strong>dev_env</strong> — сборка из исходников, код монтируется
+                        в контейнер, live-reload. Для разработки и отладки.
+                        <strong>demo</strong> — предсобранные образы; стек переносится
+                        на изолированный хост одним архивом.
                     </p>
                     <p style="font-size:13px;color:var(--fi-text-muted);line-height:1.6;max-width:50ch;margin-top:14px">
-                        КриптоПро включается в два шага и по умолчанию выключен: дистрибутив
-                        подкладывается <em>в сборку образа</em> (в репозитории его нет), а сам
-                        криптопровайдер включается <em>при запуске контейнера</em> переменной окружения.
-                        Без этого собирается обычный образ с openssl и gost-engine.
+                        КриптоПро по умолчанию выключен, а его включение двухуровневое:
+                        дистрибутив должен быть подан <em>в сборку образа</em> (в репозиторий
+                        он не входит), а затем провайдер включается <em>на запуске</em>
+                        переменной окружения. Без этого собирается обычный образ с
+                        openssl и gost-engine.
                     </p>
                     <div class="cta-row" style="display:flex;gap:10px;margin-top:20px;flex-wrap:wrap">
                         <a class="cta-primary" href="https://github.com/ilya-maltsev/ownca/tree/main/demo" target="_blank" rel="noopener">compose-файл demo/ <i class="fa fa-external-link"></i></a>
@@ -635,14 +683,14 @@
 <span class="qs-prompt">$</span> <span class="qs-cmd">git clone</span> https://github.com/ilya-maltsev/ownca.git
 <span class="qs-prompt">$</span> <span class="qs-cmd">cd</span> ownca/demo
 
-<span class="qs-comment"># собираем образы УЦ, панели и nginx</span>
-<span class="qs-prompt">$</span> ./build-images.sh
+<span class="qs-comment"># собираем образы панели, nginx и postgres</span>
+<span class="qs-prompt">$</span> <span class="qs-cmd">bash</span> build-images.sh
 
 <span class="qs-comment"># запускаем (admin/admin)</span>
 <span class="qs-prompt">$</span> <span class="qs-cmd">docker compose up</span> -d
 
 <span class="qs-comment"># открываем панель</span>
-<span class="qs-prompt">$</span> https://localhost:8443
+<span class="qs-prompt">$</span> <span class="qs-cmd">xdg-open</span> https://localhost:9443
                     </div>
                     <button class="cta-ghost" data-copy-target="#qs-code" data-copied="✓ скопировано" style="position:absolute;top:14px;right:14px;background:rgba(255,255,255,0.06);color:#d0d8e8;border-color:rgba(255,255,255,0.12);padding:4px 12px;font-size:11px"><i class="fa fa-clipboard"></i> копировать</button>
                 </div>
@@ -653,12 +701,13 @@
             <div class="row">
                 <div>
                     <div style="display:flex;gap:8px;align-items:center;margin-bottom:6px">
-                        <span class="seal" style="width:24px;height:24px;font-size:10px;border-radius:4px"></span>
-                        <strong style="color:var(--fi-text)"></strong>
+                        <span class="seal" style="width:24px;height:24px;font-size:10px;border-radius:4px">УЦ</span>
+                        <strong style="color:var(--fi-text)">OwnCA · открытая версия</strong>
                     </div>
                     <div>
-                        В демо-версии используются учётные данные по умолчанию —
-                        <code>admin/admin</code>. Не запускайте её в таком виде для реальной эксплуатации.
+                        Готовые окружения в репозитории — стендовые: самоподписанный TLS и
+                        учётные данные по умолчанию <code>admin/admin</code>. Не запускайте их
+                        в таком виде для реальной эксплуатации.
                     </div>
                 </div>
                 <div class="row" style="gap:18px">

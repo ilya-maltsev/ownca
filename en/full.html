@@ -44,9 +44,9 @@
                     <span class="strike-oid">// RBAC · requests · Windows auto-enrol · PAT API · TOTP · OID/policy registries</span>
                 </h1>
                 <p class="lead">
-                    The open edition of OwnCA is a single-user CA: issue and
-                    revoke certificates, CRLs,
-                    extension profiles, PFX export. The extended edition
+                    The open edition of OwnCA is a CA with a single administrator
+                    account: issue and revoke X.509 certificates, CRLs,
+                    extension profiles, PEM and PKCS#12 export. The extended edition
                     turns it into <b>the foundation for company-wide PKI</b>: permission-based access,
                     sign-in with Active Directory and 2FA with privacyIDEA,
                     automatic Windows certificate enrolment by Group Policy,
@@ -177,7 +177,7 @@
 
         <!-- ─── Directory / SSO ───────────────────────────────── -->
         <section class="section" id="directory">
-            <div class="section-title">// Self-service portal</div>
+            <div class="section-title">// self-service portal</div>
             <h2 style="max-width:34ch">Active Directory sign-in, TOTP and password self-service.</h2>
             <div class="feat-grid">
                 <div class="feat">
@@ -242,15 +242,15 @@
             <div class="feat-grid">
                 <div class="feat">
                     <h3>User-submitted requests</h3>
-                    <p>The user submits a request: CN, algorithm, SAN, an optional CSR and a comment. CA and profile selection are hidden — the operator assigns them at approval.</p>
+                    <p>The user submits a request: CN, key algorithm, SAN, an optional PKCS#10 request and a comment. CA and profile selection are hidden — the operator assigns them at approval.</p>
                 </div>
                 <div class="feat">
                     <h3>Operator queue</h3>
                     <p>Operators and admins see the request queue filtered by status (pending / approved / rejected). A pending request opens as the full issue form, prefilled with the request data.</p>
                 </div>
                 <div class="feat">
-                    <h3>CSR import in the request form</h3>
-                    <p>CSR import with field auto-fill and a loading banner works in the user request too — identical to the operator page.</p>
+                    <h3>PKCS#10 import in the request form</h3>
+                    <p>PKCS#10 (CSR) import with field auto-fill and a loading banner works in the user request too — identical to the operator page.</p>
                 </div>
             </div>
         </section>
@@ -312,8 +312,8 @@
                     <p>An allowed-subnet list is set per user and applies to both browser sessions and API calls — requests outside the allowed subnets are rejected regardless of token validity.</p>
                 </div>
                 <div class="feat">
-                    <h3>Strict "profile+form &gt; CSR" priority</h3>
-                    <p>Extensions from an imported CSR (basicConstraints, KU, EKU, SAN) are dropped by force. Only the Subject from the CSR, SAN from the form and the selected profile's extensions land — a "hostile" CSR with <code>CA:TRUE</code> does not leak through.</p>
+                    <h3>Strict "profile+form &gt; request" priority</h3>
+                    <p>Extensions from an imported PKCS#10 request (basicConstraints, KU, EKU, SAN) are dropped by force. Only the Subject DN from the request, SAN from the form and the selected profile's extensions land — a "hostile" request with <code>CA:TRUE</code> does not leak through.</p>
                 </div>
             </div>
         </section>
@@ -325,7 +325,7 @@
             <div class="feat-grid">
                 <div class="feat">
                     <h3>Custom OIDs registry</h3>
-                    <p>A dedicated page (admin) manages OID/SAN field definitions: OID, display name, ASN.1 type and where the value is placed. Built-in set: DNS, IP, Email, URI, UPN, SNILS, INN, OGRN, OGRNIP.</p>
+                    <p>A dedicated page (admin) manages the OID-field registry: OID, display name, ASN.1 type and where the value is placed. Built-in set: DNS, IP, Email, URI, UPN, SNILS, INN, OGRN, OGRNIP and others.</p>
                 </div>
                 <div class="feat">
                     <h3>Certificate Policies registry</h3>

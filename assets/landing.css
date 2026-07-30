@@ -63,6 +63,7 @@ body.landing {
 .hero h1 .strike-oid { font-family: "Space Mono", monospace; font-size: 0.4em; letter-spacing: 0.04em; color: var(--fi-text-muted); display: block; margin-top: 8px; font-weight: 500; }
 
 .hero p.lead { font-size: 16px; line-height: 1.55; color: var(--fi-text-muted); max-width: 56ch; }
+.hero p.lead + p.lead { margin-top: 14px; }
 
 .hero-cta { display: flex; gap: 10px; margin-top: 24px; flex-wrap: wrap; }
 .cta-primary { background: var(--fi-primary); color: #fff; padding: 12px 22px; border-radius: 4px; font-weight: 700; font-size: 14px; text-decoration: none; border: 1px solid var(--fi-primary-variant); box-shadow: 0 4px 14px rgba(36,112,188,0.25); display: inline-flex; align-items: center; gap: 8px; }

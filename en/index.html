@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>OwnCA — a self-hosted CA panel that replaces your EasyRSA scripts</title>
-    <meta name="description" content="OwnCA is a self-hosted Certificate Authority web panel — an EasyRSA replacement with a UI. Stand up roots and intermediates, issue and revoke X.509 certs with RSA, ECDSA and Ed25519 on stock OpenSSL. GOST R 34.10-2012 support is optional and can be switched off for a clean, unpatched OpenSSL build; an optional certified CryptoPro CSP backend keeps the key inside a provider container.">
+    <meta name="description" content="OwnCA is a self-hosted Certificate Authority web panel — a replacement for the pile of EasyRSA and openssl ca shell scripts. It stands up roots and intermediates, issues and revokes X.509 certificates, keeps CRLs fresh and exports keys and certificates in PEM and PKCS#12, from a browser instead of a terminal. It runs on stock OpenSSL with RSA, ECDSA and Ed25519; GOST R 34.10-2012 support is strictly opt-in, and where certified cryptography is required the GOST path can be moved onto CryptoPro CSP.">
     <link rel="icon" type="image/svg+xml" href="../assets/favicon.svg">
     <link rel="stylesheet" href="../assets/vendor/fonts/fonts.css">
     <link rel="stylesheet" href="../assets/vendor/font-awesome/css/font-awesome.min.css">
@@ -44,14 +44,22 @@
                     <span class="strike-oid">// init-pki · build-ca · build-server-full · sign-req · gen-crl</span>
                 </h1>
                 <p class="lead">
-                    OwnCA is a self-hosted web panel that does what your pile of
-                    EasyRSA shell scripts does — stand up roots and intermediates,
-                    issue and revoke X.509 certificates, keep CRLs fresh — only from
-                    a UI instead of a terminal. It runs on stock OpenSSL with RSA,
-                    ECDSA and Ed25519; GOST R 34.10-2012 is strictly opt-in, and with
-                    it switched off you're on a clean, unpatched OpenSSL build with no
-                    engine to install. Where certified cryptography is required, the GOST
-                    path moves onto <a href="#cryptopro" style="color:var(--fi-link)">CryptoPro CSP</a>
+                    OwnCA is a self-hosted web panel for a Certificate Authority — a
+                    replacement for the pile of EasyRSA and <code>openssl ca</code> shell
+                    scripts. It does the same job: stands up roots and intermediates,
+                    issues and revokes X.509 certificates, keeps CRLs fresh, exports keys
+                    and certificates in PEM and PKCS#12 — only from a browser instead of
+                    a terminal.
+                </p>
+                <p class="lead">
+                    It runs on stock OpenSSL with RSA, ECDSA and Ed25519. GOST
+                    R 34.10-2012 support is strictly opt-in: with GOST switched off you
+                    get an ordinary CA on an unpatched OpenSSL with no engine to install.
+                    GOST keys also offer the TK-26 format (<code>.gost.p12</code>) — a PFX
+                    per RFC 9337 and RFC 9548, the dialect CryptoPro and other Russian
+                    providers actually read. Where certified cryptography is required, the
+                    GOST path moves onto
+                    <a href="#cryptopro" style="color:var(--fi-link)">CryptoPro CSP</a>
                     — per CA, not per installation.
                 </p>
                 <div class="hero-cta">
@@ -60,13 +68,6 @@
                     </a>
                     <a class="cta-ghost" href="#quickstart"><i class="fa fa-terminal"></i> Run it locally</a>
                     <a class="cta-ghost" href="full.html"><i class="fa fa-rocket"></i> Extended edition</a>
-                </div>
-                <div class="hero-meta">
-                    <div><b>10</b>built-in profiles</div>
-                    <div><b>4</b>key families</div>
-                    <div><b>2</b>PFX dialects</div>
-                    <div><b>2</b>crypto backends</div>
-                    <div><b>RU&nbsp;/&nbsp;EN</b>UI &amp; webhelp</div>
                 </div>
             </div>
 
@@ -152,28 +153,52 @@
             <h2>Everything your EasyRSA wrapper does — without the shell scripts.</h2>
             <div class="feat-grid">
                 <div class="feat">
+                    <div class="feat-num">AUTHORITIES</div>
+                    <div class="feat-icon"><i class="fa fa-university"></i></div>
+                    <h3>Roots &amp; intermediates</h3>
+                    <p>The <code>init-pki</code> / <code>build-ca</code> step, made clickable: key and self-signed certificate generation, signing an intermediate with its parent, and importing an existing CA (a certificate with its private key, or a PKCS#12/PFX container) to keep signing with it. You choose the key algorithm, Subject DN, validity period and path length (<code>pathlen</code>). An intermediate is created in its parent's key family — GOST and RSA never mix within one chain.</p>
+                </div>
+                <div class="feat">
                     <div class="feat-num">ISSUANCE</div>
                     <div class="feat-icon"><i class="fa fa-magic"></i></div>
                     <h3>Unified Cert Issue form</h3>
-                    <p>One form replaces the <code>build-server-full</code> / <code>build-client-full</code> / <code>sign-req</code> incantations: pick a CA, optionally a profile, fill the Subject DN and SANs. Bring your own CSR or have the panel generate the key. GOST paramset selection only appears when GOST is enabled.</p>
+                    <p>One form replaces the <code>build-server-full</code> / <code>build-client-full</code> / <code>sign-req</code> incantations. The key is either generated server-side or arrives with an external PKCS#10 request — in the latter case the certificate's contents and its key family are taken from the request itself, not from the form fields. A CA only signs certificates of its own key family (<code>gost</code> / <code>rsa</code> / <code>ec</code> / <code>ed25519</code>); incompatible combinations are rejected before issuance. GOST keys get a selectable parameter set.</p>
+                </div>
+                <div class="feat">
+                    <div class="feat-num">PROFILES</div>
+                    <div class="feat-icon"><i class="fa fa-id-card-o"></i></div>
+                    <h3>Extension profiles</h3>
+                    <p>Ten seeded ones (server, client, server_client, vpn, user, user_login, smartcard_logon, smime_sign, code_signing, timestamping) plus any of your own: KU and EKU, basicConstraints, name and policy constraints, distribution-point overrides, and bound OID fields from the registry (DNS, IP, Email, URI, UPN, SNILS, INN, OGRN, OGRNIP and others). Without a profile there is a free-form mode with arbitrary extensions.</p>
+                </div>
+                <div class="feat">
+                    <div class="feat-num">DISTRIBUTION</div>
+                    <div class="feat-icon"><i class="fa fa-sitemap"></i></div>
+                    <h3>Distribution points, per CA</h3>
+                    <p>CRL, AIA (caIssuers and OCSP), SIA, freshestCRL and issuerAltName are set per CA and can be overridden by a profile — and are embedded in every leaf the CA signs.</p>
+                </div>
+                <div class="feat">
+                    <div class="feat-num">REVOCATION</div>
+                    <div class="feat-icon"><i class="fa fa-ban"></i></div>
+                    <h3>Revocation and CRLs</h3>
+                    <p>The revocation reason reaches the CRL as <code>reasonCode</code>. The list is reissued automatically on every revocation, manually on demand, and for every enabled CA at once into the distribution directory.</p>
+                </div>
+                <div class="feat">
+                    <div class="feat-num">RENEWAL</div>
+                    <div class="feat-icon"><i class="fa fa-refresh"></i></div>
+                    <h3>Same key, new validity</h3>
+                    <p>Renewal of a certificate under a new validity period and serial number from the same request and the same key; the original is left untouched, and the "renewed from" link stays visible on the certificate page.</p>
                 </div>
                 <div class="feat">
                     <div class="feat-num">EXPORT</div>
                     <div class="feat-icon"><i class="fa fa-download"></i></div>
                     <h3>Standard PFX, GOST optional</h3>
-                    <p>Stock <code>.p12</code> (PBES2 / AES / SHA-256) works on any vanilla OpenSSL — the same bundle <code>easyrsa export-p12</code> would hand you. The optional <code>.gost.p12</code> (RFC 9337 + 9548, read by CryptoPro) is the only piece that wants a patched gost-engine; turn GOST off and you never touch it.</p>
-                </div>
-                <div class="feat alt">
-                    <div class="feat-num">PROFILES</div>
-                    <div class="feat-icon"><i class="fa fa-id-card-o"></i></div>
-                    <h3>10 ready-made profiles</h3>
-                    <p>server, client, server_client, vpn, user, user_login, smartcard_logon, smime_sign, code_signing, timestamping — all with KU/EKU and OID-field bindings you can edit or clone.</p>
+                    <p>The certificate (<code>.crt</code>), private key, request (<code>.csr</code>), a PEM file holding certificate + key + chain, PKCS#12, plus the CA certificate and its CRL. A CA container is encrypted with standard AES or a GOST suite (Kuznyechik and Magma per TK-26, or legacy GOST 28147-89). GOST keys also offer the TK-26 format (<code>.gost.p12</code>) — a PFX per RFC 9337 and RFC 9548; turn GOST off and you never touch it.</p>
                 </div>
                 <div class="feat">
-                    <div class="feat-num">AUTHORITIES</div>
-                    <div class="feat-icon"><i class="fa fa-university"></i></div>
-                    <h3>Roots &amp; intermediates</h3>
-                    <p>The <code>init-pki</code> / <code>build-ca</code> step, made clickable: spin up root and intermediate CAs with any supported key family — or import an existing CA (cert + key, or a PKCS#12/PFX container) and sign with it, and export any CA back out to PKCS#12 (standard AES or a GOST Kuznyechik/Magma TK-26 suite). Each CA carries its own distribution points — CRL, AIA, OCSP, SIA, freshestCRL, issuerAltName — embedded in every leaf it signs.</p>
+                    <div class="feat-num">ISSUANCE MODES</div>
+                    <div class="feat-icon"><i class="fa fa-toggle-on"></i></div>
+                    <h3>Turn off what you don't want</h3>
+                    <p>Server-side key generation, individual algorithm families, <code>.gost.p12</code> export and free-form issuance can each be disabled — the corresponding options then disappear from the forms and are rejected server-side.</p>
                 </div>
                 <div class="feat">
                     <div class="feat-num">NGINX TLS</div>
@@ -181,11 +206,23 @@
                     <h3>Plain TLS, GOST on demand</h3>
                     <p>The bundled nginx serves the regular RSA/ECDHE suites out of the box. Enable GOST and it also terminates <code>GOST2012-KUZNYECHIK-KUZNYECHIKOMAC</code> on the same socket; leave it off and it's an ordinary TLS endpoint on stock OpenSSL.</p>
                 </div>
-                <div class="feat dark">
+                <div class="feat">
                     <div class="feat-num">OPS</div>
                     <div class="feat-icon"><i class="fa fa-database"></i></div>
                     <h3>State lives in files</h3>
-                    <p>CA material, issued certs and CRLs are flat files under <code>OWNCA_STORAGE_DIR/</code>. Postgres is only the metadata index — you can tar the storage dir and move a CA between hosts.</p>
+                    <p>CA material, issued certs and CRLs are flat files under <code>OWNCA_STORAGE_DIR/</code>. PostgreSQL holds only the metadata index, while the files on disk are the source of truth — you can tar the storage dir and move a CA between hosts.</p>
+                </div>
+                <div class="feat">
+                    <div class="feat-num">MAINTENANCE</div>
+                    <div class="feat-icon"><i class="fa fa-wrench"></i></div>
+                    <h3>Versions, reindex, every CRL</h3>
+                    <p>openssl version, gost-engine status, metadata reindex from disk, rebuild of every CRL; on a build with CryptoPro — provider status, licence and DRBG gamma.</p>
+                </div>
+                <div class="feat">
+                    <div class="feat-num">WEBHELP</div>
+                    <div class="feat-icon"><i class="fa fa-book"></i></div>
+                    <h3>Contextual and built in</h3>
+                    <p>Working with the interface is covered by the built-in contextual help, opened straight from the panel and always matching the current page. Two languages — Russian (default) and English — for both the UI and the help.</p>
                 </div>
             </div>
         </section>
@@ -207,6 +244,11 @@
                 <div class="algo-cell">
                     <div class="algo-name">Ed25519</div>
                     <div class="algo-rfc">RFC 8410 · EdDSA</div>
+                    <span class="algo-tag std">Standard</span>
+                </div>
+                <div class="algo-cell">
+                    <div class="algo-name">SHA-256</div>
+                    <div class="algo-rfc">FIPS 180-4 · default signature hash</div>
                     <span class="algo-tag std">Standard</span>
                 </div>
                 <div class="algo-cell">
@@ -236,9 +278,11 @@
                 </div>
             </div>
             <p style="font-size:13px;color:var(--fi-text-muted);margin-top:16px;max-width:64ch;line-height:1.6">
-                The standard algorithms work on stock OpenSSL out of the box. GOST needs
-                gost-engine and can be switched off entirely, leaving a clean RSA / ECDSA /
-                Ed25519 CA. Where a certified implementation is required, GOST moves onto
+                Standard algorithms work on stock OpenSSL out of the box. GOST requires
+                gost-engine and can be switched off, leaving a clean RSA / ECDSA / Ed25519
+                CA. Frontend TLS runs the ordinary RSA/ECDHE suites, plus
+                GOST2012-KUZNYECHIK-KUZNYECHIKOMAC and GOST2012-MAGMA-MAGMAOMAC when GOST
+                is enabled. Where a certified implementation is required, GOST moves onto
                 <a href="#cryptopro" style="color:var(--fi-link)">CryptoPro CSP</a>.
             </p>
         </section>
@@ -247,19 +291,20 @@
             <div class="section-title">// certified GOST</div>
             <h2 style="max-width:34ch">Same screens — but the key is born and stays inside CryptoPro CSP.</h2>
             <p style="font-size:14px;color:var(--fi-text-muted);max-width:64ch;margin-bottom:28px;line-height:1.6">
-                A CA's GOST operations can run on the certified <strong>CryptoPro CSP</strong>
-                instead of the free <code>openssl + gost-engine</code>. Everything goes through
-                the provider: key generation, root self-signing, intermediate CA signing,
-                end-entity issuance (both server-side key generation and external CSRs),
-                renewal, CRL generation, PKCS#12 export and import of an existing GOST CA
-                from PFX. Non-GOST algorithms always stay on openssl.
+                The CA's GOST operations can run on the certified <strong>CryptoPro CSP</strong>
+                instead of the free <code>openssl + gost-engine</code>. The private key is then
+                born and stays inside a provider container: key generation, root self-signing,
+                intermediate CA signing, end-entity issuance (both server-side key generation
+                and external CSRs), renewal, CRL generation, PKCS#12 export and import of an
+                existing GOST CA from PKCS#12/PFX all go through CryptoPro. Non-GOST algorithms
+                always stay on openssl.
             </p>
             <div class="feat-grid" style="margin-bottom:28px">
                 <div class="feat alt">
                     <div class="feat-num">KEY</div>
                     <div class="feat-icon"><i class="fa fa-lock"></i></div>
-                    <h3>Never leaves the container</h3>
-                    <p>That is the whole point of the certified backend: the private key is born and stays in a provider container. So such a CA has no PEM key download and no PEM bundle — PKCS#12 export still works.</p>
+                    <h3>The private key is non-exportable</h3>
+                    <p>That is the whole point of the certified backend: the private key is born and stays in a provider container. So such a CA has no PEM key download, no "certificate + key + chain" PEM bundle and no PEM-pair import — PKCS#12 export still works.</p>
                 </div>
                 <div class="feat alt">
                     <div class="feat-num">SCOPE</div>
@@ -271,14 +316,14 @@
                     <div class="feat-num">STAND</div>
                     <div class="feat-icon"><i class="fa fa-random"></i></div>
                     <h3>DRBG gamma and licence in the UI</h3>
-                    <p>On a headless server the provider needs external entropy, consumed on every key generation. Upload, remaining count and the licence live on the Maintenance page. Test gamma can be generated right there — for a test rig only.</p>
+                    <p>On a headless server the provider needs DRBG gamma — external entropy consumed on every key generation. You upload it on the Maintenance page, which also shows the remaining amount and manages the licence (without a serial of your own, CryptoPro runs on its built-in 90-day demo licence). Test gamma can be generated right there, but for a test rig only — certified operation requires a hardware source.</p>
                 </div>
             </div>
-            <h3 style="font-size:15px;font-weight:800;color:#1a2436;margin:0 0 12px">What the CryptoPro backend cannot do</h3>
+            <h3 style="font-size:15px;font-weight:800;color:#1a2436;margin:0 0 12px">CryptoPro backend limitations</h3>
             <p style="font-size:13px;color:var(--fi-text-muted);max-width:64ch;margin-bottom:14px;line-height:1.6">
-                The limitations apply only to GOST CAs created while CryptoPro was enabled, and
-                none of them is silent: anything unsupported is either hidden in the UI, flagged
-                up front, or refused with an explicit error before the operation starts.
+                The limitations apply only to GOST CAs created while CryptoPro was enabled. None
+                of them is silent: anything unsupported is either hidden in the UI, flagged up
+                front, or refused with an explicit error before the operation starts.
             </p>
             <div class="cmp-wrap">
                 <table class="cmp-table">
@@ -286,30 +331,30 @@
                     <tbody>
                         <tr>
                             <td>Private key</td>
-                            <td><span class="cmp-yes">PEM on disk</span> — key download and a "certificate + key + chain" bundle</td>
-                            <td><span class="cmp-no">In a container</span> — no PEM export; a GOST CA can only be imported from PKCS#12/PFX</td>
+                            <td><span class="cmp-yes">PEM on disk</span> — key download and a "certificate + key + chain" PEM bundle</td>
+                            <td><span class="cmp-no">Non-exportable</span> — no PEM key download and no PEM bundle; a GOST CA can only be imported from PKCS#12/PFX. PKCS#12 export still works</td>
                         </tr>
                         <tr>
                             <td>PKCS#12 format</td>
-                            <td><span class="cmp-yes">Your pick</span> — standard AES or TK-26 (RFC 9337 + 9548) with Kuznyechik / Magma / GOST 28147-89</td>
-                            <td><span class="cmp-no">Its own</span> — the container is built by <code>PFXExportCertStoreEx</code>; the platform exposes no control over the format</td>
+                            <td><span class="cmp-yes">Your pick</span> — standard AES or TK-26 (RFC 9337 + 9548) with Kuznyechik, Magma or legacy GOST 28147-89</td>
+                            <td><span class="cmp-no">CryptoPro's own only</span> — the PFX imports correctly into CryptoPro itself, but TK-26 and the GOST container encryption suites cannot be selected: the platform exposes no control over that parameter. The panel does not offer those options, and no format is substituted behind your back</td>
                         </tr>
                         <tr>
                             <td>X.509 extensions</td>
                             <td><span class="cmp-yes">Arbitrary</span> — including nameConstraints, policies and free-form lines</td>
-                            <td>basicConstraints, KU, EKU, SKI/AKI, SAN (DNS/IP/email/URI), CRL DP, AIA, SIA, freshestCRL, issuerAltName<br><span class="cmp-no">Not supported:</span> nameConstraints, certificatePolicies, policyConstraints, inhibitAnyPolicy, otherName SAN entries, free-form extension lines</td>
+                            <td><code>basicConstraints</code> (+ pathlen), <code>keyUsage</code>, <code>extendedKeyUsage</code> (names and raw OIDs), critical flags, <code>subjectKeyIdentifier</code>, <code>authorityKeyIdentifier</code> (incl. <code>issuer:always</code>), <code>subjectAltName</code> and <code>issuerAltName</code> (DNS, IP, email, URI), <code>crlDistributionPoints</code>, <code>authorityInfoAccess</code> (caIssuers + OCSP), <code>subjectInfoAccess</code> (caRepository), <code>freshestCRL</code><br><span class="cmp-no">Issuance refuses:</span> <code>nameConstraints</code>, <code>policyConstraints</code>, <code>inhibitAnyPolicy</code>, <code>certificatePolicies</code>, <code>otherName</code> SAN entries, <code>issuerAltName</code> of type <code>dirName</code> / <code>otherName</code> / <code>RID</code>, free-form "Extra extensions" lines, OID-registry fields placed as "Extension"</td>
                         </tr>
                         <tr>
                             <td>Everything else</td>
-                            <td colspan="2" style="font-weight:400;color:var(--fi-text-muted)">On par: GOST parameter sets, <code>csr.pem</code> for server-side key generation, <code>reasonCode</code> in the CRL, CRL validity, and the profile's SKI/AKI toggles.</td>
+                            <td colspan="2" style="font-weight:400;color:var(--fi-text-muted)">On par with openssl: GOST parameter sets, <code>csr.pem</code> for server-side key generation, <code>reasonCode</code> in the CRL, CRL validity, and the profile's SKI/AKI toggles.</td>
                         </tr>
                     </tbody>
                 </table>
             </div>
             <p style="font-size:13px;color:var(--fi-text-muted);margin-top:14px;line-height:1.6">
-                A profile carrying anything unsupported is flagged in the profile editor and in
-                the issue form, so the incompatibility shows up before the form is filled in
-                rather than on submit.
+                A profile carrying anything from the unsupported column is flagged in the profile
+                editor and in the issue form, so the incompatibility shows up before the form is
+                filled in rather than on submit.
             </p>
         </section>
 
@@ -320,6 +365,9 @@
                 The pages below are the actual dashboard templates, rendered with
                 hand-crafted mock data. Sidebar, panels, tables, lang switch — all live.
                 Forms are intercepted (this is a static mirror), but every link goes somewhere.
+                In the panel itself, working with the interface is covered by the built-in
+                contextual help, opened straight from the panel and always matching the
+                current page.
             </p>
             <p style="font-size:13px;color:var(--fi-text-muted);max-width:60ch;margin:-16px 0 28px;border-left:3px solid var(--fi-primary);padding-left:12px;line-height:1.6">
                 The demo shows the panel with the <strong>CryptoPro CSP backend switched on</strong>:
@@ -464,7 +512,7 @@
                     </div>
                     <div class="tour-card-body">
                         <h3>Cert Issue wizard</h3>
-                        <p>Pick CA → profile → fill Subject DN &amp; SAN → issue or import CSR.</p>
+                        <p>Pick CA → profile → fill Subject DN &amp; SAN → issue with a server-side key or from an external PKCS#10 request.</p>
                         <span class="arrow">Run the wizard →</span>
                     </div>
                 </a>
@@ -523,7 +571,7 @@
                     </div>
                     <div class="tour-card-body">
                         <h3>Certificate detail</h3>
-                        <p>X.509 subject, issuer, extensions, raw PEM, downloads — including <code>.gost.p12</code>.</p>
+                        <p>X.509 subject, issuer, extensions, raw PEM, revocation and renewal, downloads — including <code>.gost.p12</code>.</p>
                         <span class="arrow">Open a cert →</span>
                     </div>
                 </a>
@@ -590,14 +638,14 @@
                 Better to learn the limits here than on day three of running it.
             </p>
             <div class="limit-list">
-                <div><b>A single administrator account</b>, provisioned from environment variables. There are no roles, no permission separation and no per-user audit trail.</div>
+                <div><b>A single administrator account</b>, provisioned from environment variables. There are no roles, no permission separation, and no per-user audit trail.</div>
                 <div><b>Web UI only.</b> No automation protocols (ACME, SCEP, EST, CMP) and no external issuance API.</div>
                 <div><b>No OCSP responder.</b> The AIA/OCSP fields merely write a URL into the certificate; something else has to answer on it. Revocation checking is via CRL.</div>
-                <div><b>CRLs are refreshed on events, not on a schedule</b> — on revocation and on demand. There is no scheduler and no expiry notifications; the dashboard only lists what is about to expire.</div>
+                <div><b>CRLs are refreshed on events, not on a schedule</b> — on revocation and on demand. There is no scheduler and no expiry notifications; the dashboard only lists certificates that are about to expire.</div>
                 <div><b>No hardware tokens or HSMs (PKCS#11).</b> The only certified key storage option is the software CryptoPro CSP container.</div>
                 <div><b>Storage is a local directory</b> of a single instance. Clustering and replication are out of scope; PostgreSQL holds only the metadata index, while the files on disk are the source of truth.</div>
-                <div><b>The environments shipped here are test rigs.</b> The panel runs on Django's development server with a self-signed TLS certificate and the default <code>admin</code> password. Production needs a proper WSGI server, your own <code>DJANGO_SECRET_KEY</code>, real frontend certificates and changed credentials.</div>
-                <div><b>Two backups, not one.</b> For an openssl-backed CA the keys sit in the storage directory next to the certificates; for a CryptoPro-backed CA they live separately, in provider containers. Both volumes must be backed up consistently.</div>
+                <div><b>The environments shipped here are test rigs.</b> The panel runs on Django's development server with a self-signed TLS certificate and the default <code>admin</code> password. Production use needs a proper WSGI server, your own <code>DJANGO_SECRET_KEY</code>, real frontend certificates, and changed credentials.</div>
+                <div><b>Two backups, not one.</b> For an openssl-backed CA the keys sit in the storage directory next to the certificates; for a CryptoPro-backed CA they live separately, in provider containers. Both volumes must be backed up, and consistently: a CryptoPro CA restored from the storage directory alone will not be able to sign anything.</div>
                 <div><b>GOST on gost-engine is a free, uncertified implementation.</b> If certified cryptography is required, the CryptoPro CSP backend is the answer — with the limitations described above.</div>
             </div>
         </section>
@@ -608,17 +656,17 @@
                     <div class="section-title">// run it in 90 seconds</div>
                     <h2>Two compose files. Pick your poison.</h2>
                     <p style="font-size:14px;color:var(--fi-text-muted);line-height:1.6;max-width:50ch">
-                        <strong>dev_env</strong> mounts the source into the dashboard
-                        container with auto-reload — good for hacking on the panel.
-                        <strong>demo</strong> ships prebuilt images and can be
-                        sneakernet'd onto an air-gapped host as a single tarball.
+                        <strong>dev_env</strong> — built from source, code mounted into
+                        the container, live-reload. For development and debugging.
+                        <strong>demo</strong> — pre-built images; the stack moves to an
+                        air-gapped host as a single archive.
                     </p>
                     <p style="font-size:13px;color:var(--fi-text-muted);line-height:1.6;max-width:50ch;margin-top:14px">
-                        CryptoPro is off by default and takes two steps to enable: the
-                        distribution is staged <em>into the image build</em> (it is not part of
-                        the repository), and the backend is then switched on <em>at container
-                        start</em> through an environment variable. Without that you get an
-                        ordinary openssl + gost-engine image.
+                        CryptoPro is off by default and enablement is two-level: the
+                        distribution must be staged <em>into the image build</em> (it is not
+                        part of the repository), and the backend is then switched on <em>at
+                        container start</em> through an environment variable. Without that you
+                        get an ordinary openssl + gost-engine image.
                     </p>
                     <div class="cta-row" style="display:flex;gap:10px;margin-top:20px;flex-wrap:wrap">
                         <a class="cta-primary" href="https://github.com/ilya-maltsev/ownca/tree/main/demo" target="_blank" rel="noopener">demo/ Compose file <i class="fa fa-external-link"></i></a>
@@ -634,14 +682,14 @@
 <span class="qs-prompt">$</span> <span class="qs-cmd">git clone</span> https://github.com/ilya-maltsev/ownca.git
 <span class="qs-prompt">$</span> <span class="qs-cmd">cd</span> ownca/demo
 
-<span class="qs-comment"># build CA + dashboard + nginx images</span>
-<span class="qs-prompt">$</span> ./build-images.sh
+<span class="qs-comment"># build the dashboard, nginx and postgres images</span>
+<span class="qs-prompt">$</span> <span class="qs-cmd">bash</span> build-images.sh
 
 <span class="qs-comment"># bring up the stack (admin/admin)</span>
 <span class="qs-prompt">$</span> <span class="qs-cmd">docker compose up</span> -d
 
 <span class="qs-comment"># open the panel</span>
-<span class="qs-prompt">$</span> xdg-open https://localhost:8443
+<span class="qs-prompt">$</span> <span class="qs-cmd">xdg-open</span> https://localhost:9443
                     </div>
                     <button class="cta-ghost" data-copy-target="#qs-code" data-copied="✓ copied" style="position:absolute;top:14px;right:14px;background:rgba(255,255,255,0.06);color:#d0d8e8;border-color:rgba(255,255,255,0.12);padding:4px 12px;font-size:11px"><i class="fa fa-clipboard"></i> copy</button>
                 </div>
@@ -652,11 +700,13 @@
             <div class="row">
                 <div>
                     <div style="display:flex;gap:8px;align-items:center;margin-bottom:6px">
-                        
+                        <span class="seal" style="width:24px;height:24px;font-size:10px;border-radius:4px">CA</span>
+                        <strong style="color:var(--fi-text)">OwnCA · open edition</strong>
                     </div>
                     <div>
-                        Educational / lab CA panel. Default credentials are <code>admin/admin</code>.
-                        Don't run this in production untouched.
+                        The environments shipped here are test rigs: self-signed TLS and the
+                        default <code>admin/admin</code> credentials. Don't run them in
+                        production untouched.
                     </div>
                 </div>
                 <div class="row" style="gap:18px">
