@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Maintenance — OwnCA (demo)</title>
+    <link rel="icon" type="image/svg+xml" href="../assets/favicon.svg">
+    <link rel="stylesheet" href="../assets/vendor/fonts/fonts.css">
+    <link rel="stylesheet" href="../assets/vendor/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="../assets/style.css">
+</head>
+<body data-page="maintenance">
+    <nav class="sidebar">
+        <a class="sidebar-brand" href="dashboard.html"><span class="brand-text">Own</span><span class="seal">CA</span></a>
+        <button class="sidebar-toggle" id="sidebar-toggle"><span class="toggle-collapse">⇐</span><span class="toggle-expand">⇒</span></button>
+        <div class="sidebar-section">Monitor</div>
+        <a href="dashboard.html" data-tooltip="Dashboard"><span class="icon"><i class="fa fa-tachometer"></i></span> <span class="sidebar-text">Dashboard</span></a>
+        <div class="sidebar-section">Certificate Operations</div>
+        <a href="certificates.html" data-tooltip="Certificates"><span class="icon"><i class="fa fa-id-card"></i></span> <span class="sidebar-text">Certificates</span></a>
+        <a href="cert-issue.html" data-tooltip="Cert Issue"><span class="icon"><i class="fa fa-magic"></i></span> <span class="sidebar-text">Cert Issue</span></a>
+        <div class="sidebar-section">Certification Authority</div>
+        <a href="cas.html" data-tooltip="Authorities"><span class="icon"><i class="fa fa-university"></i></span> <span class="sidebar-text">Authorities</span></a>
+        <a href="cert-profiles.html" data-tooltip="Cert Profiles"><span class="icon"><i class="fa fa-id-card-o"></i></span> <span class="sidebar-text">Cert Profiles</span></a>
+        <div class="sidebar-section">System</div>
+        <a href="configuration.html" data-tooltip="Configuration"><span class="icon">⚙</span> <span class="sidebar-text">Configuration</span></a>
+        <a href="maintenance.html" class="active" data-tooltip="Maintenance"><span class="icon">⚒</span> <span class="sidebar-text">Maintenance</span></a>
+        <div class="sidebar-section">Language</div>
+        <div class="lang-switch"><div class="lang-row"><a href="maintenance.html" class="lang-btn lang-active">EN</a><a href="../ru/maintenance.html" class="lang-btn">RU</a></div></div>
+        <div class="sidebar-section">Help</div>
+        <a href="#" data-mock-action data-mock-msg="In the real app this opens contextual webhelp." data-tooltip="Help"><span class="icon"><i class="fa fa-question-circle"></i></span> <span class="sidebar-text">Help</span></a>
+        <div style="flex:1"></div>
+        <div style="border-top:1px solid var(--fi-border);padding:8px 16px" class="sidebar-logout"><a href="login.html" style="color:var(--fi-error);font-size:12px;text-decoration:none;display:flex;align-items:center;gap:6px"><span>➜</span> <span class="sidebar-text">Logout (admin)</span></a></div>
+    </nav>
+
+    <div class="main">
+        <div class="topbar">
+            <h1>Maintenance</h1>
+            <div class="meta">CryptoPro CSP · DRBG gamma · metadata<span class="pill">demo</span></div>
+        </div>
+        
+        <div class="content">
+
+            <div class="cards">
+                <div class="card"><div class="card-label">Storage</div><div class="card-value" style="font-size:14px;font-family:'Space Mono',monospace">/var/lib/ownca</div><div class="card-sub">186 cert files · 14 keys · 5 CAs · 4 CRLs</div></div>
+                <div class="card"><div class="card-label">Postgres index</div><div class="card-value"><span class="badge badge-on">in sync</span></div><div class="card-sub">last reconciled 2 min ago</div></div>
+                <div class="card"><div class="card-label">GOST crypto backend</div><div class="card-value" style="font-size:16px"><span class="badge badge-info">CryptoPro CSP</span></div><div class="card-sub">RSA / ECDSA / Ed25519 stay on openssl</div></div>
+                <div class="card"><div class="card-label">Disk usage</div><div class="card-value">42 MB</div><div class="card-sub">of 10 GB volume</div></div>
+            </div>
+
+            <div class="panel">
+                <div class="panel-header">Provider status</div>
+                <div class="panel-body">
+                    <div class="detail-row">
+                        <div class="detail-label">Installed in image<div class="oid-hint">Baked in only if the distribution was staged at build time.</div></div>
+                        <div class="detail-value"><span class="badge badge-on">Yes</span></div>
+                    </div>
+                    <div class="detail-row">
+                        <div class="detail-label">Enabled at runtime<div class="oid-hint"><code>OWNCA_CRYPTOPRO_ENABLED</code></div></div>
+                        <div class="detail-value"><span class="badge badge-on">Active</span></div>
+                    </div>
+                    <div class="detail-row"><div class="detail-label">Version</div><div class="detail-value mono">CSP (Type:80) v5.0.10013 KC1 Release Ver:5.0.13003 OS:Linux CPU:AMD64 FastCode:READY:AVX,AVX2.</div></div>
+                    <div class="detail-row" style="align-items:flex-start">
+                        <div class="detail-label">GOST providers</div>
+                        <div class="detail-value"><ul style="margin:0;padding-left:16px;font-family:'Space Mono',monospace;font-size:11px"><li>CSP (Type:80) v5.0.10013 KC1 Release Ver:5.0.13003 OS:Linux CPU:AMD64 FastCode:READY:AVX,AVX2.</li></ul></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="panel">
+                <div class="panel-header">DRBG gamma (entropy)</div>
+                <div class="panel-body">
+                    <div style="display:flex;gap:24px;flex-wrap:wrap;align-items:center;margin-bottom:14px">
+                        <div style="text-align:center;min-width:120px">
+                            <div style="font-size:34px;font-weight:600;line-height:1;color:var(--fi-success)">2887</div>
+                            <div style="font-size:12px;color:var(--fi-text-muted);margin-top:4px">key generations remaining</div>
+                        </div>
+                        <div style="font-size:12px;color:var(--fi-text-muted);line-height:1.7">
+                            <button type="button" class="btn btn-default" style="margin-top:6px" data-mock-action data-mock-msg="Gamma: 2887 draws remaining.">Refresh</button>
+                        </div>
+                    </div>
+                    <div class="detail-row"><div class="detail-label">Gamma directory</div><div class="detail-value mono">/var/opt/cprocsp/dsrf</div></div>
+                    <div class="detail-row"><div class="detail-label mono" style="font-size:12px">db1/kis_1</div><div class="detail-value" style="font-size:12px">2887 segments</div></div>
+                    <div class="detail-row"><div class="detail-label mono" style="font-size:12px">db2/kis_1</div><div class="detail-value" style="font-size:12px">2887 segments</div></div>
+                </div>
+            </div>
+
+            <div class="panel">
+                <div class="panel-header">Upload gamma</div>
+                <div class="panel-body">
+                    <form class="mock-form" data-toast="Gamma accepted — pool appended.">
+                        <div class="detail-row">
+                            <div class="detail-label"><label class="form-label" style="margin:0">Gamma file</label></div>
+                            <div class="detail-value"><input type="file" style="font-size:12px;max-width:100%"></div>
+                        </div>
+                        <div class="detail-row">
+                            <div class="detail-label"><label class="form-label" style="margin:0">File format</label></div>
+                            <div class="detail-value">
+                                <label style="font-size:12px;display:inline-flex;gap:6px;align-items:center"><input type="checkbox"> Raw entropy — segment + CRC32 it for me</label>
+                                <div class="oid-hint" style="margin-top:4px">Unchecked: the file is already a formatted CPSD pool (multiple of the segment size, valid CRCs).</div>
+                            </div>
+                        </div>
+                        <div class="detail-row">
+                            <div class="detail-label"><label class="form-label" style="margin:0">Mode</label></div>
+                            <div class="detail-value"><select class="form-input" style="width:auto;font-size:12px"><option>Append</option><option>Replace</option></select></div>
+                        </div>
+                        <div style="margin-top:12px"><button class="btn btn-primary" type="submit">Upload</button></div>
+                    </form>
+                </div>
+            </div>
+
+            <div class="panel">
+                <div class="panel-header">Generate test gamma</div>
+                <div class="panel-body">
+                    <form class="mock-form" data-toast="Generated 2000 segments of test gamma.">
+                        <div class="oid-hint" style="margin-bottom:10px;color:var(--fi-error)">Dev only — is NOT a certified entropy source.</div>
+                        <div class="detail-row">
+                            <div class="detail-label"><label class="form-label" style="margin:0">Segments</label></div>
+                            <div class="detail-value"><input class="form-input" type="number" value="2000" min="1" style="width:100px;font-size:12px"></div>
+                        </div>
+                        <div class="detail-row">
+                            <div class="detail-label"><label class="form-label" style="margin:0">Mode</label></div>
+                            <div class="detail-value"><select class="form-input" style="width:auto;font-size:12px"><option>Append</option><option>Replace</option></select></div>
+                        </div>
+                        <div style="margin-top:12px"><button class="btn btn-default" type="submit">Generate</button></div>
+                    </form>
+                </div>
+            </div>
+
+            <div class="panel">
+                <div class="panel-header">License</div>
+                <div class="panel-body">
+                    <div class="detail-row">
+                        <div class="detail-label">Active license</div>
+                        <div class="detail-value"><span class="badge badge-warn">Demo (90 days)</span> <span style="margin-left:8px;font-size:12px;color:var(--fi-text-muted)">source: built-in demo</span></div>
+                    </div>
+                    <div class="detail-row"><div class="detail-label">Validity</div><div class="detail-value" style="font-size:12px">Expires: 93 day(s)</div></div>
+                    <div class="detail-row" style="align-items:flex-start">
+                        <div class="detail-label mono" style="font-size:12px">cpconfig -license -view</div>
+                        <div class="detail-value"><pre class="pem-block" style="margin:0">License validity:
+XXXXX-XXXXX-XXXXX-XXXXX-XXXXX
+Expires: 93 day(s)
+License type: Demo.</pre></div>
+                    </div>
+                    <form class="mock-form" style="margin-top:12px" data-toast="Serial saved — licence applied to the provider.">
+                        <label class="form-label">License serial</label>
+                        <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center">
+                            <input class="form-input mono" placeholder="XXXXX-XXXXX-XXXXX-XXXXX-XXXXX" style="min-width:320px;max-width:100%">
+                            <button class="btn btn-primary" type="submit">Apply</button>
+                        </div>
+                        <div class="oid-hint" style="margin-top:6px">Overrides <code>OWNCA_CRYPTOPRO_LICENSE</code>. Leave blank to fall back to the env value, then the built-in 90-day demo.</div>
+                    </form>
+                </div>
+            </div>
+
+            <div class="panel">
+                <div class="panel-header">Operations</div>
+                <div class="panel-body">
+                    <div style="display:flex;gap:10px;flex-wrap:wrap">
+                        <button class="btn btn-primary" data-mock-action data-mock-msg="Metadata refresh started — walking /var/lib/ownca…">Refresh metadata</button>
+                        <button class="btn btn-default" data-mock-action data-mock-msg="CRL regeneration queued for all enabled CAs.">Rebuild all CRLs</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="../assets/demo.js"></script>
+</body>
+</html>

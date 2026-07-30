@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>OwnCA — extended edition: RBAC, request queue, PAT API, TOTP</title>
+    <meta name="description" content="What the extended edition of OwnCA adds on top of the open edition: permission-based access (RBAC), privacyIDEA + Active Directory sign-in with first-login TOTP enrolment and self-service directory password change, automatic Windows certificate enrolment by Group Policy with auto-renewal and publishing to Active Directory, an issuance request queue, free-form requests, API access via Personal Access Tokens, TOTP-gated issuance, Custom OID and Certificate Policy registries, qualified GOST profiles (Russian QES), and per-user theme and timezone settings.">
+    <link rel="icon" type="image/svg+xml" href="../assets/favicon.svg">
+    <link rel="stylesheet" href="../assets/vendor/fonts/fonts.css">
+    <link rel="stylesheet" href="../assets/vendor/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="../assets/style.css">
+    <link rel="stylesheet" href="../assets/landing.css">
+</head>
+<body class="landing">
+    <div class="landing-shell">
+        <nav class="landing-nav">
+            <a class="brand-mark" href="./">
+                <span class="brand-text">Own</span><span class="seal">CA</span>
+            </a>
+            <div class="nav-links">
+                <a href="#rbac">Access &amp; roles</a>
+                <a href="#directory">Active Directory</a>
+                <a href="#autoenroll">Windows auto-enrol</a>
+                <a href="#requests">Requests</a>
+                <a href="#api">API (PAT)</a>
+                <a href="#security">Security</a>
+                <a href="#registries">Registries</a>
+            </div>
+            <div class="nav-cta">
+                <span class="lang-pills">
+                    <a href="full.html" class="active">EN</a>
+                    <a href="../full.html">RU</a>
+                </span>
+                <a class="cta-ghost" href="./"><i class="fa fa-arrow-left"></i> Back to landing</a>
+            </div>
+        </nav>
+
+        <section class="hero">
+            <div class="hero-copy">
+                <span class="hero-eyebrow"><span class="dot-live"></span> Extended edition · on top of the open one</span>
+                <h1>
+                    An enterprise CA for deploying
+                    <span class="accent">PKI</span>
+                    <span class="strike-oid">// RBAC · requests · Windows auto-enrol · PAT API · TOTP · OID/policy registries</span>
+                </h1>
+                <p class="lead">
+                    The open edition of OwnCA is a single-user CA: issue and
+                    revoke certificates, CRLs,
+                    extension profiles, PFX export. The extended edition
+                    turns it into <b>the foundation for company-wide PKI</b>: permission-based access,
+                    sign-in with Active Directory and 2FA with privacyIDEA,
+                    automatic Windows certificate enrolment by Group Policy,
+                    a request queue with operator approval, API token access,
+                    second-factor issuance (TOTP), dedicated Custom OID and
+                    Certificate Policy registries, plus qualified GOST profiles
+                    (Russian QES). Below is only what the open edition
+                    <b>does not</b> have.
+                </p>
+                <div class="hero-cta">
+                    <a class="cta-primary" href="mailto:cats.who.play@gmail.com?subject=OwnCA%20—%20extended%20edition%20request">
+                        <i class="fa fa-envelope"></i> Get the extended edition
+                    </a>
+                    <a class="cta-ghost" href="#rbac">What's added <i class="fa fa-arrow-down"></i></a>
+                    <a class="cta-ghost" href="./"><i class="fa fa-th-large"></i> Open edition</a>
+                </div>
+            </div>
+
+            <div class="hero-preview">
+                <div class="hero-art-orbit"></div>
+                <div class="hp-bar">
+                    <span class="dot r"></span><span class="dot y"></span><span class="dot g"></span>
+                    <span class="url"><span class="lock"><i class="fa fa-lock"></i></span>https://ca.ownca.example/requests</span>
+                </div>
+                <div class="hp-body">
+                    <div class="hp-side">
+                        <div class="ico"><i class="fa fa-tachometer"></i></div>
+                        <div class="ico active"><i class="fa fa-inbox"></i></div>
+                        <div class="ico"><i class="fa fa-id-card"></i></div>
+                        <div class="ico"><i class="fa fa-users"></i></div>
+                        <div class="ico"><i class="fa fa-key"></i></div>
+                        <div class="ico"><i class="fa fa-cog"></i></div>
+                    </div>
+                    <div class="hp-main">
+                        <div class="hp-topline">
+                            <strong>Request queue</strong>
+                            <span>operator · filter: pending <span style="color:var(--fi-warning)">●</span></span>
+                        </div>
+                        <div class="hp-grid">
+                            <div class="hp-kpi warn"><div class="lbl">Pending</div><div class="val">7</div></div>
+                            <div class="hp-kpi"><div class="lbl">Approved</div><div class="val">42</div></div>
+                            <div class="hp-kpi"><div class="lbl">Rejected</div><div class="val">3</div></div>
+                            <div class="hp-kpi accent"><div class="lbl">Free-form</div><div class="val">2</div></div>
+                        </div>
+                        <div class="hp-tbl">
+                            <div class="row">
+                                <span class="nm">vpn-gw-04.corp</span>
+                                <span class="bdg w">pending</span>
+                                <span class="alg">gost-256</span>
+                                <span>user · ivan</span>
+                            </div>
+                            <div class="row">
+                                <span class="nm">QES · Petrov</span>
+                                <span class="bdg g">free-form</span>
+                                <span class="alg">gost-512</span>
+                                <span>user · petr</span>
+                            </div>
+                            <div class="row">
+                                <span class="nm">smime · a.smirnova</span>
+                                <span class="bdg w">pending</span>
+                                <span class="alg">rsa-2048</span>
+                                <span>user · anna</span>
+                            </div>
+                            <div class="row">
+                                <span class="nm">api-client-07</span>
+                                <span class="bdg b">PAT</span>
+                                <span class="alg">ec-p256</span>
+                                <span>operator</span>
+                            </div>
+                            <div class="row">
+                                <span class="nm">login.corp.local</span>
+                                <span class="bdg w">pending</span>
+                                <span class="alg">gost-256</span>
+                                <span>otp&nbsp;<i class="fa fa-shield"></i></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <div class="serial-ribbon">
+            <span class="scroll-track">
+                <span style="margin-right:48px">RBAC · permissions → roles · ActiveDirectory + privacyIDEA (2FA)</span>
+                <span style="margin-right:48px">GPO · Windows auto-enrol · auto-renewal</span>
+                <span style="margin-right:48px">Authorization: Bearer ownca_pat_…</span>
+                <span style="margin-right:48px">TOTP · OTP on issue</span>
+                <span style="margin-right:48px">CIDR · per-user IP restrictions</span>
+                <span style="margin-right:48px">OID 1.2.643.100.113.1 · QES individual</span>
+                <span style="margin-right:48px">OID 1.2.643.100.3 · SNILS · 1.2.643.3.131.1.1 · INN</span>
+                <span style="margin-right:48px">Free-form · request with no bound profile</span>
+                <span style="margin-right:48px">RBAC · permissions → roles </span>
+                <span style="margin-right:48px">Authorization: Bearer ownca_pat_…</span>
+            </span>
+        </div>
+
+        <!-- ─── RBAC ───────────────────────────────────────────── -->
+        <section class="section" id="rbac">
+            <div class="section-title">// access &amp; roles</div>
+            <h2 style="max-width:30ch">From a single operator to enterprise PKI with RBAC.</h2>
+            <div class="feat-grid">
+                <div class="feat">
+                    <h3>Permission-based roles</h3>
+                    <p>Access is driven by a catalog of functional-area permissions grouped into <b>roles</b> and granted per account. The permission applies in the API too.</p>
+                </div>
+                <div class="feat">
+                    <h3>User &amp; role management</h3>
+                    <p>Assign one or more roles per account (effective permissions are the union).</p>
+                </div>
+                <div class="feat">
+                    <h3>Assigned CAs</h3>
+                    <p>An operator has access only to the CA profiles explicitly assigned to them. An attempt to issue through an unassigned CA is refused.</p>
+                </div>
+                <div class="feat">
+                    <h3>Password Policy</h3>
+                    <p>A dedicated page in the System section with password-complexity rules for accounts — absent in the open edition, where System is limited to Configuration and Maintenance.</p>
+                </div>
+                <div class="feat">
+                    <h3>Allowed certificate profiles</h3>
+                    <p>Each CA gets its own list of allowed profiles: in the issue form the operator sees only those, and issuance with an unbound profile is rejected.</p>
+                </div>
+                <div class="feat">
+                    <h3>User action audit log</h3>
+                    <p>The log records account actions — sign-in, certificate issuance and revocation, CRL regeneration, changes to profiles, registries and CA settings — tied to the user, time and IP. Available to admins for incident review and oversight.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- ─── Directory / SSO ───────────────────────────────── -->
+        <section class="section" id="directory">
+            <div class="section-title">// Self-service portal</div>
+            <h2 style="max-width:34ch">Active Directory sign-in, TOTP and password self-service.</h2>
+            <div class="feat-grid">
+                <div class="feat">
+                    <h3>Sign-in via privacyIDEA + Active Directory</h3>
+                    <p>A <code>user@domain</code> login is authenticated against Active Directory with TOTP verification through privacyIDEA.</p>
+                </div>
+                <div class="feat">
+                    <h3>First-login TOTP enrolment</h3>
+                    <p>An AD user with no 2FA set up is guided through TOTP self-enrolment. The next sign-in then asks for the second factor.</p>
+                </div>
+                <div class="feat">
+                    <h3>Password change in Active Directory</h3>
+                    <p>Directory users can change their own AD password themselves.</p>
+                </div>
+                <div class="feat">
+                    <h3>Password expiry &amp; must-change</h3>
+                    <p>At login OwnCA shows an "expires soon" warning, and an account that must change its password is offered a password-change form right away.</p>
+                </div>
+                <div class="feat">
+                    <h3>Force change on next login</h3>
+                    <p>Flag a new or reset AD account as required to change its password on next sign-in — the user cannot work until a new password that meets the AD policy is set.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- ─── AD auto-enrollment ────────────────────────────── -->
+        <section class="section" id="autoenroll">
+            <div class="section-title">// Active Directory auto-enrolment</div>
+            <h2 style="max-width:36ch">Certificates for Windows — automatic, by Group Policy.</h2>
+            <div class="feat-grid">
+                <div class="feat">
+                    <h3>Windows certificate auto-enrolment</h3>
+                    <p>Domain computers and users get certificates automatically through Group Policy (GPO) — with no manual steps and no admin ticket.</p>
+                </div>
+                <div class="feat">
+                    <h3>Automatic renewal</h3>
+                    <p>Certificates renew on their own before they expire — the user does nothing and work is never interrupted.</p>
+                </div>
+                <div class="feat">
+                    <h3>Publish to the directory</h3>
+                    <p>Issued certificates are published automatically into users' Active Directory accounts and made available across the domain.</p>
+                </div>
+                <div class="feat">
+                    <h3>Domain trust for your CA</h3>
+                    <p>The CA certificates and revocation lists are published to the domain so every computer trusts what you issue — no manual install on each machine.</p>
+                </div>
+                <div class="feat">
+                    <h3>Sign-on with the domain account</h3>
+                    <p>On the domain network enrolment runs off the current Windows session, without re-entering a username and password.</p>
+                </div>
+                <div class="feat">
+                    <h3>Enrolment templates &amp; control</h3>
+                    <p>Admins define the certificate templates clients can use, optionally route requests for operator approval, and cap the number of certificates per user.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- ─── Requests / workflow ───────────────────────────── -->
+        <section class="section" id="requests">
+            <div class="section-title">// requests &amp; approval</div>
+            <h2 style="max-width:32ch">Users request — operators approve and issue.</h2>
+            <div class="feat-grid">
+                <div class="feat">
+                    <h3>User-submitted requests</h3>
+                    <p>The user submits a request: CN, algorithm, SAN, an optional CSR and a comment. CA and profile selection are hidden — the operator assigns them at approval.</p>
+                </div>
+                <div class="feat">
+                    <h3>Operator queue</h3>
+                    <p>Operators and admins see the request queue filtered by status (pending / approved / rejected). A pending request opens as the full issue form, prefilled with the request data.</p>
+                </div>
+                <div class="feat">
+                    <h3>CSR import in the request form</h3>
+                    <p>CSR import with field auto-fill and a loading banner works in the user request too — identical to the operator page.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- ─── API (PAT) ─────────────────────────────────────── -->
+        <section class="section" id="api">
+            <div class="section-title">// API access</div>
+            <h2 style="max-width:30ch">Personal Access Token — automation without a browser.</h2>
+            <p style="font-size:14px;color:var(--fi-text-muted);max-width:64ch;margin-bottom:28px">
+                API access is off by default and is enabled by an admin for a
+                specific user. The user issues their own token in their profile
+                (one per account, stored as a hash, plaintext shown exactly
+                once). Requests carry an
+                <code>Authorization: Bearer ownca_pat_…</code> header; the token
+                inherits its owner's role and <b>keeps their IP restrictions</b>.
+            </p>
+            <div class="feat-grid api-grid" style="margin-top:18px">
+                <div class="feat">
+                    <h3>API ACCESS panel</h3>
+                    <p>An admin enables API for a user with a single toggle. Disabling it automatically revokes the user's issued token.</p>
+                </div>
+                <div class="feat">
+                    <h3>Generate / Regenerate / Revoke</h3>
+                    <p>The user manages their own token from their profile. A short prefix stays visible in the UI for identification, and the last-used time updates on every call.</p>
+                </div>
+                <div class="quickstart">
+                    <div class="qs-tab">
+                        <span class="on">$ curl</span><span>PAT API</span>
+                    </div>
+                    <div id="qs-code">
+<span class="qs-comment"># list available CAs with a Personal Access Token</span>
+<span class="qs-prompt">$</span> <span class="qs-cmd">curl</span> -H "Authorization: Bearer ownca_pat_…" \
+       https://ca.ownca.example/cas/
+
+<span class="qs-comment"># regenerate the CRL for a specific CA</span>
+<span class="qs-prompt">$</span> <span class="qs-cmd">curl</span> -X POST -H "Authorization: Bearer ownca_pat_…" \
+       https://ca.ownca.example/cas/&lt;uuid&gt;/crl/generate/
+
+<span class="qs-comment"># response</span>
+  {"status":"ok","crl_number":1007,
+   "download_url":"/crls/&lt;uuid&gt;.crl"}
+                    </div>
+                    <button class="cta-ghost" data-copy-target="#qs-code" data-copied="✓ copied" style="position:absolute;top:14px;right:14px;background:rgba(255,255,255,0.06);color:#d0d8e8;border-color:rgba(255,255,255,0.12);padding:4px 12px;font-size:11px"><i class="fa fa-clipboard"></i> copy</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- ─── Security ──────────────────────────────────────── -->
+        <section class="section" id="security">
+            <div class="section-title">// issuance security</div>
+            <h2 style="max-width:28ch">OTP and network restrictions.</h2>
+            <div class="feat-grid">
+                <div class="feat">
+                    <h3>OTP-gated issuance and TOTP in the profile</h3>
+                    <p>In the settings, an admin can turn on mandatory OTP. When set, selecting that CA in the issue and approval forms reveals an <strong>OTP code</strong> field, and issuance without a valid code is refused. The user sets up and confirms TOTP (for example, with an authenticator app) in their profile.</p>
+                </div>
+                <div class="feat">
+                    <h3>Per-user IP restrictions</h3>
+                    <p>An allowed-subnet list is set per user and applies to both browser sessions and API calls — requests outside the allowed subnets are rejected regardless of token validity.</p>
+                </div>
+                <div class="feat">
+                    <h3>Strict "profile+form &gt; CSR" priority</h3>
+                    <p>Extensions from an imported CSR (basicConstraints, KU, EKU, SAN) are dropped by force. Only the Subject from the CSR, SAN from the form and the selected profile's extensions land — a "hostile" CSR with <code>CA:TRUE</code> does not leak through.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- ─── Registries & profiles ─────────────────────────── -->
+        <section class="section" id="registries">
+            <div class="section-title">// registries &amp; qualified profiles</div>
+            <h2 style="max-width:34ch">Dedicated pages to manage OIDs, policies and QES profiles.</h2>
+            <div class="feat-grid">
+                <div class="feat">
+                    <h3>Custom OIDs registry</h3>
+                    <p>A dedicated page (admin) manages OID/SAN field definitions: OID, display name, ASN.1 type and where the value is placed. Built-in set: DNS, IP, Email, URI, UPN, SNILS, INN, OGRN, OGRNIP.</p>
+                </div>
+                <div class="feat">
+                    <h3>Certificate Policies registry</h3>
+                    <p>A dedicated page (admin) manages policies for the certificatePolicies extension: OID, a link to the CPS document and notice text. Built-in policies: QES individual / org / sole proprietor.</p>
+                </div>
+                <div class="feat">
+                    <h3>Personal theme</h3>
+                    <p>In the user profile — a choice of three theme families (Default / Dark / Warm) with a hue slider; the setting is kept per user.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- ─── CTA ───────────────────────────────────────────── -->
+        <section class="section" id="cta">
+            <div class="quickstart-wrap" style="grid-template-columns:1fr">
+                <div>
+                    <div class="section-title">// open vs extended</div>
+                    <h2 style="max-width:42ch">The open edition is the baseline. The extended one is the foundation for an enterprise CA.</h2>
+                    <p style="font-size:14px;color:var(--fi-text-muted);line-height:1.6;max-width:92ch">
+                        The extended edition adds
+                        management of users, the issuance process and
+                        automation, roles, requests, automatic Windows
+                        certificate enrolment by Group Policy, API tokens, OTP
+                        and audit.
+                    </p>
+                    <p style="font-size:14px;color:var(--fi-text-muted);line-height:1.6;max-width:92ch;margin-top:14px">
+                        The extended edition is available on request. To get it,
+                        email
+                        <a href="mailto:cats.who.play@gmail.com?subject=OwnCA%20—%20extended%20edition%20request">cats.who.play@gmail.com</a>
+                    </p>
+                    <div class="cta-row" style="display:flex;gap:10px;margin-top:20px;flex-wrap:wrap;max-width:560px">
+                        <a class="cta-primary" href="mailto:cats.who.play@gmail.com?subject=OwnCA%20—%20extended%20edition%20request"><i class="fa fa-envelope"></i> Get the extended edition</a>
+                        <a class="cta-ghost" href="./"><i class="fa fa-th-large"></i> Open edition</a>                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ─── Screenshots ───────────────────────────────────── -->
+        <section class="section" id="screens">
+            <div class="section-title">// interface</div>
+            <h2 style="max-width:32ch">What the extended edition looks like.</h2>
+            <div class="shots-grid">
+                <a class="shot" href="../fullscreens/en/dashboard.png" target="_blank" rel="noopener">
+                    <img src="../fullscreens/en/dashboard.png" alt="Dashboard" loading="lazy">
+                    <span>Dashboard</span>
+                </a>
+                <a class="shot" href="../fullscreens/en/cert_profiles.png" target="_blank" rel="noopener">
+                    <img src="../fullscreens/en/cert_profiles.png" alt="Certificate profiles" loading="lazy">
+                    <span>Certificate profiles</span>
+                </a>
+                <a class="shot" href="../fullscreens/en/profile.png" target="_blank" rel="noopener">
+                    <img src="../fullscreens/en/profile.png" alt="User profile" loading="lazy">
+                    <span>User profile</span>
+                </a>
+                <a class="shot" href="../fullscreens/en/login-step-1.png" target="_blank" rel="noopener">
+                    <img src="../fullscreens/en/login-step-1.png" alt="Login — step 1" loading="lazy">
+                    <span>Login — step 1</span>
+                </a>
+                <a class="shot" href="../fullscreens/en/login-step-2.png" target="_blank" rel="noopener">
+                    <img src="../fullscreens/en/login-step-2.png" alt="Login — step 2" loading="lazy">
+                    <span>Login — step 2</span>
+                </a>
+                <a class="shot" href="../fullscreens/en/password-policy.png" target="_blank" rel="noopener">
+                    <img src="../fullscreens/en/password-policy.png" alt="Password policy" loading="lazy">
+                    <span>Password policy</span>
+                </a>
+                <a class="shot" href="../fullscreens/en/roles.png" target="_blank" rel="noopener">
+                    <img src="../fullscreens/en/roles.png" alt="Roles" loading="lazy">
+                    <span>Roles</span>
+                </a>
+            </div>
+        </section>
+
+        <footer class="landing-footer">
+            <div class="row">
+                <div>
+                    <div style="display:flex;gap:8px;align-items:center;margin-bottom:6px">
+                        <span class="seal" style="width:24px;height:24px;font-size:10px;border-radius:4px"></span>
+                        <strong style="color:var(--fi-text)">OwnCA · extended edition</strong>
+                    </div>
+                </div>
+                <div class="row" style="gap:18px">
+                    <a href="mailto:cats.who.play@gmail.com?subject=OwnCA%20—%20extended%20edition%20request"><i class="fa fa-envelope"></i> get the extended edition</a>
+                    <a href="./"><i class="fa fa-th-large"></i> open edition</a>                </div>
+            </div>
+        </footer>
+    </div>
+    <div class="lightbox" id="lightbox">
+        <button class="lb-close" aria-label="Close">&times;</button>
+        <img src="" alt="">
+    </div>
+    <script src="../assets/landing.js"></script>
+</body>
+</html>

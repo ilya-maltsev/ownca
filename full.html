@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>OwnCA — расширенная версия: RBAC, заявки, PAT API, TOTP</title>
+    <meta name="description" content="Что добавляет расширенная версия OwnCA поверх открытой: доступ на основе разрешений (RBAC), вход через privacyIDEA + Active Directory с регистрацией TOTP при первом входе и самостоятельной сменой пароля каталога, автоматическая выдача сертификатов Windows по групповым политикам с автопродлением и публикацией в Active Directory, очередь заявок на выпуск, свободные заявки, API по Personal Access Token, подтверждение выпуска по TOTP, реестры Custom OID и Certificate Policies, квалифицированные ГОСТ-профили (КЭП ФЛ/ЮЛ/ИП), персональные настройки темы и часового пояса.">
+    <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+    <link rel="stylesheet" href="assets/vendor/fonts/fonts.css">
+    <link rel="stylesheet" href="assets/vendor/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="assets/style.css">
+    <link rel="stylesheet" href="assets/landing.css">
+</head>
+<body class="landing">
+    <div class="landing-shell">
+        <nav class="landing-nav">
+            <a class="brand-mark" href="./">
+                <span class="brand-text">Свой</span><span class="seal">УЦ</span>
+            </a>
+            <div class="nav-links">
+                <a href="#rbac">Доступ и роли</a>
+                <a href="#directory">Active Directory</a>
+                <a href="#autoenroll">Автовыдача Windows</a>
+                <a href="#requests">Заявки</a>
+                <a href="#api">API (PAT)</a>
+                <a href="#security">Безопасность</a>
+                <a href="#registries">Реестры</a>
+            </div>
+            <div class="nav-cta">
+                <span class="lang-pills">
+                    <a href="en/full.html">EN</a>
+                    <a href="full.html" class="active">RU</a>
+                </span>
+                <a class="cta-ghost" href="./"><i class="fa fa-arrow-left"></i> На главную</a>
+            </div>
+        </nav>
+
+        <section class="hero">
+            <div class="hero-copy">
+                <span class="hero-eyebrow"><span class="dot-live"></span> Расширенная версия · поверх открытой</span>
+                <h1>
+                    Корпоративный УЦ для внедрения
+                    <span class="accent">PKI</span>
+                    <span class="strike-oid">// RBAC · заявки · автовыдача Windows · PAT API · TOTP · реестры OID/политик</span>
+                </h1>
+                <p class="lead">
+                    Открытая версия OwnCA — это однопользовательский УЦ:
+                    выпуск и отзыв сертификатов, CRL,
+                    профили расширений, экспорт PFX. Расширенная
+                    версия превращает его в <b>основу для построения PKI в масштабах компании</b>:
+                    доступ на основе разрешений, вход в систему через Active Directory + 2FA,
+                    автоматическую выдачу сертификатов Windows по групповым политикам,
+                    очередь заявок с одобрением оператором,
+                    доступ по API-токенам, подтверждение выпуска вторым
+                    фактором (TOTP), отдельные реестры Custom OID и Certificate
+                    Policies, а также квалифицированные ГОСТ-профили (КЭП).
+                    Ниже — только то, чего <b>нет</b> в открытой версии.
+                </p>
+                <div class="hero-cta">
+                    <a class="cta-primary" href="mailto:cats.who.play@gmail.com?subject=OwnCA%20—%20запрос%20расширенной%20версии">
+                        <i class="fa fa-envelope"></i> Получить расширенную версию
+                    </a>
+                    <a class="cta-ghost" href="#rbac">Что добавлено <i class="fa fa-arrow-down"></i></a>
+                    <a class="cta-ghost" href="./"><i class="fa fa-th-large"></i> Открытая версия</a>
+                </div>
+            </div>
+
+            <div class="hero-preview">
+                <div class="hero-art-orbit"></div>
+                <div class="hp-bar">
+                    <span class="dot r"></span><span class="dot y"></span><span class="dot g"></span>
+                    <span class="url"><span class="lock"><i class="fa fa-lock"></i></span>https://ca.ownca.example/requests</span>
+                </div>
+                <div class="hp-body">
+                    <div class="hp-side">
+                        <div class="ico"><i class="fa fa-tachometer"></i></div>
+                        <div class="ico active"><i class="fa fa-inbox"></i></div>
+                        <div class="ico"><i class="fa fa-id-card"></i></div>
+                        <div class="ico"><i class="fa fa-users"></i></div>
+                        <div class="ico"><i class="fa fa-key"></i></div>
+                        <div class="ico"><i class="fa fa-cog"></i></div>
+                    </div>
+                    <div class="hp-main">
+                        <div class="hp-topline">
+                            <strong>Очередь заявок</strong>
+                            <span>оператор · фильтр: pending <span style="color:var(--fi-warning)">●</span></span>
+                        </div>
+                        <div class="hp-grid">
+                            <div class="hp-kpi warn"><div class="lbl">Pending</div><div class="val">7</div></div>
+                            <div class="hp-kpi"><div class="lbl">Approved</div><div class="val">42</div></div>
+                            <div class="hp-kpi"><div class="lbl">Rejected</div><div class="val">3</div></div>
+                            <div class="hp-kpi accent"><div class="lbl">Free-form</div><div class="val">2</div></div>
+                        </div>
+                        <div class="hp-tbl">
+                            <div class="row">
+                                <span class="nm">vpn-gw-04.corp</span>
+                                <span class="bdg w">pending</span>
+                                <span class="alg">gost-256</span>
+                                <span>user · ivan</span>
+                            </div>
+                            <div class="row">
+                                <span class="nm">КЭП ФЛ · Петров</span>
+                                <span class="bdg g">free-form</span>
+                                <span class="alg">gost-512</span>
+                                <span>user · petr</span>
+                            </div>
+                            <div class="row">
+                                <span class="nm">smime · a.smirnova</span>
+                                <span class="bdg w">pending</span>
+                                <span class="alg">rsa-2048</span>
+                                <span>user · anna</span>
+                            </div>
+                            <div class="row">
+                                <span class="nm">api-client-07</span>
+                                <span class="bdg b">PAT</span>
+                                <span class="alg">ec-p256</span>
+                                <span>operator</span>
+                            </div>
+                            <div class="row">
+                                <span class="nm">login.corp.local</span>
+                                <span class="bdg w">pending</span>
+                                <span class="alg">gost-256</span>
+                                <span>otp&nbsp;<i class="fa fa-shield"></i></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <div class="serial-ribbon">
+            <span class="scroll-track">
+                <span style="margin-right:48px">RBAC · разрешения → роли · ActiveDirectory + privacyIDEA (2FA)</span>
+                <span style="margin-right:48px">GPO · автовыдача Windows · автопродление</span>
+                <span style="margin-right:48px">Authorization: Bearer ownca_pat_…</span>
+                <span style="margin-right:48px">TOTP · OTP на выпуск</span>
+                <span style="margin-right:48px">CIDR · IP-ограничения на пользователя</span>
+                <span style="margin-right:48px">OID 1.2.643.100.113.1 · КЭП ФЛ</span>
+                <span style="margin-right:48px">OID 1.2.643.100.3 · СНИЛС · 1.2.643.3.131.1.1 · ИНН</span>
+                <span style="margin-right:48px">Free-form · заявка без привязки к профилю</span>
+                <span style="margin-right:48px">RBAC · разрешения → роли</span>
+                <span style="margin-right:48px">Authorization: Bearer ownca_pat_…</span>
+            </span>
+        </div>
+
+        <!-- ─── RBAC ───────────────────────────────────────────── -->
+        <section class="section" id="rbac">
+            <div class="section-title">// доступ и роли</div>
+            <h2 style="max-width:30ch">Из одного оператора — в PKI масштаба компании с RBAC.</h2>
+            <div class="feat-grid">
+                <div class="feat">
+                    <h3>Роли на основе разрешений</h3>
+                    <p>Доступ определяется каталогом функциональных разрешений, которые группируются в <b>роли</b> и выдаются на учётную запись. Разрешение действует и в API.</p>
+                </div>
+                <div class="feat">
+                    <h3>Управление пользователями и ролями</h3>
+                    <p>Учётной записи назначается одна или несколько ролей (итоговые разрешения — их объединение).</p>
+                </div>
+                <div class="feat">
+                    <h3>Назначенные УЦ</h3>
+                    <p>Оператор имеет доступ только к явно назначенным ему профилям УЦ. Попытка выпустить через неназначенный УЦ запрещается.</p>
+                </div>
+                <div class="feat">
+                    <h3>Парольная политика</h3>
+                    <p>Отдельная страница в разделе «Система» с правилами сложности паролей для учётных записей — её нет в открытой версии, где раздел «Система» ограничен Configuration и Maintenance.</p>
+                </div>
+                <div class="feat">
+                    <h3>Разрешённые профили сертификатов</h3>
+                    <p>Для каждого УЦ задаётся свой список разрешённых профилей: в форме выпуска оператор видит только их, а выпуск с непривязанным профилем отклоняется.</p>
+                </div>
+                <div class="feat">
+                    <h3>Аудит действий пользователей</h3>
+                    <p>Журнал фиксирует действия учётных записей — вход, выпуск и отзыв сертификатов, перевыпуск CRL, изменения профилей, реестров и настроек УЦ — с привязкой к пользователю, времени и IP. Доступен администратору для разбора инцидентов и контроля.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- ─── Directory / SSO ───────────────────────────────── -->
+        <section class="section" id="directory">
+            <div class="section-title">//Портал самообслуживания</div>
+            <h2 style="max-width:34ch">Вход через Active Directory, самообслуживание TOTP и паролей.</h2>
+            <div class="feat-grid">
+                <div class="feat">
+                    <h3>Вход через privacyIDEA + Active Directory</h3>
+                    <p>Логин <code>user@domain</code> аутентифицируется в Active Directory c проверкой TOTP через privacyIDEA</p>
+                </div>
+                <div class="feat">
+                    <h3>Регистрация TOTP при первом входе</h3>
+                    <p>Пользователь AD без настроенного 2FA проходит самостоятельную регистрацию TOTP. При следующем входе запрашивается второй фактор.</p>
+                </div>
+                <div class="feat">
+                    <h3>Смена пароля в Active Directory</h3>
+                    <p>Пользователи каталога могут сами менять свой пароль AD</p>
+                </div>
+                <div class="feat">
+                    <h3>Истечение и «сменить пароль»</h3>
+                    <p>При входе OwnCA показывает предупреждение «пароль скоро истекает», а учётной записи, которой нужно сменить пароль, сразу предлагается форма смены пароля.</p>
+                </div>
+                <div class="feat">
+                    <h3>Смена пароля при следующем входе</h3>
+                    <p>Отметьте в AD новую или сброшенную учётную запись как обязанную сменить пароль при следующем входе — и пользователь не сможет работать, пока не задан новый пароль, отвечающий политике AD.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- ─── AD auto-enrollment ────────────────────────────── -->
+        <section class="section" id="autoenroll">
+            <div class="section-title">// автовыдача в Active Directory</div>
+            <h2 style="max-width:36ch">Сертификаты для Windows — автоматически, по групповым политикам.</h2>
+            <div class="feat-grid">
+                <div class="feat">
+                    <h3>Автовыдача сертификатов Windows</h3>
+                    <p>Компьютеры и пользователи домена получают сертификаты автоматически по групповой политике (GPO) — без ручных шагов и обращения к администратору.</p>
+                </div>
+                <div class="feat">
+                    <h3>Автоматическое продление</h3>
+                    <p>Сертификаты обновляются сами до окончания срока действия — пользователю ничего делать не нужно, работа не прерывается.</p>
+                </div>
+                <div class="feat">
+                    <h3>Публикация в каталог</h3>
+                    <p>Выпущенные сертификаты автоматически публикуются в учётные записи пользователей Active Directory и становятся доступны всему домену.</p>
+                </div>
+                <div class="feat">
+                    <h3>Доверие домена к вашему УЦ</h3>
+                    <p>Сертификаты УЦ и списки отзыва публикуются в домен, чтобы все компьютеры доверяли выданным сертификатам — без ручной установки на каждой машине.</p>
+                </div>
+                <div class="feat">
+                    <h3>Вход по учётной записи домена</h3>
+                    <p>В доменной сети выдача проходит по текущему сеансу Windows, без повторного ввода логина и пароля.</p>
+                </div>
+                <div class="feat">
+                    <h3>Шаблоны выдачи и контроль</h3>
+                    <p>Администратор задаёт доступные клиентам шаблоны сертификатов, при необходимости направляет заявки на одобрение оператором и ограничивает число сертификатов на пользователя.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- ─── Requests / workflow ───────────────────────────── -->
+        <section class="section" id="requests">
+            <div class="section-title">// заявки и одобрение</div>
+            <h2 style="max-width:32ch">Пользователи запрашивают — операторы одобряют и выпускают.</h2>
+            <div class="feat-grid">
+                <div class="feat">
+                    <h3>Заявки от пользователей</h3>
+                    <p>Пользователь отправляет заявку: CN, алгоритм, SAN, необязательный CSR и комментарий. Выбор УЦ и профиля скрыт — их назначает оператор при одобрении.</p>
+                </div>
+                <div class="feat">
+                    <h3>Очередь оператора</h3>
+                    <p>Оператор или админ видит очередь заявок с фильтром по статусу (pending / approved / rejected). Заявка в ожидании открывается как полная форма выпуска, предзаполненная данными заявки.</p>
+                </div>
+                <div class="feat">
+                    <h3>Импорт CSR в форме заявки</h3>
+                    <p>Импорт CSR с автозаполнением полей и баннером загрузки работает и в заявке пользователя — идентично странице оператора.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- ─── API (PAT) ─────────────────────────────────────── -->
+        <section class="section" id="api">
+            <div class="section-title">// доступ по API</div>
+            <h2 style="max-width:30ch">Personal Access Token — автоматизация без браузера.</h2>
+            <p style="font-size:14px;color:var(--fi-text-muted);max-width:64ch;margin-bottom:28px">
+                Доступ по API отключён по умолчанию и включается администратором
+                для конкретного пользователя. Пользователь сам выпускает токен в
+                своём профиле (один на аккаунт, хранится в виде хеша, плейнтекст
+                показывается ровно один раз). Запросы идут с заголовком
+                <code>Authorization: Bearer ownca_pat_…</code>; токен наследует
+                роль своего владельца и <b>сохраняет его IP-ограничения</b>.
+            </p>
+            <div class="feat-grid api-grid" style="margin-top:18px">
+                <div class="feat">
+                    <h3>Панель API ACCESS</h3>
+                    <p>Админ включает API для пользователя одним переключателем. Отключение автоматически отзывает выпущенный токен.</p>
+                </div>
+                <div class="feat">
+                    <h3>Generate / Regenerate / Revoke</h3>
+                    <p>Пользователь сам управляет своим токеном в профиле. Префикс из нескольких символов виден в интерфейсе для идентификации, а время последнего использования обновляется на каждом вызове.</p>
+                </div>
+                <div class="quickstart">
+                    <div class="qs-tab">
+                        <span class="on">$ curl</span><span>PAT API</span>
+                    </div>
+                    <div id="qs-code">
+<span class="qs-comment"># список доступных УЦ под Personal Access Token</span>
+<span class="qs-prompt">$</span> <span class="qs-cmd">curl</span> -H "Authorization: Bearer ownca_pat_…" \
+       https://ca.ownca.example/cas/
+
+<span class="qs-comment"># перевыпуск CRL для конкретного УЦ</span>
+<span class="qs-prompt">$</span> <span class="qs-cmd">curl</span> -X POST -H "Authorization: Bearer ownca_pat_…" \
+       https://ca.ownca.example/cas/&lt;uuid&gt;/crl/generate/
+
+<span class="qs-comment"># ответ</span>
+  {"status":"ok","crl_number":1007,
+   "download_url":"/crls/&lt;uuid&gt;.crl"}
+                    </div>
+                    <button class="cta-ghost" data-copy-target="#qs-code" data-copied="✓ скопировано" style="position:absolute;top:14px;right:14px;background:rgba(255,255,255,0.06);color:#d0d8e8;border-color:rgba(255,255,255,0.12);padding:4px 12px;font-size:11px"><i class="fa fa-clipboard"></i> копировать</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- ─── Security ──────────────────────────────────────── -->
+        <section class="section" id="security">
+            <div class="section-title">// безопасность выпуска</div>
+            <h2 style="max-width:28ch">OTP и сетевые ограничения.</h2>
+            <div class="feat-grid">
+                <div class="feat">
+                    <h3>OTP-подтверждение выпуска и TOTP в профиле</h3>
+                    <p>В настройках администратор может включить обязательную проверку OTP. Тогда при выборе этого УЦ в форме выпуска и одобрения заявки появляется поле <strong>OTP code</strong>, а выпуск без верного кода отклоняется. Пользователь настраивает и подтверждает TOTP (например, через приложение-аутентификатор) в своём профиле.</p>
+                </div>
+                <div class="feat">
+                    <h3>IP-ограничения на пользователя</h3>
+                    <p>Список разрешённых подсетей задаётся на пользователя и действует и на браузерные сессии, и на вызовы по API — запросы вне разрешённых подсетей отклоняются независимо от валидности токена.</p>
+                </div>
+                <div class="feat">
+                    <h3>Строгий приоритет «профиль+форма &gt; CSR»</h3>
+                    <p>Расширения из импортированного CSR (basicConstraints, KU, EKU, SAN) принудительно отбрасываются. В сертификат попадают только Subject из CSR, SAN из формы и расширения из выбранного профиля — «враждебный» CSR с <code>CA:TRUE</code> не протекает.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- ─── Registries & profiles ─────────────────────────── -->
+        <section class="section" id="registries">
+            <div class="section-title">// реестры и квалифицированные профили</div>
+            <h2 style="max-width:34ch">Отдельные страницы управления OID, политиками и КЭП-профилями.</h2>
+            <div class="feat-grid">
+                <div class="feat">
+                    <h3>Реестр Custom OIDs</h3>
+                    <p>Отдельная страница (для админа) управляет определениями OID/SAN-полей: OID, отображаемое имя, ASN.1-тип и место подстановки. Встроенный набор: DNS, IP, Email, URI, UPN, СНИЛС, ИНН, ОГРН, ОГРНИП.</p>
+                </div>
+                <div class="feat">
+                    <h3>Реестр Certificate Policies</h3>
+                    <p>Отдельная страница (для админа) управляет политиками для расширения certificatePolicies: OID, ссылка на CPS-документ и текст уведомления. Встроенные политики: КЭП ФЛ / ЮЛ / ИП.</p>
+                </div>
+                <div class="feat">
+                    <h3>Персональная тема оформления</h3>
+                    <p>В профиле пользователя — выбор трёх семейств тем (Default / Dark / Warm) со слайдером оттенка; настройка хранится за пользователем.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- ─── CTA ───────────────────────────────────────────── -->
+        <section class="section" id="cta">
+            <div class="quickstart-wrap" style="grid-template-columns:1fr">
+                <div>
+                    <div class="section-title">// открытая vs расширенная</div>
+                    <h2 style="max-width:42ch">Открытая версия — это базовый функционал. Расширенная — основа для корпоративного УЦ.</h2>
+                    <p style="font-size:14px;color:var(--fi-text-muted);line-height:1.6;max-width:92ch">
+                        Расширенная версия
+                        добавляет управление пользователями, процессом выпуска и
+                        автоматизацией, роли, заявки, автовыдачу сертификатов
+                        Windows по групповым политикам, API-токены, OTP и
+                        аудит.
+                    </p>
+                    <p style="font-size:14px;color:var(--fi-text-muted);line-height:1.6;max-width:92ch;margin-top:14px">
+                        Расширенная версия распространяется по запросу. Чтобы её
+                        получить, напишите на
+                        <a href="mailto:cats.who.play@gmail.com?subject=OwnCA%20—%20запрос%20расширенной%20версии">cats.who.play@gmail.com</a>
+                    </p>
+                    <div class="cta-row" style="display:flex;gap:10px;margin-top:20px;flex-wrap:wrap;max-width:560px">
+                        <a class="cta-primary" href="mailto:cats.who.play@gmail.com?subject=OwnCA%20—%20запрос%20расширенной%20версии"><i class="fa fa-envelope"></i> Получить расширенную версию</a>
+                        <a class="cta-ghost" href="./"><i class="fa fa-th-large"></i> Открытая версия</a>                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ─── Screenshots ───────────────────────────────────── -->
+        <section class="section" id="screens">
+            <div class="section-title">// интерфейс</div>
+            <h2 style="max-width:32ch">Как выглядит расширенная версия.</h2>
+            <div class="shots-grid">
+                <a class="shot" href="fullscreens/dashboard.png" target="_blank" rel="noopener">
+                    <img src="fullscreens/dashboard.png" alt="Дашборд" loading="lazy">
+                    <span>Дашборд</span>
+                </a>
+                <a class="shot" href="fullscreens/cert_profiles.png" target="_blank" rel="noopener">
+                    <img src="fullscreens/cert_profiles.png" alt="Профили сертификатов" loading="lazy">
+                    <span>Профили сертификатов</span>
+                </a>
+                <a class="shot" href="fullscreens/profile.png" target="_blank" rel="noopener">
+                    <img src="fullscreens/profile.png" alt="Профиль пользователя" loading="lazy">
+                    <span>Профиль пользователя</span>
+                </a>
+                <a class="shot" href="fullscreens/login-step-1.png" target="_blank" rel="noopener">
+                    <img src="fullscreens/login-step-1.png" alt="Вход — шаг 1" loading="lazy">
+                    <span>Вход — шаг 1</span>
+                </a>
+                <a class="shot" href="fullscreens/login-step-2.png" target="_blank" rel="noopener">
+                    <img src="fullscreens/login-step-2.png" alt="Вход — шаг 2" loading="lazy">
+                    <span>Вход — шаг 2</span>
+                </a>
+                <a class="shot" href="fullscreens/password-policy.png" target="_blank" rel="noopener">
+                    <img src="fullscreens/password-policy.png" alt="Политика паролей" loading="lazy">
+                    <span>Политика паролей</span>
+                </a>
+                <a class="shot" href="fullscreens/roles.png" target="_blank" rel="noopener">
+                    <img src="fullscreens/roles.png" alt="Роли" loading="lazy">
+                    <span>Роли</span>
+                </a>
+            </div>
+        </section>
+
+        <footer class="landing-footer">
+            <div class="row">
+                <div>
+                    <div style="display:flex;gap:8px;align-items:center;margin-bottom:6px">
+                        <span class="seal" style="width:24px;height:24px;font-size:10px;border-radius:4px"></span>
+                        <strong style="color:var(--fi-text)">OwnCA · расширенная версия</strong>
+                    </div>
+                </div>
+                <div class="row" style="gap:18px">
+                    <a href="mailto:cats.who.play@gmail.com?subject=OwnCA%20—%20запрос%20расширенной%20версии"><i class="fa fa-envelope"></i> получить расширенную версию</a>
+                    <a href="./"><i class="fa fa-th-large"></i> открытая версия</a>                </div>
+            </div>
+        </footer>
+    </div>
+    <div class="lightbox" id="lightbox">
+        <button class="lb-close" aria-label="Закрыть">&times;</button>
+        <img src="" alt="">
+    </div>
+    <script src="assets/landing.js"></script>
+</body>
+</html>

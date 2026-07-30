@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Cert Profiles — OwnCA (demo)</title>
+    <link rel="icon" type="image/svg+xml" href="../assets/favicon.svg">
+    <link rel="stylesheet" href="../assets/vendor/fonts/fonts.css">
+    <link rel="stylesheet" href="../assets/vendor/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="../assets/style.css">
+</head>
+<body data-page="cert_profiles">
+    <nav class="sidebar">
+        <a class="sidebar-brand" href="dashboard.html"><span class="brand-text">Own</span><span class="seal">CA</span></a>
+        <button class="sidebar-toggle" id="sidebar-toggle"><span class="toggle-collapse">⇐</span><span class="toggle-expand">⇒</span></button>
+        <div class="sidebar-section">Monitor</div>
+        <a href="dashboard.html" data-tooltip="Dashboard"><span class="icon"><i class="fa fa-tachometer"></i></span> <span class="sidebar-text">Dashboard</span></a>
+        <div class="sidebar-section">Certificate Operations</div>
+        <a href="certificates.html" data-tooltip="Certificates"><span class="icon"><i class="fa fa-id-card"></i></span> <span class="sidebar-text">Certificates</span></a>
+        <a href="cert-issue.html" data-tooltip="Cert Issue"><span class="icon"><i class="fa fa-magic"></i></span> <span class="sidebar-text">Cert Issue</span></a>
+        <div class="sidebar-section">Certification Authority</div>
+        <a href="cas.html" data-tooltip="Authorities"><span class="icon"><i class="fa fa-university"></i></span> <span class="sidebar-text">Authorities</span></a>
+        <a href="cert-profiles.html" class="active" data-tooltip="Cert Profiles"><span class="icon"><i class="fa fa-id-card-o"></i></span> <span class="sidebar-text">Cert Profiles</span></a>
+        <div class="sidebar-section">System</div>
+        <a href="configuration.html" data-tooltip="Configuration"><span class="icon">⚙</span> <span class="sidebar-text">Configuration</span></a>
+        <a href="maintenance.html" data-tooltip="Maintenance"><span class="icon">⚒</span> <span class="sidebar-text">Maintenance</span></a>
+        <div class="sidebar-section">Language</div>
+        <div class="lang-switch"><div class="lang-row"><a href="cert-profiles.html" class="lang-btn lang-active">EN</a><a href="../ru/cert-profiles.html" class="lang-btn">RU</a></div></div>
+        <div class="sidebar-section">Help</div>
+        <a href="#" data-mock-action data-mock-msg="In the real app this opens contextual webhelp." data-tooltip="Help"><span class="icon"><i class="fa fa-question-circle"></i></span> <span class="sidebar-text">Help</span></a>
+        <div style="flex:1"></div>
+        <div style="border-top:1px solid var(--fi-border);padding:8px 16px" class="sidebar-logout"><a href="login.html" style="color:var(--fi-error);font-size:12px;text-decoration:none;display:flex;align-items:center;gap:6px"><span>➜</span> <span class="sidebar-text">Logout (admin)</span></a></div>
+    </nav>
+
+    <div class="main">
+        <div class="topbar">
+            <h1>Certificate Profiles</h1>
+            <div class="meta">KU / EKU registry + OID-field bindings<span class="pill">demo</span></div>
+        </div>
+        <div class="demo-banner"><i class="fa fa-info-circle"></i> Click a profile name to open its detail page with KU / EKU checkboxes. <a href="index.html">Back to landing</a></div>
+        <div class="content">
+
+            <form class="import-form mock-form" data-toast="New profile saved.">
+                <h3>Create certificate profile</h3>
+                <p style="margin:0 0 14px;font-size:12px;color:var(--fi-text-muted)">A certificate profile defines the Key Usage bits, Extended Key Usage OIDs, and any extra extensions that will be embedded in issued certificates.</p>
+                <div class="form-grid-2">
+                    <div><label class="form-label">Name * <span class="oid-hint">(slug)</span></label><input class="form-input mono" pattern="[a-z0-9_]+" placeholder="my_custom"></div>
+                    <div><label class="form-label">Display name *</label><input class="form-input" placeholder="My Custom Profile"></div>
+                </div>
+                <div style="margin-top:10px">
+                    <label class="form-label">Description</label>
+                    <input class="form-input" placeholder="Short description shown to operators">
+                </div>
+
+                <h4>Key Usage (OID 2.5.29.15)</h4>
+                <div class="form-grid-3">
+                    <label style="font-size:12px;display:flex;gap:5px;align-items:center"><input type="checkbox" checked> Digital signature <span class="oid-hint">(0)</span></label>
+                    <label style="font-size:12px;display:flex;gap:5px;align-items:center"><input type="checkbox"> Non-repudiation <span class="oid-hint">(1)</span></label>
+                    <label style="font-size:12px;display:flex;gap:5px;align-items:center"><input type="checkbox"> Key encipherment <span class="oid-hint">(2)</span></label>
+                    <label style="font-size:12px;display:flex;gap:5px;align-items:center"><input type="checkbox"> Data encipherment <span class="oid-hint">(3)</span></label>
+                    <label style="font-size:12px;display:flex;gap:5px;align-items:center"><input type="checkbox"> Key agreement <span class="oid-hint">(4)</span></label>
+                    <label style="font-size:12px;display:flex;gap:5px;align-items:center"><input type="checkbox"> Certificate signing <span class="oid-hint">(5)</span></label>
+                    <label style="font-size:12px;display:flex;gap:5px;align-items:center"><input type="checkbox"> CRL signing <span class="oid-hint">(6)</span></label>
+                    <label style="font-size:12px;display:flex;gap:5px;align-items:center"><input type="checkbox"> Encipher only <span class="oid-hint">(7)</span></label>
+                    <label style="font-size:12px;display:flex;gap:5px;align-items:center"><input type="checkbox"> Decipher only <span class="oid-hint">(8)</span></label>
+                </div>
+                <div style="margin-top:8px">
+                    <label style="font-size:12px;display:flex;gap:5px;align-items:center"><input type="checkbox" checked> Mark Key Usage as critical</label>
+                </div>
+
+                <h4>Extended Key Usage (OID 2.5.29.37)</h4>
+                <input class="form-input mono" placeholder="serverAuth, clientAuth">
+                <div style="margin-top:8px">
+                    <label style="font-size:12px;display:flex;gap:5px;align-items:center"><input type="checkbox"> Mark EKU as critical</label>
+                </div>
+
+                <h4>OID fields from registry</h4>
+                <p style="margin:0 0 8px;font-size:11px;color:var(--fi-text-muted)">Select OID field definitions that operators fill in at certificate issuance time.</p>
+                <div style="display:flex;gap:8px;align-items:center;margin-bottom:14px">
+                    <select class="form-input" style="max-width:380px">
+                        <option>DNS Names (subjectAltName.dnsName) — SAN</option>
+                        <option>IP Addresses (subjectAltName.ipAddress) — SAN</option>
+                        <option>Email (subjectAltName.rfc822Name) — SAN</option>
+                        <option>UPN (1.3.6.1.4.1.311.20.2.3) — SAN</option>
+                        <option>СНИЛС (1.2.643.100.3) — Subject DN</option>
+                        <option>ИНН (1.2.643.3.131.1.1) — Subject DN</option>
+                        <option>ОГРН (1.2.643.100.1) — Subject DN</option>
+                    </select>
+                    <button type="button" class="btn btn-default btn-sm">+ Add</button>
+                </div>
+
+                <h4>Extra extensions</h4>
+                <textarea class="form-input mono" rows="2" placeholder="tlsfeature = status_request"></textarea>
+
+                <div style="margin-top:14px">
+                    <label style="font-size:12px;display:flex;gap:5px;align-items:center"><input type="checkbox"> CA profile (basicConstraints CA:TRUE)</label>
+                </div>
+
+                <button type="submit" class="btn btn-primary" style="margin-top:16px">Create profile</button>
+            </form>
+
+            <div class="table-wrap">
+                <table class="datatable">
+                    <thead><tr><th>Name</th><th>Display name</th><th>Description</th><th>Key Usage</th><th>Extended Key Usage</th><th>CA</th><th>In use</th><th></th></tr></thead>
+                    <tbody>
+                        <tr><td class="mono"><a href="cert-profile-detail.html"><strong>server</strong></a></td><td>TLS Server</td><td style="color:var(--fi-text-muted);font-size:12px">Server-auth profile for TLS endpoints</td><td class="mono">digitalSignature, keyEncipherment, keyAgreement</td><td class="mono">serverAuth</td><td>-</td><td>92 / 0</td><td><button class="btn btn-default btn-sm" data-mock-action data-mock-msg="Profile cloned.">Copy</button></td></tr>
+                        <tr><td class="mono"><a href="cert-profile-detail.html"><strong>client</strong></a></td><td>TLS Client</td><td style="color:var(--fi-text-muted);font-size:12px">Client-auth profile</td><td class="mono">digitalSignature, keyEncipherment, dataEncipherment, keyAgreement</td><td class="mono">clientAuth</td><td>-</td><td>14 / 0</td><td><button class="btn btn-default btn-sm" data-mock-action data-mock-msg="Profile cloned.">Copy</button></td></tr>
+                        <tr><td class="mono"><a href="cert-profile-detail.html"><strong>server_client</strong></a></td><td>Server &amp; Client</td><td style="color:var(--fi-text-muted);font-size:12px">Dual-use TLS</td><td class="mono">digitalSignature, keyEncipherment</td><td class="mono">serverAuth, clientAuth</td><td>-</td><td>5 / 0</td><td><button class="btn btn-default btn-sm" data-mock-action data-mock-msg="Profile cloned.">Copy</button></td></tr>
+                        <tr><td class="mono"><a href="cert-profile-detail.html"><strong>vpn</strong></a></td><td>VPN Gateway</td><td style="color:var(--fi-text-muted);font-size:12px">IPSec / OpenVPN endpoints</td><td class="mono">digitalSignature</td><td class="mono">serverAuth, clientAuth</td><td>-</td><td>6 / 2</td><td><button class="btn btn-default btn-sm" data-mock-action data-mock-msg="Profile cloned.">Copy</button></td></tr>
+                        <tr><td class="mono"><a href="cert-profile-detail.html"><strong>user</strong></a></td><td>End User</td><td style="color:var(--fi-text-muted);font-size:12px">Generic user cert</td><td class="mono">digitalSignature, keyEncipherment</td><td class="mono">clientAuth, emailProtection</td><td>-</td><td>21 / 0</td><td><button class="btn btn-default btn-sm" data-mock-action data-mock-msg="Profile cloned.">Copy</button></td></tr>
+                        <tr><td class="mono"><a href="cert-profile-detail.html"><strong>user_login</strong></a></td><td>User + Smartcard logon</td><td style="color:var(--fi-text-muted);font-size:12px">User cert with Windows smartcard-logon OID</td><td class="mono">digitalSignature, keyEncipherment</td><td class="mono">clientAuth, 1.3.6.1.4.1.311.20.2.2</td><td>-</td><td>18 / 1</td><td><button class="btn btn-default btn-sm" data-mock-action data-mock-msg="Profile cloned.">Copy</button></td></tr>
+                        <tr><td class="mono"><a href="cert-profile-detail.html"><strong>smartcard_logon</strong></a></td><td>Smartcard logon only</td><td style="color:var(--fi-text-muted);font-size:12px">Pure smartcard-logon EKU</td><td class="mono">digitalSignature</td><td class="mono">1.3.6.1.4.1.311.20.2.2</td><td>-</td><td>2 / 0</td><td><button class="btn btn-default btn-sm" data-mock-action data-mock-msg="Profile cloned.">Copy</button></td></tr>
+                        <tr><td class="mono"><a href="cert-profile-detail.html"><strong>smime_sign</strong></a></td><td>S/MIME signing</td><td style="color:var(--fi-text-muted);font-size:12px">Mail signing</td><td class="mono">digitalSignature, nonRepudiation</td><td class="mono">emailProtection</td><td>-</td><td>9 / 0</td><td><button class="btn btn-default btn-sm" data-mock-action data-mock-msg="Profile cloned.">Copy</button></td></tr>
+                        <tr><td class="mono"><a href="cert-profile-detail.html"><strong>code_signing</strong></a></td><td>Code signing</td><td style="color:var(--fi-text-muted);font-size:12px">Build / release signing</td><td class="mono">digitalSignature</td><td class="mono">codeSigning</td><td>-</td><td>4 / 1</td><td><button class="btn btn-default btn-sm" data-mock-action data-mock-msg="Profile cloned.">Copy</button></td></tr>
+                        <tr><td class="mono"><a href="cert-profile-detail.html"><strong>timestamping</strong></a></td><td>Time-stamping authority</td><td style="color:var(--fi-text-muted);font-size:12px">TSA cert (RFC 3161)</td><td class="mono">digitalSignature</td><td class="mono">timeStamping (critical)</td><td>-</td><td>1 / 0</td><td><button class="btn btn-default btn-sm" data-mock-action data-mock-msg="Profile cloned.">Copy</button></td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <script src="../assets/demo.js"></script>
+</body>
+</html>

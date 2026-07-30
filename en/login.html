@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Login — OwnCA (demo)</title>
+    <link rel="icon" type="image/svg+xml" href="../assets/favicon.svg">
+    <link rel="stylesheet" href="../assets/vendor/fonts/fonts.css">
+    <link rel="stylesheet" href="../assets/vendor/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="../assets/style.css">
+    <style>
+        body { display: flex; justify-content: center; align-items: center; min-height: 100vh; background: #152343; flex-direction: column; padding: 24px; }
+        .login-box { background: #fff; border-radius: 3px; padding: 32px; width: 380px; max-width: 100%; box-shadow: 0 6px 12px rgba(0,0,0,0.25); position: relative; }
+        .login-box h1 { font-size: 18px; color: var(--fi-text); margin-bottom: 4px; }
+        .login-box .sub { font-size: 12px; color: var(--fi-text-muted); margin-bottom: 24px; }
+        .login-box label { display: block; font-size: 13px; color: var(--fi-text-muted); margin-bottom: 4px; font-weight: 700; }
+        .login-box input[type="text"], .login-box input[type="password"] { width: 100%; padding: 8px 12px; border: 1px solid var(--fi-border); border-radius: 3px; font-size: 14px; margin-bottom: 14px; box-sizing: border-box; font-family: inherit; }
+        .login-box input:focus { border-color: var(--fi-primary); outline: none; box-shadow: 0 0 4px rgba(36,112,188,0.3); }
+        .login-box .btn { width: 100%; padding: 9px; font-size: 14px; margin-top: 4px; }
+        .login-brand { text-align: center; margin-bottom: 20px; font-size: 17px; font-weight: 700; color: var(--fi-text); }
+        .login-brand span { color: var(--fi-primary); }
+        .lang-row { margin-top: 18px; text-align: center; padding-top: 14px; border-top: 1px solid #eee; }
+        .lang-row a { background: transparent; border: 1px solid var(--fi-border); color: var(--fi-text-muted); padding: 3px 12px; border-radius: 3px; cursor: pointer; font-size: 11px; font-weight: 700; margin: 0 2px; text-decoration: none; display: inline-block; }
+        .lang-row a.active { background: var(--fi-primary); border-color: var(--fi-primary); color: #fff; }
+        .login-hint { font-family: "Space Mono", monospace; font-size: 11px; color: #6b7793; margin-top: 22px; padding: 10px 14px; background: rgba(255,255,255,0.04); border: 1px dashed rgba(255,255,255,0.18); border-radius: 4px; max-width: 380px; text-align: center; }
+        .login-hint b { color: #ffd887; }
+        .back-link { position: absolute; top: 20px; left: 24px; color: rgba(255,255,255,0.6); text-decoration: none; font-size: 12px; font-weight: 700; }
+        .back-link:hover { color: #fff; }
+    </style>
+</head>
+<body>
+    <a class="back-link" href="index.html">← back to landing</a>
+    <div class="login-box">
+        <div class="login-brand">OwnCA<span>.</span></div>
+        <h1>Login</h1>
+        <div class="sub">Certificate Authority dashboard</div>
+        <form class="mock-form" data-toast="Static demo — signing you in anyway…" data-toast-type="success" id="login-form" onsubmit="event.preventDefault(); window.location='dashboard.html'">
+            <label>Username</label>
+            <input type="text" name="username" value="admin" autofocus>
+            <label>Password</label>
+            <input type="password" name="password" value="admin">
+            <button type="submit" class="btn btn-primary">Sign In</button>
+        </form>
+        <div class="lang-row">
+            <a href="login.html" class="active">EN</a>
+            <a href="../ru/login.html">RU</a>
+        </div>
+    </div>
+    <div class="login-hint">
+        STATIC DEMO · use <b>admin</b> / <b>admin</b> · click <b>Sign In</b> to enter the panel
+    </div>
+    <script src="../assets/demo.js"></script>
+</body>
+</html>
