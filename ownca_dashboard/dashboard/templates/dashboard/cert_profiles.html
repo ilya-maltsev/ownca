@@ -1,0 +1,175 @@
+{% extends "dashboard/base.html" %}
+{% load i18n %}
+{% block title %}{% trans "Cert Profiles" %} - OwnCA{% endblock %}
+{% block page_title %}{% trans "Certificate Profiles" %}{% endblock %}
+{% block content %}
+
+<div class="import-form">
+    <h3 style="margin-bottom:8px">{% trans "Create certificate profile" %}</h3>
+    <p style="margin:0 0 14px;font-size:12px;color:var(--fi-text-muted)">{% trans "A certificate profile defines the Key Usage bits, Extended Key Usage OIDs, and any extra extensions that will be embedded in issued certificates." %}</p>
+    <form method="post">
+        {% csrf_token %}
+        <div style="max-width:700px">
+            <div style="display:grid;grid-template-columns:1fr 2fr;gap:12px 20px;margin-bottom:10px">
+                <div>
+                    <label style="display:block;font-size:11px;color:var(--fi-text-muted);font-weight:700;text-transform:uppercase;margin-bottom:4px">{% trans "Name" %} * <span style="font-weight:400;text-transform:none">(slug)</span></label>
+                    <input type="text" name="name" required pattern="[a-z0-9_]+" placeholder="my_custom" style="width:100%;padding:6px 10px;border:1px solid var(--fi-border);border-radius:3px;font-size:13px;font-family:monospace;box-sizing:border-box">
+                </div>
+                <div>
+                    <label style="display:block;font-size:11px;color:var(--fi-text-muted);font-weight:700;text-transform:uppercase;margin-bottom:4px">{% trans "Display name" %} *</label>
+                    <input type="text" name="display_name" required placeholder="My Custom Profile" style="width:100%;padding:6px 10px;border:1px solid var(--fi-border);border-radius:3px;font-size:13px;font-family:inherit;box-sizing:border-box">
+                </div>
+            </div>
+            <div style="margin-bottom:14px">
+                <label style="display:block;font-size:11px;color:var(--fi-text-muted);font-weight:700;text-transform:uppercase;margin-bottom:4px">{% trans "Description" %}</label>
+                <input type="text" name="description" placeholder="{% trans 'Short description shown to operators' %}" style="width:100%;padding:6px 10px;border:1px solid var(--fi-border);border-radius:3px;font-size:13px;font-family:inherit;box-sizing:border-box">
+            </div>
+
+            <h4 style="margin:0 0 8px;font-size:12px;color:var(--fi-text-muted);text-transform:uppercase;letter-spacing:0.5px">{% trans "Key Usage" %} (OID 2.5.29.15)</h4>
+            <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:6px 16px;margin-bottom:10px">
+                <label style="font-size:12px;display:flex;gap:5px;align-items:center"><input type="checkbox" name="ku_digital_signature" value="on" checked> {% trans "Digital signature" %} <span style="font-family:monospace;font-size:10px;color:var(--fi-text-muted)">(0)</span></label>
+                <label style="font-size:12px;display:flex;gap:5px;align-items:center"><input type="checkbox" name="ku_non_repudiation" value="on"> {% trans "Non-repudiation" %} <span style="font-family:monospace;font-size:10px;color:var(--fi-text-muted)">(1)</span></label>
+                <label style="font-size:12px;display:flex;gap:5px;align-items:center"><input type="checkbox" name="ku_key_encipherment" value="on"> {% trans "Key encipherment" %} <span style="font-family:monospace;font-size:10px;color:var(--fi-text-muted)">(2)</span></label>
+                <label style="font-size:12px;display:flex;gap:5px;align-items:center"><input type="checkbox" name="ku_data_encipherment" value="on"> {% trans "Data encipherment" %} <span style="font-family:monospace;font-size:10px;color:var(--fi-text-muted)">(3)</span></label>
+                <label style="font-size:12px;display:flex;gap:5px;align-items:center"><input type="checkbox" name="ku_key_agreement" value="on"> {% trans "Key agreement" %} <span style="font-family:monospace;font-size:10px;color:var(--fi-text-muted)">(4)</span></label>
+                <label style="font-size:12px;display:flex;gap:5px;align-items:center"><input type="checkbox" name="ku_key_cert_sign" value="on"> {% trans "Certificate signing" %} <span style="font-family:monospace;font-size:10px;color:var(--fi-text-muted)">(5)</span></label>
+                <label style="font-size:12px;display:flex;gap:5px;align-items:center"><input type="checkbox" name="ku_crl_sign" value="on"> {% trans "CRL signing" %} <span style="font-family:monospace;font-size:10px;color:var(--fi-text-muted)">(6)</span></label>
+                <label style="font-size:12px;display:flex;gap:5px;align-items:center"><input type="checkbox" name="ku_encipher_only" value="on"> {% trans "Encipher only" %} <span style="font-family:monospace;font-size:10px;color:var(--fi-text-muted)">(7)</span></label>
+                <label style="font-size:12px;display:flex;gap:5px;align-items:center"><input type="checkbox" name="ku_decipher_only" value="on"> {% trans "Decipher only" %} <span style="font-family:monospace;font-size:10px;color:var(--fi-text-muted)">(8)</span></label>
+            </div>
+            <div style="display:flex;gap:16px;margin-bottom:14px">
+                <label style="font-size:12px;display:flex;gap:5px;align-items:center"><input type="checkbox" name="ku_critical" value="on" checked> {% trans "Mark Key Usage as critical" %}</label>
+            </div>
+
+            <h4 style="margin:0 0 8px;font-size:12px;color:var(--fi-text-muted);text-transform:uppercase;letter-spacing:0.5px">{% trans "Extended Key Usage" %} (OID 2.5.29.37)</h4>
+            <div style="margin-bottom:6px">
+                <input type="text" name="eku" placeholder="serverAuth, clientAuth" style="width:100%;padding:6px 10px;border:1px solid var(--fi-border);border-radius:3px;font-size:13px;font-family:monospace;box-sizing:border-box">
+            </div>
+            <div style="margin-bottom:14px">
+                <label style="font-size:12px;display:flex;gap:5px;align-items:center"><input type="checkbox" name="eku_critical" value="on"> {% trans "Mark EKU as critical" %}</label>
+            </div>
+
+            <h4 style="margin:0 0 8px;font-size:12px;color:var(--fi-text-muted);text-transform:uppercase;letter-spacing:0.5px">{% trans "OID fields from registry" %}</h4>
+            <p style="margin:0 0 8px;font-size:11px;color:var(--fi-text-muted)">{% trans "Select OID field definitions that operators fill in at certificate issuance time." %}</p>
+            <div id="oid-field-list" style="margin-bottom:10px"></div>
+            <div style="display:flex;gap:8px;align-items:center;margin-bottom:14px">
+                <select id="oid-add-select" style="padding:5px 8px;border:1px solid var(--fi-border);border-radius:3px;font-size:12px;box-sizing:border-box"></select>
+                <button type="button" id="oid-add-btn" class="btn btn-default" style="padding:4px 10px;font-size:12px">+ {% trans "Add" %}</button>
+            </div>
+            <input type="hidden" name="oid_fields_json" id="oid-fields-json" value="[]">
+
+            <h4 style="margin:0 0 8px;font-size:12px;color:var(--fi-text-muted);text-transform:uppercase;letter-spacing:0.5px">{% trans "Extra extensions" %}</h4>
+            <textarea name="extra_extensions" rows="2" placeholder="tlsfeature = status_request" style="width:100%;padding:6px 10px;border:1px solid var(--fi-border);border-radius:3px;font-size:12px;font-family:monospace;box-sizing:border-box;resize:vertical"></textarea>
+
+            <div style="margin-top:6px;margin-bottom:14px">
+                <label style="font-size:12px;display:flex;gap:5px;align-items:center"><input type="checkbox" name="is_ca_profile" value="on"> {% trans "CA profile (basicConstraints CA:TRUE)" %}</label>
+            </div>
+
+            <button type="submit" class="btn btn-primary">{% trans "Create profile" %}</button>
+        </div>
+    </form>
+</div>
+
+<div class="table-wrap">
+    <table class="datatable">
+        <thead><tr>
+            <th>{% trans "Name" %}</th>
+            <th>{% trans "Display name" %}</th>
+            <th>{% trans "Description" %}</th>
+            <th>{% trans "Key Usage" %}</th>
+            <th>{% trans "Extended Key Usage" %}</th>
+            <th>{% trans "CA" %}</th>
+            <th>{% trans "In use" %}</th>
+        </tr></thead>
+        <tbody>
+        {% for p in cert_profiles %}
+        <tr>
+            <td><a href="{% url 'cert_profile_detail' p.pk %}"><strong>{{ p.name }}</strong></a></td>
+            <td>{{ p.display_name }}</td>
+            <td style="color:var(--fi-text-muted);font-size:12px">{{ p.description|default:"-" }}</td>
+            <td style="font-family:monospace;font-size:12px">{{ p.ku_display }}</td>
+            <td style="font-family:monospace;font-size:12px">{{ p.eku|default:"-" }}</td>
+            <td>{% if p.is_ca_profile %}<span class="badge badge-warn">CA</span>{% else %}-{% endif %}</td>
+            <td style="font-size:12px"><span title="{% trans 'Issued certificates' %}">{{ p.certs_using }}</span> / <span title="{% trans 'Pending requests' %}" style="color:var(--fi-text-muted)">{{ p.requests_using }}</span></td>
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+{% endblock %}
+
+{% block scripts %}
+<script>
+// ─── OID field selector (create form) ─────────────────────────────────
+(function() {
+    var allDefs = {{ all_oid_defs_json|safe }};
+    var assigned = [];  // empty for create form
+    var $list = $('#oid-field-list');
+    var $json = $('#oid-fields-json');
+    var $addSelect = $('#oid-add-select');
+
+    function syncJson() {
+        var result = [];
+        $list.find('.oid-row').each(function() {
+            result.push({
+                id: parseInt($(this).data('oid-id')),
+                required: $(this).find('.oid-req').is(':checked'),
+            });
+        });
+        $json.val(JSON.stringify(result));
+    }
+
+    function rebuildAddSelect() {
+        var usedIds = {};
+        $list.find('.oid-row').each(function() { usedIds[$(this).data('oid-id')] = true; });
+        $addSelect.empty();
+        allDefs.forEach(function(d) {
+            if (!usedIds[d.id]) {
+                var text = d.label + (d.oid ? ' (' + d.oid + ')' : '') + ' — ' + d.placement;
+                $addSelect.append($('<option>').val(d.id).text(text));
+            }
+        });
+        $('#oid-add-btn').prop('disabled', !$addSelect.find('option').length);
+    }
+
+    function defById(id) {
+        for (var i = 0; i < allDefs.length; i++) {
+            if (allDefs[i].id === id) return allDefs[i];
+        }
+        return null;
+    }
+
+    function addRow(id, required) {
+        var d = defById(id);
+        if (!d) return;
+        var oidHint = d.oid ? '<span style="font-family:monospace;color:var(--fi-text-muted)">(' + $('<div>').text(d.oid).html() + ')</span>' : '';
+        var html = '<div class="oid-row" data-oid-id="' + d.id + '" style="display:flex;gap:10px;align-items:center;margin-bottom:6px;padding:6px 10px;border:1px solid var(--fi-border);border-radius:3px;background:var(--fi-surface-muted,#fafafa)">' +
+            '<span style="font-size:13px;font-weight:600">' + $('<div>').text(d.label).html() + '</span> ' + oidHint +
+            ' <span class="badge" style="font-size:10px">' + $('<div>').text(d.placement).html() + '</span>' +
+            '<label style="margin-left:auto;font-size:11px;display:flex;gap:4px;align-items:center;white-space:nowrap"><input type="checkbox" class="oid-req"' + (required ? ' checked' : '') + '> {% trans "required" %}</label>' +
+            '<button type="button" class="oid-del btn btn-default" style="padding:2px 8px;font-size:14px;line-height:1;color:var(--fi-error);border-color:var(--fi-error)">&times;</button>' +
+            '</div>';
+        $list.append(html);
+        rebuildAddSelect();
+        syncJson();
+    }
+
+    // Init
+    assigned.forEach(function(a) { addRow(a.id, a.required); });
+    rebuildAddSelect();
+
+    $('#oid-add-btn').on('click', function() {
+        var id = parseInt($addSelect.val());
+        if (id) addRow(id, false);
+    });
+    $list.on('click', '.oid-del', function() {
+        $(this).closest('.oid-row').remove();
+        rebuildAddSelect();
+        syncJson();
+    });
+    $list.on('change', '.oid-req', syncJson);
+    $('form').on('submit', syncJson);
+})();
+</script>
+{% endblock %}

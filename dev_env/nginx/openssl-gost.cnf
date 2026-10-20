@@ -1,0 +1,26 @@
+HOME = .
+openssl_conf = openssl_def
+
+[openssl_def]
+engines = engine_section
+providers = provider_section
+
+[provider_section]
+default = default_sect
+
+[default_sect]
+activate = 1
+
+[engine_section]
+gost = gost_section
+
+[gost_section]
+engine_id = gost
+dynamic_path = /usr/lib/x86_64-linux-gnu/engines-3/gost.so
+default_algorithms = ALL
+
+[req]
+default_bits = 2048
+distinguished_name = req_distinguished_name
+
+[req_distinguished_name]

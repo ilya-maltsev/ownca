@@ -1,0 +1,2 @@
+Stage the CryptoPro .deb distribution here as cryptopro.tgz before building.
+See dev_env/build.sh. This dir is gitignored (dev_env/*).

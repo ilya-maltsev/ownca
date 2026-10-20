@@ -1,0 +1,69 @@
+# Maintenance
+
+`/system/maintenance/` — counts, crypto-backend status, and
+operational actions.
+
+## Counts
+
+The cards show counts straight from the database:
+
+* **Authorities** — total CAs.
+* **Active certs** — certificates with status `active`.
+* **Revoked certs** — certificates with status `revoked`.
+* **Expired certs** — certificates with status `expired`.
+* **CRL exports** — total CRL generations recorded across all CAs.
+
+## Crypto backend
+
+A panel showing whether OwnCA's crypto stack is healthy:
+
+* **GOST engine loaded** — green badge when `openssl engine gost`
+  responds, red otherwise. When red, only RSA / ECDSA / Ed25519
+  algorithms are usable until the engine is reachable.
+* **Storage directory** — the path resolved from `OWNCA_STORAGE_DIR`.
+* **openssl version** — full output of `openssl version -a` (build
+  flags, platform, engine search path).
+
+## CryptoPro CSP panels
+
+When CryptoPro is installed in the image, this page also shows **Provider
+status**, **DRBG gamma** and **License**. Once CryptoPro is enabled the
+"Crypto backend" panel is hidden: GOST signing is then done by CryptoPro, not
+openssl. See
+[CryptoPro CSP backend](cryptopro.md).
+
+## Operations
+
+The **Operations** panel groups the maintenance actions; each button
+reports its result inline.
+
+### Refresh metadata
+
+Re-parses every certificate file from disk and writes back the
+database fields (subject, dates, fingerprint, serial). It also flips
+any active certificate whose `notAfter` is in the past to `expired`
+status.
+
+Use it after manually editing files in the storage directory.
+Nothing happens to disk except metadata reads.
+
+### Rebuild all CRLs
+
+Reissues the certificate revocation list for every enabled CA and adds
+an entry to the CRL export history. Each CA's CRL is rewritten with an
+incremented CRL number and the current set of revoked serials.
+
+Every regenerated CRL is also published to the shared export directory
+`OWNCA_STORAGE_DIR/crls/` under the name `<ca_name>.crl` (for example
+`rsa_root.crl`), giving a single predictable folder to serve all CAs'
+CRLs from. The per-CA master copy still lives at
+`cas/<uuid>/crl.pem`.
+
+Use it after bulk revocations or to extend the CRLs' validity
+(`nextUpdate`): OwnCA does not reissue CRLs on a schedule, so do this
+before the current CRLs expire.
+
+## Related topics
+
+* [Configuration](configuration.md)
+* [CA management](cas.md)

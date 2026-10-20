@@ -1,0 +1,212 @@
+{% load i18n %}
+{% comment %}
+The CryptoPro panels — provider status, DRBG gamma and licence. They live
+on the Maintenance page: with the certified backend on, this IS the crypto
+backend, so it belongs next to the other backend diagnostics rather than on
+a page of its own. The forms still post to the `cryptopro` view, which
+redirects back here.
+{% endcomment %}
+
+{% comment %} Provider / gating status {% endcomment %}
+<div class="panel">
+    <div class="panel-header">{% trans "Provider status" %}</div>
+    <div class="panel-body">
+        <div class="detail-row">
+            <div class="detail-label">
+                {% trans "Installed in image" %}
+                <div class="oid-hint">{% trans "Baked in only if the distribution was staged at build time." %}</div>
+            </div>
+            <div class="detail-value">
+                {% if prov.available %}
+                <span class="badge badge-on">{% trans "Yes" %}</span>
+                {% else %}
+                <span class="badge badge-off">{% trans "No" %}</span>
+                {% endif %}
+            </div>
+        </div>
+        <div class="detail-row">
+            <div class="detail-label">
+                {% trans "Enabled at runtime" %}
+                <div class="oid-hint"><code>OWNCA_CRYPTOPRO_ENABLED</code></div>
+            </div>
+            <div class="detail-value">
+                {% if prov.enabled %}
+                <span class="badge badge-on">{% trans "Active" %}</span>
+                {% elif prov.runtime_flag and not prov.available %}
+                <span class="badge badge-off">{% trans "Flag on, but not installed" %}</span>
+                {% elif prov.available and not prov.runtime_flag %}
+                <span class="badge badge-off">{% trans "Installed, flag off" %}</span>
+                {% else %}
+                <span class="badge badge-off">{% trans "Off" %}</span>
+                {% endif %}
+            </div>
+        </div>
+        {% if prov.available %}
+        <div class="detail-row"><div class="detail-label">{% trans "Version" %}</div><div class="detail-value" style="font-family:monospace;font-size:12px">{{ prov.version|default:"-" }}</div></div>
+        <div class="detail-row" style="align-items:flex-start">
+            <div class="detail-label">{% trans "GOST providers" %}</div>
+            <div class="detail-value">
+                {% if prov.providers %}
+                <ul style="margin:0;padding-left:16px;font-family:monospace;font-size:11px">
+                    {% for p in prov.providers %}<li>{{ p }}</li>{% endfor %}
+                </ul>
+                {% else %}<span style="color:var(--fi-text-muted)">-</span>{% endif %}
+            </div>
+        </div>
+        {% if prov.error %}<div class="detail-row"><div class="detail-label">{% trans "Probe error" %}</div><div class="detail-value" style="color:var(--fi-error);font-size:12px">{{ prov.error }}</div></div>{% endif %}
+        {% else %}
+        <p style="margin:8px 0 0;font-size:13px;color:var(--fi-text-muted)">
+            {% blocktrans %}CryptoPro CSP is not part of this image. Rebuild with the distribution staged (see <code>dev_env/build.sh</code>) to enable the certified GOST backend.{% endblocktrans %}
+        </p>
+        {% endif %}
+    </div>
+</div>
+
+{% comment %} DRBG gamma counter + upload {% endcomment %}
+<div class="panel">
+    <div class="panel-header">{% trans "DRBG gamma (entropy)" %}</div>
+    <div class="panel-body">
+        <div style="display:flex;gap:24px;flex-wrap:wrap;align-items:center;margin-bottom:14px">
+            <div style="text-align:center;min-width:120px">
+                <div id="gamma-draws" style="font-size:34px;font-weight:600;line-height:1;color:{% if gamma.ok %}var(--fi-ok, #2e7d32){% else %}var(--fi-error){% endif %}">{{ gamma.draws_remaining }}</div>
+                <div style="font-size:12px;color:var(--fi-text-muted);margin-top:4px">{% trans "key generations remaining" %}</div>
+            </div>
+            <div style="font-size:12px;color:var(--fi-text-muted);line-height:1.7">
+                {% trans "Counter = min pool size / segment size." %}
+                <button type="button" id="gamma-refresh" class="btn btn-default" style="margin-top:6px">{% trans "Refresh" %}</button>
+            </div>
+        </div>
+
+        <div class="detail-row"><div class="detail-label">{% trans "Gamma directory" %}</div><div class="detail-value" style="font-family:monospace;font-size:12px">{{ gamma_dir }}</div></div>
+        {% for f in gamma.files %}
+        <div class="detail-row">
+            {% comment %}
+            Relative name only — the directory is stated once in the row above,
+            and the full path is too long to sit in the label column.
+            {% endcomment %}
+            <div class="detail-label" style="font-family:monospace;font-size:12px" title="{{ f.path }}">{{ f.rel }}</div>
+            <div class="detail-value" style="font-size:12px">
+                {% if f.exists %}
+                {{ f.segments }} {% trans "segments" %}{% if f.trailing_junk %}<span style="color:var(--fi-error)"> — {% trans "unaligned tail" %}: {{ f.trailing_junk }} B</span>{% endif %}
+                {% else %}
+                <span class="badge badge-off">{% trans "missing" %}</span>
+                {% endif %}
+            </div>
+        </div>
+        {% endfor %}
+
+    </div>
+</div>
+
+{% comment %}
+A panel of its own: side by side inside the gamma panel these two forms
+shared a row and the right-hand one was the first thing to be cut off on
+a narrow window.
+{% endcomment %}
+<div class="panel">
+    <div class="panel-header">{% trans "Upload gamma" %}</div>
+    <div class="panel-body">
+        <form method="post" action="{% url 'cryptopro' %}" enctype="multipart/form-data">
+            {% csrf_token %}
+            <input type="hidden" name="action" value="upload_gamma">
+            {% comment %}
+            Same detail-row grid as every other panel on the page, so the field
+            labels line up with the rows above instead of starting at the form's
+            own left edge.
+            {% endcomment %}
+            <div class="detail-row">
+                <div class="detail-label"><label for="gamma-file">{% trans "Gamma file" %}</label></div>
+                <div class="detail-value"><input type="file" name="gamma_file" id="gamma-file" required style="font-size:12px;max-width:100%"></div>
+            </div>
+            <div class="detail-row">
+                <div class="detail-label"><label for="gamma-raw">{% trans "File format" %}</label></div>
+                <div class="detail-value">
+                    <label style="font-size:12px;display:inline-flex;gap:6px;align-items:center">
+                        <input type="checkbox" name="gamma_raw" id="gamma-raw"> {% trans "Raw entropy — segment + CRC32 it for me" %}
+                    </label>
+                    <div class="oid-hint" style="margin-top:4px">{% trans "Unchecked: the file is already a formatted CPSD pool (multiple of the segment size, valid CRCs)." %}</div>
+                </div>
+            </div>
+            <div class="detail-row">
+                <div class="detail-label"><label for="gamma-upload-mode">{% trans "Mode" %}</label></div>
+                <div class="detail-value">
+                    <select name="gamma_mode" id="gamma-upload-mode" style="font-size:12px">
+                        <option value="append">{% trans "Append" %}</option>
+                        <option value="replace">{% trans "Replace" %}</option>
+                    </select>
+                </div>
+            </div>
+            <div style="margin-top:12px">
+                <button class="btn btn-primary" type="submit">{% trans "Upload" %}</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+{% comment %} Stand-only entropy {% endcomment %}
+<div class="panel">
+    <div class="panel-header">{% trans "Generate test gamma" %}</div>
+    <div class="panel-body">
+        <form method="post" action="{% url 'cryptopro' %}">
+            {% csrf_token %}
+            <input type="hidden" name="action" value="generate_gamma">
+            <div class="oid-hint" style="margin-bottom:10px;color:var(--fi-error)">{% trans "Stand / dev only — os.urandom is NOT a certified entropy source." %}</div>
+            <div class="detail-row">
+                <div class="detail-label"><label for="gamma-segments">{% trans "Segments" %}</label></div>
+                <div class="detail-value"><input type="number" name="gamma_segments" id="gamma-segments" value="2000" min="1" style="font-size:12px;width:100px"></div>
+            </div>
+            <div class="detail-row">
+                <div class="detail-label"><label for="gamma-generate-mode">{% trans "Mode" %}</label></div>
+                <div class="detail-value">
+                    <select name="gamma_mode" id="gamma-generate-mode" style="font-size:12px">
+                        <option value="append">{% trans "Append" %}</option>
+                        <option value="replace">{% trans "Replace" %}</option>
+                    </select>
+                </div>
+            </div>
+            <div style="margin-top:12px">
+                <button class="btn btn-default" type="submit">{% trans "Generate" %}</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+{% comment %} License {% endcomment %}
+<div class="panel">
+    <div class="panel-header">{% trans "License" %}</div>
+    <div class="panel-body">
+        <div class="detail-row">
+            <div class="detail-label">{% trans "Active license" %}</div>
+            <div class="detail-value">
+                {% if lic.is_demo %}
+                <span class="badge badge-off">{% trans "Demo (90 days)" %}</span>
+                {% else %}
+                <span class="badge badge-on">{% trans "Licensed" %}</span>
+                {% endif %}
+                <span style="margin-left:8px;font-size:12px;color:var(--fi-text-muted)">
+                    {% trans "source" %}:
+                    {% if lic.source == 'ui' %}{% trans "web UI" %}{% elif lic.source == 'env' %}{% trans "environment" %}{% else %}{% trans "built-in demo" %}{% endif %}
+                </span>
+            </div>
+        </div>
+        {% if lic.configured_serial %}<div class="detail-row"><div class="detail-label">{% trans "Configured serial" %}</div><div class="detail-value" style="font-family:monospace;font-size:12px">{{ lic.configured_serial }}</div></div>{% endif %}
+        {% if lic.expires %}<div class="detail-row"><div class="detail-label">{% trans "Validity" %}</div><div class="detail-value" style="font-size:12px">{{ lic.expires }}</div></div>{% endif %}
+        {% if lic.raw %}
+        <div class="detail-row" style="align-items:flex-start"><div class="detail-label">cpconfig -license -view</div><div class="detail-value"><pre style="margin:0;font-family:monospace;font-size:11px;background:#f8f9fa;padding:8px;border:1px solid var(--fi-border);border-radius:3px;overflow:auto">{{ lic.raw }}</pre></div></div>
+        {% endif %}
+
+        <form method="post" action="{% url 'cryptopro' %}" style="margin-top:12px">
+                {% csrf_token %}
+            <input type="hidden" name="action" value="set_license">
+            <label style="display:block;font-size:13px;margin-bottom:6px">{% trans "License serial" %}</label>
+            <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center">
+                <input type="text" name="license_serial" value="{{ cp_settings.license_serial }}" placeholder="XXXXX-XXXXX-XXXXX-XXXXX-XXXXX" style="font-family:monospace;font-size:13px;min-width:320px;padding:6px">
+                <button class="btn btn-primary" type="submit">{% trans "Apply" %}</button>
+            </div>
+            <div class="oid-hint" style="margin-top:6px">
+                {% blocktrans %}Overrides <code>OWNCA_CRYPTOPRO_LICENSE</code>. Leave blank to fall back to the env value, then the built-in 90-day demo.{% endblocktrans %}
+            </div>
+        </form>
+    </div>
+</div>
+
